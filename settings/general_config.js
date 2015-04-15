@@ -153,7 +153,6 @@ var NEWSLETTER = (function(){
 		 * of the {{#crossLink "NEWSLETTER/_availableClasses:property"}}available classes{{/crossLink}}
 		 * satisfies a condition.
 		 * @property   {Function}      _defaultClass
-		 * @type       {[type]}
 		 * @since      0.2.1
 		 * @private
 		 */

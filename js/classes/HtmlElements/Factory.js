@@ -67,6 +67,28 @@ function Factory(map){
 	var _availableClasses = [];
 
 	/**
+	 * A map form class name to class constructor.
+	 *
+	 * This is an object with keys-values pairs where keys are names of available classes and values are
+	 * corresponding classes.
+	 * @property       {Object}        _availableClassesByClassName
+	 * @type           {Object}
+	 * @since          0.2.6
+	 */
+	var _availableClassesByClassName = {};
+
+
+	/**
+	 * A map form tag name to class constructor.
+	 *
+	 * Each class is supposed to have a string-valued tag that becomes key of this map.
+	 * @property       {Object}        _availableClassesByTagName
+	 * @type           {Object}
+	 * @since          0.2.6
+	 */
+	var _availableClassesByTagName = {};
+
+	/**
 	 * A default class.
 	 *
 	 * A class that the Factory might use if none of the {{#crossLink "Factory/_availableClasses:property"}}available
@@ -86,7 +108,9 @@ function Factory(map){
 	 * @since          0.2.1
 	 */
 	this.setAvailableClasses = function(arr){
-		_availableClasses = arr;
+		arr.forEach(function(c){
+			this.registerClass(c);
+		}.bind(this));
 	};
 
 
@@ -112,13 +136,56 @@ function Factory(map){
 
 
 	/**
-	 * {{#crossLink "Factory/_availableClasses:property"}}_availableClasses{{/crossLink}} getter.
+	 * {{#crossLink "Factory/_defaultClass:property"}}_defaultClass{{/crossLink}} getter.
 	 * @method         getDefaultClass
 	 * @return         {Function}
 	 * @since          0.2.1
 	 */
 	this.getDefaultClass = function(){
 		return _defaultClass;
+	};
+
+	/**
+	 * Registers class and indexes it.
+	 *
+	 * The method updates fields _availableClassesByName and _availableClassesByTag.
+	 * @method         registerClass
+	 * @param          {Function}      C       instantiable function
+	 * @return         {void}
+	 * @since          0.2.6
+	 */
+	this.registerClass = function(C){
+		if (typeof C !== 'function'){
+			return;
+		}
+		var probe;
+		try {
+			probe = new C();
+		} catch (e){
+			console.log(e.name + ' occurred when instatiating a class: ' + e.message);
+		}
+		if (!probe){
+			return;
+		}
+
+		_availableClasses.push(C);
+
+		try {
+			var tagName = probe.getTag();
+			if (typeof tagName === 'string'){
+				_availableClassesByTagName[tagName.toLowerCase()] = C;
+			}
+		} catch (e){
+			console.log(e.name + ' occurred when retrieveing class\'s tag name: ' + e.message);
+		}
+		try {
+			var className = probe.getName();
+			if (typeof className !== 'string'){
+				_availableClassesByClassName[className] = C;
+			}
+		} catch (e){
+			console.log(e.name + ' occurred when retrieveing the name of the class\'s: ' + e.message);
+		}
 	};
 
 
@@ -229,11 +296,9 @@ function Factory(map){
 		if (typeof name !== 'string'){
 			return;
 		}
-		var crit = function(c){
-			var obj = new c();
-			return typeof obj.getName === 'function' && obj.getName().toLowerCase() === name.toLowerCase();
-		};
-		return this.findClass(crit);
+		if (_availableClassesByClassName.hasOwnProperty(name)){
+			return _availableClassesByClassName[name];
+		}
 	};
 
 	/**
@@ -251,17 +316,9 @@ function Factory(map){
 			return;
 		}
 		var canonicalForm = tagName.toLowerCase();
-		var crit = function(c){
-			var output;
-			try {
-				var obj = new c();
-				output = obj.getTag().toLowerCase() === canonicalForm;
-			} catch (e){
-				output = false;
-			}
-			return output;
-		};
-		return this.findClass(crit);
+		if (_availableClassesByTagName.hasOwnProperty(canonicalForm)){
+			return _availableClassesByTagName[canonicalForm];
+		}
 	};
 
 

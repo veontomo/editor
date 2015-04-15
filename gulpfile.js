@@ -64,8 +64,18 @@ var sourceFiles = [
 	// entry file
 	'js/start.js'
 ];
+var concatOrder = [];
+
+sourceFiles.forEach(function(path){
+	var fileName = './gulp/compressed/' + path.split('/').slice(-1)[0];
+	if (concatOrder.indexOf(fileName) === -1){
+		concatOrder.push(fileName);
+	} else {
+		console.log('Duplicate file name: ' + fileName + '. Rename it to avoid problems.');
+	}
+ });
 gulp.task('concat', function() {
-  return gulp.src(['./gulp/compressed/*.js'])
+  return gulp.src(concatOrder)
     .pipe(concat('editor.min.js'))
     .pipe(gulp.dest('./js_prod/'));
 });

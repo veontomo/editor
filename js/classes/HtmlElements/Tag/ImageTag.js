@@ -159,9 +159,22 @@ function ImageTag() {
 		return info;
 	};
 
+	/**
+	 * Load template and sets width and height according to actual image dimensions.
+	 * @method         loadTemplate description]
+	 * @param          {Object}        tmpl       template
+	 * @return         {void}
+	 * @since          0.2.6
+	 */
 	this.loadTemplate = function(tmpl){
 		this.loadProperTemplate(tmpl);
-		this.setOrigin(tmpl.root.src);
+		var key1 = 'root',
+			key2 = 'src';
+		if (tmpl && tmpl.hasOwnProperty(key1)){
+			if (tmpl[key1] && tmpl[key1].hasOwnProperty(key2)){
+				this.setOrigin(tmpl[key1][key2]);
+			}
+		}
 	};
 }
 
