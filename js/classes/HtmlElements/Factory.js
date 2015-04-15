@@ -74,6 +74,7 @@ function Factory(map){
 	 * @property       {Object}        _availableClassesByClassName
 	 * @type           {Object}
 	 * @since          0.2.6
+	 * @private
 	 */
 	var _availableClassesByClassName = {};
 
@@ -85,6 +86,7 @@ function Factory(map){
 	 * @property       {Object}        _availableClassesByTagName
 	 * @type           {Object}
 	 * @since          0.2.6
+	 * @private
 	 */
 	var _availableClassesByTagName = {};
 
@@ -148,7 +150,10 @@ function Factory(map){
 	/**
 	 * Registers class and indexes it.
 	 *
-	 * The method updates fields _availableClassesByName and _availableClassesByTag.
+	 * The method updates fields
+	 * {{#crossLink "Factory/_availableClassesByClassName:property"}}_availableClassesByClassName{{/crossLink}},
+	 * {{#crossLink "Factory/_availableClassesByTagName:property"}}_availableClassesByTagName{{/crossLink}} and
+	 * {{#crossLink "Factory/_availableClasses:property"}}_availableClasses{{/crossLink}}.
 	 * @method         registerClass
 	 * @param          {Function}      C       instantiable function
 	 * @return         {void}
