@@ -18,8 +18,6 @@ function ImageTag() {
 
 	var allowedProtocols = ['http', 'https'];
 
-	console.log('creating image');
-
 	/**
 	 * Re-set private properties defined in parent class {{#crossLink "Tag"}}Tag{{/crossLink}}:
 	 * <ol><li>
@@ -35,7 +33,6 @@ function ImageTag() {
 	this.setTag('img');
 	this.setName('ImageTag');
 	var prop = new ImageProperties();
-	console.log("seeting image properties: ", prop.toString());
 	this.setProperties(prop);
 
 	/**

@@ -1419,12 +1419,6 @@ describe('Tag-related functionality', function() {
             });
             expect(tag.getProperties().propNum()).toBe(3);
         });
-        it('does not call method "setContent" if the content is undefiend', function(){
-            spyOn(tag, 'getContent');
-            spyOn(tag, 'setContent');
-            tag.loadTemplate({root: {id: 'logo', color: 'red'}, children: ['an fictitios array']});
-            expect(tag.setContent).not.toHaveBeenCalled();
-        });
         it('calls method "setContent" if the content is defiend', function(){
             spyOn(tag, 'getContent').and.returnValue(new Content());
             spyOn(tag, 'setContent');

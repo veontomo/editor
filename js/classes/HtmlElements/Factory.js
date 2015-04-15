@@ -232,7 +232,7 @@ function Factory(map){
 		}
 		var crit = function(c){
 			var obj = new c();
-			return typeof obj.getTag === 'function' && obj.getTag().toLowerCase() === name.toLowerCase();
+			return typeof obj.getName === 'function' && obj.getName().toLowerCase() === name.toLowerCase();
 		};
 		return this.findClass(crit);
 	};
