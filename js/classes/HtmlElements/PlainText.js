@@ -188,6 +188,18 @@ function PlainText(text) {
 	this.toText = function(){
 		return this.toHtml();
 	};
-
-
 }
+
+/**
+ * {{#crossLink "PlainText"}}PlainText{{/crossLink}}'s class characteristic function.
+ *
+ * It returns `true` if the argument "corresponds" to an object which class PlainText is designed
+ * to represent.  Inheriting classes (if any) are supposed to implement their own characteristic functions.
+ * @method        characteristicFunction
+ * @param         {Any}               n
+ * @return        {Boolean}
+ * @since         0.2.6
+ */
+PlainText.prototype.characteristicFunction = function(n){
+	return (n instanceof Node) && (n.nodeType === Node.TEXT_NODE);
+};
