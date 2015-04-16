@@ -351,7 +351,7 @@ function CKEditorAdapter(){
 		var tabName = 'linkInfoTab',
 			linkTemplate;
 		linkTemplate = {
-			name: 'link',
+			name: 'a',
 			root: {
 				href:          dialog[tabName].href,
 				target:        dialog[tabName].isTargetBlank ? '_blank' : '_self',
@@ -445,6 +445,7 @@ function CKEditorAdapter(){
 	 * @since          0.1.0
 	 */
 	this.dialogToTemplate = function(dialog, marker){
+		console.log("dialogToTemplate: ", marker);
 		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default';
 		var mapper = marker2 + 'DialogToTemplate';
 		var executor = this[mapper];
