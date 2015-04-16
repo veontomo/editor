@@ -29,7 +29,6 @@ function CLink() {
      * @since          0.1.0
      */
     this.onOk = function(dialog, editor, params) {
-        console.log("onOk, params = ", params);
         var adapter, doc, content, dialogData, template,
             shallowLink, cursorPos, shouldDropSelection, contentUIElem;
         try {
@@ -42,9 +41,7 @@ function CLink() {
             content = adapter.getEditorContent(editor);
             dialogData = adapter.getDialogData(dialog);
             template = adapter.dialogToTemplate(dialogData, 'link');
-            console.log("template: ", template);
             shallowLink = doc.createFromTemplate(template);
-            console.log("shallow link: ", shallowLink.toHtml());
             contentUIElem = {'linkInfoTab': 'content'};
             shouldDropSelection = adapter.isFieldEnabled(dialog, contentUIElem) === true;
 
@@ -63,7 +60,6 @@ function CLink() {
             } else {
                 doc.insertAt(cursorPos.startContainer, shallowLink.toNode(), cursorPos.startOffset);
             }
-            console.log("new content", content);
             adapter.setEditorContent(editor, content);
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);

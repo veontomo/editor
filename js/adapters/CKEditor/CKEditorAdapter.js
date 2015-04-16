@@ -445,7 +445,6 @@ function CKEditorAdapter(){
 	 * @since          0.1.0
 	 */
 	this.dialogToTemplate = function(dialog, marker){
-		console.log("dialogToTemplate: ", marker);
 		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default';
 		var mapper = marker2 + 'DialogToTemplate';
 		var executor = this[mapper];
