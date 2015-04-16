@@ -267,14 +267,37 @@ describe('PlainText-related functionality', function(){
 	        var clone = text.clone();
 	        expect(clone.getContent()).toBe('content of the text node');
 	    });
-
-
-
-
-
-
 	});
 
-
+	describe('has method characteristicFunction that', function(){
+		it('is defined in the prototype', function(){
+			expect(typeof PlainText.prototype.characteristicFunction).toBe('function');
+		});
+		it('returns true if the argument is an empty text node', function(){
+			var t = document.createTextNode('');
+			expect(PlainText.prototype.characteristicFunction(t)).toBe(true);
+		});
+		it('returns true if the argument is a non empty text node', function(){
+			var t = document.createTextNode('I am not empty');
+			expect(PlainText.prototype.characteristicFunction(t)).toBe(true);
+		});
+		it('returns false if the argument is a div node', function(){
+			var d = document.createElement('div');
+			expect(PlainText.prototype.characteristicFunction(d)).toBe(false);
+		});
+		it('returns false if the argument is a div node', function(){
+			var d = document.createElement('div');
+			expect(PlainText.prototype.characteristicFunction(d)).toBe(false);
+		});
+		it('returns false if the argument is missing', function(){
+			expect(PlainText.prototype.characteristicFunction()).toBe(false);
+		});
+		it('returns false if the argument is a json object', function(){
+			expect(PlainText.prototype.characteristicFunction({'a': 2, 'b': 1})).toBe(false);
+		});
+		it('returns false if the argument is an array', function(){
+			expect(PlainText.prototype.characteristicFunction([1, 3, 'a'])).toBe(false);
+		});
+	});
 
 });
