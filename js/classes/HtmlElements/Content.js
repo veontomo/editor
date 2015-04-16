@@ -53,7 +53,7 @@ function Content(str) {
 	this.getElements = function(){
 		var output = [];
 		_elements.forEach(function(el){
-			var copy = (typeof el.clone === 'function') ? el.clone() : el;
+			var copy = (el && (typeof el.clone === 'function')) ? el.clone() : el;
 			output.push(copy);
 		});
 		return output;
@@ -384,7 +384,6 @@ function Content(str) {
 	 * @return         {Boolean}                      true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
-		console.log("Loading content: ", arr);
 		if (Array.isArray(arr) && NEWSLETTER.factory){
 			var factory = NEWSLETTER.factory,
 			   	items = [];

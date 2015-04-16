@@ -185,7 +185,7 @@ function Factory(map){
 		}
 		try {
 			var className = probe.getName();
-			if (typeof className == 'string'){
+			if (typeof className === 'string'){
 				_availableClassesByClassName[className] = C;
 			}
 		} catch (e){
@@ -204,14 +204,37 @@ function Factory(map){
 	 * @return         {Object|Null}
 	 */
 	this.stub = function(obj){
-		var m = this.getMapping();
-		if (m){
-			var TargetClass = m.findTargetFor(obj);
-			if (typeof TargetClass === 'function'){
-				return new TargetClass();
+		var Target = this.findClassFor(obj);
+		if (!Target){
+			Target = this.getDefaultClass();
+		}
+		if (Target){
+			return new Target();
+		}
+	};
+
+	/**
+	 * Finds class that can represent `obj`.
+	 *
+	 * The method parses all available classes and feeds `obj` to characteristic function (obviuosly, it should be defiend) of
+	 * each of them. The first class which characteristic function evaluated to true on `obj` is returned.
+	 *
+	 * If no characteristic function evaluates to true on `obj`, then nothing is returned.
+	 * @method findTargetFor
+	 * @param  {Any} obj
+	 * @return {Function}
+	 * @since  0.2.6
+	 */
+	this.findClassFor = function(obj){
+		var i,
+			isMine,
+			len = _availableClasses.length;
+		for (i = 0; i < len; i++){
+			isMine = _availableClasses[i].prototype.characteristicFunction(obj);
+			if (isMine === true){
+				return _availableClasses[i];
 			}
 		}
-		return null;
 	};
 
 	/**

@@ -54,16 +54,38 @@ describe('Factory-related functionality', function(){
 
 
         describe('Factory::stub(): creates an instance corresponding to the argument', function(){
-            it('returns null, if not argument is given', function(){
-                expect(f.stub()).toBe(null);
+            it('returns null, if no argument is given', function(){
+                expect(f.stub()).not.toBeDefined();
             });
-            it('calls "getMapping"', function(){
-                function Foo(){}
-                spyOn(f.getMapping(), 'findTargetFor').and.returnValue(Foo);
+            it('passes it argument to method findClassFor()', function(){
+                var obj = {};
+                spyOn(f, 'findClassFor');
+                f.stub(obj);
+                expect(f.findClassFor).toHaveBeenCalledWith(obj);
+            });
+            it('produces an instance of class A if method findClassFor() outputs class A', function(){
+                function A(){return;}
+                spyOn(f, 'findClassFor').and.returnValue(A);
                 var stub = f.stub('something');
-                expect(stub instanceof Foo).toBe(true);
-                expect(f.getMapping().findTargetFor).toHaveBeenCalledWith('something');
+                expect(stub instanceof A).toBe(true);
             });
+            it('produces an instance of class B if method findClassFor() outputs nothing and getDefaultClass() produces B', function(){
+                function B(){return;}
+                spyOn(f, 'findClassFor');
+                spyOn(f, 'getDefaultClass').and.returnValue(B);
+                var stub = f.stub('something');
+                expect(stub instanceof B).toBe(true);
+            });
+            it('produces nothing if findClassFor() and getDefaultClass() produce nothing', function(){
+                function B(){return;}
+                spyOn(f, 'findClassFor');
+                spyOn(f, 'getDefaultClass');
+                var stub = f.stub('something');
+                expect(stub).not.toBeDefined();
+            });
+
+
+
         });
 
         describe('Factory::mimic(): tries to mimic the argument', function(){
