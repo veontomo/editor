@@ -1870,7 +1870,6 @@ function Document(){
 	 * @since          0.2.3
 	 */
 	this.replaceSelectionByLink = function(ranges, referenceLink){
-		console.log("Document.replaceSelectionByLink: ", ranges, referenceLink);
 		var range = ranges[0];
 		if (range.collapsed){
 			this.insertAt(range.startContainer, referenceLink, range.startOffset);

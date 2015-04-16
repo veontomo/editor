@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Controller, Link, NEWSLETTER, Document, Element */
+/*global Controller, Link, Document */
 
 /**
  * Link controller.
@@ -80,7 +80,6 @@ function CLink() {
      * @Override
      */
     this.fillInDialogWithSelection = function(dialog, editor){
-        console.log("CLink.fillInDialogWithSelection", dialog, editor);
         var adapter, ranges, doc, link, selectionContent;
         try {
             adapter = this.getEditorAdapter();

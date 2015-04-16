@@ -21,37 +21,6 @@ function Factory(){
 		return new Factory();
 	}
 
-	/**
-	 * An instance of {{#crossLink "Mapper"}}Mapper{{/crossLink}} class.
-	 * @property       _mapping
-	 * @private
-	 * @type           {Mapper}
-	 */
-	var _mapping = new Mapper();
-
-	/**
-	 * {{#crossLink "Factory/_mapping:property"}}Mapper{{/crossLink}} getter.
-	 * @method         getMapping
-	 * @return         {Mapper}
-	 */
-	this.getMapping = function(){
-		return _mapping;
-	};
-
-	/**
-	 * {{#crossLink "Factory/_mapping:property"}}Mapper{{/crossLink}} setter. Returns `true`
-	 * if the argument is an instance of {{#crossLink "Mapper"}}Mapper{{/crossLink}} class and
-	 * `false` otherwise.
-	 * @method         setMapping
-	 * @return         {Boolean}
-	 */
-	this.setMapping = function(map){
-		var isMap = map instanceof Mapper;
-		if (isMap){
-			_mapping = map;
-		}
-		return isMap;
-	};
 
 
 	/**
@@ -111,6 +80,9 @@ function Factory(){
 	 */
 	this.setAvailableClasses = function(arr){
 		arr.forEach(function(c){
+			if (typeof c !== 'function'){
+				return;
+			}
 			this.registerClass(c);
 		}.bind(this));
 	};
@@ -160,9 +132,6 @@ function Factory(){
 	 * @since          0.2.6
 	 */
 	this.registerClass = function(C){
-		if (typeof C !== 'function'){
-			return;
-		}
 		var probe;
 		try {
 			probe = new C();

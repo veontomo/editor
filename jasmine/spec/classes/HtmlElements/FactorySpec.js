@@ -13,28 +13,28 @@ describe('Factory-related functionality', function(){
             f = Factory();
             expect(f instanceof Factory).toBe(true);
         });
-        it('imposes mapping to be Mapper instance if no argument is provided', function(){
-            f = new Factory();
-            expect(f.getMapping() instanceof Mapper).toBe(true);
-        });
+        // it('imposes mapping to be Mapper instance if no argument is provided', function(){
+        //     f = new Factory();
+        //     expect(f.getMapping() instanceof Mapper).toBe(true);
+        // });
 
-        describe('Factory::mapping: setter and getter', function(){
-            it('sets mapping if it is a Mapper class instance', function(){
-                f.setMapping(mapping);
-                expect(f.getMapping()).toBe(mapping);
-            });
+        // describe('Factory::mapping: setter and getter', function(){
+        //     it('sets mapping if it is a Mapper class instance', function(){
+        //         f.setMapping(mapping);
+        //         expect(f.getMapping()).toBe(mapping);
+        //     });
 
-            it('returns true, if the argument is a Mapper class instance', function(){
-                expect(f.setMapping(mapping)).toBe(true);
-            });
+        //     it('returns true, if the argument is a Mapper class instance', function(){
+        //         expect(f.setMapping(mapping)).toBe(true);
+        //     });
 
-            it('returns false, if the argument is a string, number, array or object', function(){
-                var invalids = ['', 'non empty string', 0, -4.2, [], [0], [0, 23], {}, {out: 1}];
-                invalids.forEach(function(invalid){
-                    expect(f.setMapping(invalid)).toBe(false);
-                });
-            });
-        });
+        //     it('returns false, if the argument is a string, number, array or object', function(){
+        //         var invalids = ['', 'non empty string', 0, -4.2, [], [0], [0, 23], {}, {out: 1}];
+        //         invalids.forEach(function(invalid){
+        //             expect(f.setMapping(invalid)).toBe(false);
+        //         });
+        //     });
+        // });
 
 
         describe('Factory::stub(): creates an instance corresponding to the argument', function(){
