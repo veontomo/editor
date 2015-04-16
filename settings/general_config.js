@@ -159,31 +159,13 @@ var NEWSLETTER = (function(){
 		var _defaultClass = Tag;
 
 		/**
-		 * A {{#crossLink "Mapper"}}Mapper{{/crossLink}} to establish relations between html tags and corresponding classes.
-		 * @property {Mapper} _tagMapper
-		 * @private
-		 * @deprecated  in favour of _availableClasses
-		 */
-		var _tagMapper = new Mapper();
-		_tagMapper.add(function(el){return (el instanceof Text);}, PlainText);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TD');}, Cell);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TABLE');}, Table);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'TR');}, Row);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'A');}, Link);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'LI');}, ListItem);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'OL');}, OList);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'UL');}, UList);
-		_tagMapper.add(function(el){return (el instanceof Element) && (el.tagName === 'IMG');}, ImageTag);
-		_tagMapper.setDefaultTarget(Tag);
-
-		/**
 		 * A factory object that will be used in order to construct various objects.
 		 * @property   {Object}   _factory
 		 * @type       {Factory}
 		 * @since      0.2.1
 		 * @private
 		 */
-		var _factory = new Factory(_tagMapper);
+		var _factory = new Factory();
 		_factory.setAvailableClasses(_availableClasses);
 		_factory.setDefaultClass(_defaultClass);
 

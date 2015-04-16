@@ -15,10 +15,10 @@
  * @author             A.Shcherbakov
  *
  */
-function Factory(map){
+function Factory(){
 	"use strict";
 	if (!(this instanceof Factory)) {
-		return new Factory(map);
+		return new Factory();
 	}
 
 	/**
@@ -27,7 +27,7 @@ function Factory(map){
 	 * @private
 	 * @type           {Mapper}
 	 */
-	var _mapping = (map instanceof Mapper) ? map : new Mapper();
+	var _mapping = new Mapper();
 
 	/**
 	 * {{#crossLink "Factory/_mapping:property"}}Mapper{{/crossLink}} getter.
