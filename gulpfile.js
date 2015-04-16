@@ -4,6 +4,12 @@
 var gulp   = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+
+/// some settings
+var compressDir = './gulp/compressed/';
+var productionDir = './js_prod/';
+var productionFileName = 'editor.min.js';
+
 // define project files in the order as they must be included
 // each of these files is to be first compressed and then
 // all of these files are concatenated in a single file.
@@ -64,26 +70,32 @@ var sourceFiles = [
 	// entry file
 	'js/start.js'
 ];
-var concatOrder = [];
 
+// create an array of compressed source files taking care of the order
+// in which the files are concatenated.
+// The order is important since a file might contain declarations used
+// in forthcoming files.
+var concatOrder = [];
 sourceFiles.forEach(function(path){
-	var fileName = './gulp/compressed/' + path.split('/').slice(-1)[0];
+	var fileName = compressDir + path.split('/').slice(-1)[0];
 	if (concatOrder.indexOf(fileName) === -1){
 		concatOrder.push(fileName);
 	} else {
 		console.log('Duplicate file name: ' + fileName + '. Rename it to avoid problems.');
 	}
  });
+
+
 gulp.task('concat', function() {
   return gulp.src(concatOrder)
-    .pipe(concat('editor.min.js'))
-    .pipe(gulp.dest('./js_prod/'));
+    .pipe(concat(productionFileName))
+    .pipe(gulp.dest(productionDir));
 });
 
 gulp.task('compress', function() {
   return gulp.src(sourceFiles)
     .pipe(uglify())
-    .pipe(gulp.dest('./gulp/compressed/'));
+    .pipe(gulp.dest(compressDir));
 });
 
 gulp.task('watch', function() {

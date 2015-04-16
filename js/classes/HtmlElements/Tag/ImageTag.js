@@ -161,7 +161,7 @@ function ImageTag() {
 
 	/**
 	 * Load template and sets width and height according to actual image dimensions.
-	 * @method         loadTemplate description]
+	 * @method         loadTemplate
 	 * @param          {Object}        tmpl       template
 	 * @return         {void}
 	 * @since          0.2.6

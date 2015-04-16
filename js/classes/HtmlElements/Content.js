@@ -384,6 +384,7 @@ function Content(str) {
 	 * @return         {Boolean}                      true, if loaded successfully, false otherwise
 	 */
 	this.load = function(arr){
+		console.log("Loading content: ", arr);
 		if (Array.isArray(arr) && NEWSLETTER.factory){
 			var factory = NEWSLETTER.factory,
 			   	items = [];
