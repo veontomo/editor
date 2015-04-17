@@ -119,9 +119,28 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<li>item 3</li>
 			<li>item 4</li>
 		</ol>
-		<table><tbody><tr><td>cell 1</td><td>cell 2</td><td>cell 3</td></tr>
-		<td>cell 1</td><td>cell 2</td><td>cell 3</td></tr>
-		<td>cell 1</td><td>cell 2</td><td>cell 3</td></tr></tbody></table>
+
 	</div>
+
+	<script type="text/javascript">
+		var promise = new Promise(function(resolve, reject) {
+		    // resolve("Stuff worked!");
+		    // reject(Error("It broke"));
+
+		});
+		promise.then(function(result) {
+		  console.log(result); // "Stuff worked!"
+		}, function(err) {
+		  console.log(err); // Error: "It broke"
+		});
+		var resolve = function(x){
+			return x;
+		};
+		var reject = function(x){
+			return x;
+		};
+		console.log(promise);
+
+	</script>
 </body>
 </html>
