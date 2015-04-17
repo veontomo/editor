@@ -186,7 +186,6 @@ function CKEditorAdapter(){
 		var marker = template.name.toLowerCase(),
 			mapper = marker + 'TemplateToDialog',
 			executor = this[mapper];
-		console.log("search for " + marker + " template");
 		if (typeof executor !== 'function'){
 			executor = this.defaultTemplateToDialog;
 		}

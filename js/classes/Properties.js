@@ -354,7 +354,6 @@ function Properties(input) {
 		for (key in attrs){
 			if (attrs.hasOwnProperty(key)){
 				value = attrs[key];
-				console.log('appending properties: ', key, ' -> ', value);
 				if (typeof context.getProperty(key) === 'object' && typeof value === 'object'){
 					context.appendToKey(key, value);
 				} else {
