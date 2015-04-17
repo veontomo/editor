@@ -628,7 +628,7 @@ describe('Content-related functionality', function(){
 			window.FACTORY = {};
 			window.FACTORY.factory = new Factory(map);
 		});
-		describe('Reproduces the number of elements in the "content" property', function(){
+		xdescribe('Reproduces the number of elements in the "content" property', function(){
 			it('returns 1-element content if the input contains only TEXT_NODE', function(){
 				c.load([t1]);
 				expect(c.getElements().length).toBe(1);
@@ -653,7 +653,7 @@ describe('Content-related functionality', function(){
 			});
 		});
 
-		describe('Produces structure of the nested elements', function(){
+		xdescribe('Produces structure of the nested elements', function(){
 			it('generates one element in the "content" if element node has an element node as a child', function(){
 				c.load([e2]);
 				expect(c.getElements().length).toBe(1);
@@ -678,7 +678,7 @@ describe('Content-related functionality', function(){
 			});
 		});
 
-		describe('Produces instances of required types', function(){
+		xdescribe('Produces instances of required types', function(){
 			it('creates ListItem instance if ListItem is among available classes', function(){
 				c.load([e0]);
 				expect(c.getElem(0) instanceof ListItem).toBe(true);
@@ -696,7 +696,7 @@ describe('Content-related functionality', function(){
 			});
 		});
 
-		describe('Nested elements have correct types', function(){
+		xdescribe('Nested elements have correct types', function(){
 			it('a list item has "div" and "a" children', function(){
 				c.load([e0]);
 				expect(c.getElem(0) instanceof ListItem).toBe(true);

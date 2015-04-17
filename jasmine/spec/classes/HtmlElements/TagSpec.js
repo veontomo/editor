@@ -845,7 +845,7 @@ describe('Tag-related functionality', function() {
     });
 
 
-    describe('Tag::load(): populates properties from the argument', function(){
+    xdescribe('Tag::load(): populates properties from the argument', function(){
         var root, e0, t1, e2;
  //          root
  //  __________|____________

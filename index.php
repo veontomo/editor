@@ -15,7 +15,7 @@
 			color: red;
 			font-size: 5em;
 			padding-left: 4em;
-			margin-bottom: 0.1em;
+			margin: 0em;
 			// z-index: -1;
 			-webkit-transform: rotate(0deg);
 			-webkit-transform-origin: 0% 0%;
@@ -25,8 +25,20 @@
 			transform-origin: 0% 0%;
 			color: #D22415;
 			// opacity: 0.3;
-			background-color: #3D7899}</style>';
+			background-color: #3D7899;
+		}
+			.info{
+				padding: 0.3em;
+				margin-bottom: 0.5em;
+				background-color: #3D7899;
+				color: #FFFFFF;
+				font-size: 1.1em;
+			}
+			</style>';
 
+	?>
+	<?php
+		$jsMin = 'js_prod/editor.min.js';
 	?>
 
  	<link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -39,7 +51,7 @@
 	<script type="text/javascript" src="ckeditor/adapters/jquery.js"></script>
 
 	<!-- minified editor file: includes definitions of classes and configuration settings -->
-	<script type="text/javascript" src="js_prod/editor.min.js"></script>
+	<script type="text/javascript" src="<?= $jsMin;?>"></script>
 
 	<!-- external plugins -->
 	<script type="text/javascript" src="externalPlugins/picker.min.js"></script>
@@ -59,7 +71,13 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 <body>
 	<?php
 		if ($developMode){
+			$gitIndex = '.git/index';
+			$lastUpdate =  file_exists($gitIndex) ? 'Ultimo aggiornamento: ' . date("d F Y H:i:s", filemtime($gitIndex)) : '';
+
+			$buildTime = date('d F Y H:i:s', filemtime($jsMin));
 			echo '<div id="marker">Test Mode</div>';
+			echo "<div class=\"info\">JS build time: $buildTime, $lastUpdate, current version: 0.2.6</div>";
+
 		}
 	?>
 
@@ -105,13 +123,5 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<td>cell 1</td><td>cell 2</td><td>cell 3</td></tr>
 		<td>cell 1</td><td>cell 2</td><td>cell 3</td></tr></tbody></table>
 	</div>
-	<!-- <div contentEditable="true" class="editor">type here</div> -->
-	<?php
-		$fileName = '.git/index';
-		if (file_exists($fileName)){
-			echo '<div id="versionInfo">Ultimo aggiornamento: ' . date("d/m/Y H:i:s", filemtime('.git/index')) . '</div>';
-		}
-	?>
-	<div>Current version: 0.2.1 (as by February 20, 2015)</div>
 </body>
 </html>

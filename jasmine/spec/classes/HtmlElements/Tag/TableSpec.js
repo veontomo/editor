@@ -1629,7 +1629,7 @@ describe('Table-related functionality:', function(){
         // });
     });
 
-    describe('Loading element into table', function(){
+    xdescribe('Loading element into table', function(){
         var t00, t10, t11, t13, t23; //t20, t22, t23;
         beforeEach(function(){
             var tRow, tCell, thead, tbody, tfoot, capt;

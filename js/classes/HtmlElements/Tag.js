@@ -790,30 +790,31 @@ function Tag(tName) {
 	 * @method     loadFromElement
 	 * @param      {Element}            elem           origin from which the element properties are to be loaded
 	 * @return     {Boolean}
+	 * @deprecated use Factory methods to construct object
 	 */
 	this.loadFromElement = function(elem){
-		var propNew,
-			propSucc = false,
-			contentSucc = false,
-			childrenArr = [],
-			children, currentChild, attr, i, len;
-		if (elem instanceof Element){
-			children = elem.childNodes;                      // gives all child nodes (including Elements, TextNodes, etc.)
-			len = children.length;
-			this.setTag(elem.tagName.toLowerCase());         // setting tag
-			attr = elem.attributes;
-			if (attr){
-				propNew = this.getProperties();
-				propSucc = propNew.load(attr);
-				this.setProperties(propNew);
-			}
-			for (i = 0; i < len; i++){
-				currentChild = children.item(i);
-				childrenArr.push(currentChild);
-			}
-			contentSucc = _content.load(childrenArr);
-		}
-		return propSucc && contentSucc;
+		// var propNew,
+		// 	propSucc = false,
+		// 	contentSucc = false,
+		// 	childrenArr = [],
+		// 	children, currentChild, attr, i, len;
+		// if (elem instanceof Element){
+		// 	children = elem.childNodes;                      // gives all child nodes (including Elements, TextNodes, etc.)
+		// 	len = children.length;
+		// 	this.setTag(elem.tagName.toLowerCase());         // setting tag
+		// 	attr = elem.attributes;
+		// 	if (attr){
+		// 		propNew = this.getProperties();
+		// 		propSucc = propNew.load(attr);
+		// 		this.setProperties(propNew);
+		// 	}
+		// 	for (i = 0; i < len; i++){
+		// 		currentChild = children.item(i);
+		// 		childrenArr.push(currentChild);
+		// 	}
+		// 	contentSucc = _content.load(childrenArr);
+		// }
+		// return propSucc && contentSucc;
 	};
 
 	/**
