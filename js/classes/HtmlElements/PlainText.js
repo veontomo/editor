@@ -1,6 +1,5 @@
-/*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global window */
+/*global Node, window */
 
 /**
 * Represents plain text. This class is intented to represent [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) elements.

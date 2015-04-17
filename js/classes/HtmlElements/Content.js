@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Link, NEWSLETTER */
+/*global Node, Link */
 
 /**
  * This class is used to encompass other objects.
