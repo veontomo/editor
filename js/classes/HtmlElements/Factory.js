@@ -207,20 +207,42 @@ function Factory(){
 	};
 
 	/**
-	 * Creates a copy of the argument. It first calls {{#crossLink "Factory/stub:method"}}stub{{/crossLink}} and if its
-	 * result responds to method "loadFromElement", calls it.
+	 * Mimics given object based on available classes.
 	 * @method         mimic
 	 * @param          {Any}                obj
 	 * @return         {Object}
+	 * @since          0.2.6
 	 */
 	this.mimic = function(obj){
-		// var rnd = parseInt(Math.random()*1000);
-		// console.info(rnd, 'Factory::mimic argument = ', obj);
 		var stub = this.stub(obj);
-		if (stub && typeof stub.loadFromElement === 'function'){
-			stub.loadFromElement(obj);
+		if (!stub){
+			return;
 		}
-		// console.info(rnd, 'Factory::mimic argument = ', obj);
+		if (typeof stub.appendProperties  === 'function'){
+			stub.appendProperties(obj.attributes);
+		}
+
+		if (typeof stub.appendElem === 'function'){
+			/// if here, it means that "stub" is a Tag instance
+			/// therefore, one should mimic and append children
+			var children = obj.childNodes,
+				len, i, childMimic;
+			if (children){
+				len = children.length;
+				for (i = 0; i < len; i++){
+					childMimic = this.mimic(children.item(i));
+					if (childMimic){
+						stub.appendElem(childMimic);
+					}
+				}
+			}
+		} else if (typeof stub.setContent === 'function'){
+			/// if here, it means that "stub" is a PlainText instance
+			/// therefore, set stub's text content
+			if (obj.textContent){
+				stub.setContent(obj.textContent);
+			}
+		}
 		return stub;
 	};
 

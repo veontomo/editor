@@ -771,51 +771,6 @@ function Tag(tName) {
 		return output;
 	};
 
-	/**
-	 * Populates the following properties of the target object
-	 * <ol><li>
-	 * {{#crossLink "Tag/_tag:property"}}_tag{{/crossLink}}
-	 * </li><li>
-	 * {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}} by calling
-	 * {{#crossLink "Properties/load:method"}}load(){{/crossLink}} method.
-	 * </li><li>
-	 * {{#crossLink "Tag/_content:property"}}_content{{/crossLink}} by calling
-	 * {{#crossLink "Content/load:method"}}Content::load(){{/crossLink}} method.
-	 * </li></ol>
-	 * from the argument which must be an instance of
-	 * [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) class. Returns `true` if
-	 * the argument is of required type and the above mentioned  `load` methods return `true`. Otherwise,
-	 * `false` is returned.<br />
-	 * NB: DOM.Element.attributes has the form `{1: {tag: "width", value:"100", ...}, 2: {tag: "color", value:"black", ...}, ...}`
-	 * @method     loadFromElement
-	 * @param      {Element}            elem           origin from which the element properties are to be loaded
-	 * @return     {Boolean}
-	 * @deprecated use Factory methods to construct object
-	 */
-	this.loadFromElement = function(elem){
-		// var propNew,
-		// 	propSucc = false,
-		// 	contentSucc = false,
-		// 	childrenArr = [],
-		// 	children, currentChild, attr, i, len;
-		// if (elem instanceof Element){
-		// 	children = elem.childNodes;                      // gives all child nodes (including Elements, TextNodes, etc.)
-		// 	len = children.length;
-		// 	this.setTag(elem.tagName.toLowerCase());         // setting tag
-		// 	attr = elem.attributes;
-		// 	if (attr){
-		// 		propNew = this.getProperties();
-		// 		propSucc = propNew.load(attr);
-		// 		this.setProperties(propNew);
-		// 	}
-		// 	for (i = 0; i < len; i++){
-		// 		currentChild = children.item(i);
-		// 		childrenArr.push(currentChild);
-		// 	}
-		// 	contentSucc = _content.load(childrenArr);
-		// }
-		// return propSucc && contentSucc;
-	};
 
 	/**
 	 * Tries to transfer properties of the target onto `el`.
@@ -1179,8 +1134,6 @@ function Tag(tName) {
 	this.extractChildTemplates = function(template){
 		return template.children || [];
 	};
-
-
 }
 
 /**

@@ -349,11 +349,12 @@ function Properties(input) {
 		} else if (obj instanceof Properties){
 			attrs = obj.getCore();
 		} else if (typeof obj === 'object'){
-			attrs = obj;
+			attrs = (obj instanceof NamedNodeMap) ? context.nodeMapToJson(obj) : obj;
 		}
 		for (key in attrs){
 			if (attrs.hasOwnProperty(key)){
 				value = attrs[key];
+				console.log('appending properties: ', key, ' -> ', value);
 				if (typeof context.getProperty(key) === 'object' && typeof value === 'object'){
 					context.appendToKey(key, value);
 				} else {
@@ -402,6 +403,25 @@ function Properties(input) {
 				json[key] = value;
 			}
 		});
+		return json;
+	};
+
+
+	/**
+	 * Converts [named node map](https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap) into json object.
+	 * @method         nodeMapToJson
+	 * @param          {NamedNodeMap} obj  instance of [NamedNodeMap](https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap)
+	 * @return         {Object}
+	 * @since          0.2.6
+	 */
+	this.nodeMapToJson = function(obj){
+		var json = {},
+			len = obj.length,
+			i, attr;
+		for (i = 0; i < len; i++){
+			attr = obj.item(i);
+			json[attr.name] = attr.value;
+		}
 		return json;
 	};
 

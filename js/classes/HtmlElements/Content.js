@@ -375,30 +375,6 @@ function Content(str) {
 	};
 
 	/**
-	 * Loads _elements into the {{#crossLink "Content/_elements:property"}}element{{/crossLink}} property.
-	 * Each element of the input array is to be mimicked using the means of the FACTORY. If it is not
-	 * defined, then no loading is performed and `false` is returned. Otherwise, the method tries to load
-	 * and returns `true`.
-	 * @method         load
-	 * @param          {Array}              arr       array of _elements or Text instances
-	 * @return         {Boolean}                      true, if loaded successfully, false otherwise
-	 */
-	this.load = function(arr){
-		if (Array.isArray(arr) && NEWSLETTER.factory){
-			var factory = NEWSLETTER.factory,
-			   	items = [];
-			var len = arr.length;
-			arr.forEach(function(el){
-				var baby = factory.mimic(el);
-				items.push(baby);
-			});
-			this.setElements(items);
-			return true;
-		}
-		return false;
-	};
-
-	/**
 	 * Converts each element of this instance into a node and appends it to the argument.
 	 *
 	 * Takes each element of the array {{#crossLink "Content/_elements:property"}}Content::_elements{{/crossLink}},

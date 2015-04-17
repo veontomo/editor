@@ -101,29 +101,6 @@ function PlainText(text) {
 
 
 	/**
-	 * Loads the instance of this class with info from the argument and returns `true` if the argument is
-	 * a [text node](https://developer.mozilla.org/en-US/docs/Web/API/Text) or a string. In this case
-	 * {{#crossLink "Text/content:property"}}content{{/crossLink}} is set to the string content of the argument.
-	 * Otherwise, `false` is returned.
-	 * @method         loadFromElement
-	 * @param          {DOM.TEXT|String}    elem
-	 * @return         {Boolean}
-	 */
-	this.loadFromElement = function(elem){
-		if (elem === undefined || elem === null){
-			return false;
-		}
-		var newContent = typeof elem === 'string' ? elem : elem.textContent,
-			isString = typeof newContent === 'string';
-		if (isString){
-			this.setContent(newContent);
-		}
-		return isString;
-	};
-
-
-
-	/**
 	 * Returns `true` if the result of {{#crossLink "PlainText/getContent:method"}}getContent(){{/crossLink}}
 	 * is an empty string, null or undefined (even if it should never happen).
 	 * @method isEmpty
