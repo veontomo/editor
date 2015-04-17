@@ -13,29 +13,6 @@ describe('Factory-related functionality', function(){
             f = Factory();
             expect(f instanceof Factory).toBe(true);
         });
-        // it('imposes mapping to be Mapper instance if no argument is provided', function(){
-        //     f = new Factory();
-        //     expect(f.getMapping() instanceof Mapper).toBe(true);
-        // });
-
-        // describe('Factory::mapping: setter and getter', function(){
-        //     it('sets mapping if it is a Mapper class instance', function(){
-        //         f.setMapping(mapping);
-        //         expect(f.getMapping()).toBe(mapping);
-        //     });
-
-        //     it('returns true, if the argument is a Mapper class instance', function(){
-        //         expect(f.setMapping(mapping)).toBe(true);
-        //     });
-
-        //     it('returns false, if the argument is a string, number, array or object', function(){
-        //         var invalids = ['', 'non empty string', 0, -4.2, [], [0], [0, 23], {}, {out: 1}];
-        //         invalids.forEach(function(invalid){
-        //             expect(f.setMapping(invalid)).toBe(false);
-        //         });
-        //     });
-        // });
-
 
         describe('Factory::stub(): creates an instance corresponding to the argument', function(){
             it('returns null, if no argument is given', function(){
@@ -77,23 +54,6 @@ describe('Factory-related functionality', function(){
                 spyOn(f, 'stub');
                 f.mimic('an element');
                 expect(f.stub).toHaveBeenCalledWith('an element');
-            });
-            it('calls "load" method of "stub" output, if it exists', function(){
-                function Target(){this.loadFromElement = function(){return null;};}
-                var target = new Target();
-                spyOn(target, 'loadFromElement');
-                spyOn(f, 'stub').and.returnValue(target);
-                f.mimic('an element');
-                expect(f.stub).toHaveBeenCalledWith('an element');
-                expect(target.loadFromElement).toHaveBeenCalledWith('an element');
-            });
-            it('returns output of "stub" method if it has no "load" method', function(){
-                function Target(){}
-                var target = new Target();
-                spyOn(f, 'stub').and.returnValue(target);
-                var copy = f.mimic('an element');
-                expect(f.stub).toHaveBeenCalledWith('an element');
-                expect(copy instanceof Target).toBe(true);
             });
         });
     });

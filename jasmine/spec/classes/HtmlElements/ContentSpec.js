@@ -628,82 +628,8 @@ describe('Content-related functionality', function(){
 			window.FACTORY = {};
 			window.FACTORY.factory = new Factory(map);
 		});
-		xdescribe('Reproduces the number of elements in the "content" property', function(){
-			it('returns 1-element content if the input contains only TEXT_NODE', function(){
-				c.load([t1]);
-				expect(c.getElements().length).toBe(1);
-			});
-
-			it('returns 1-element content if the input contains only ELEMENT_NODE', function(){
-				c.load([e32]);
-				expect(c.getElements().length).toBe(1);
-			});
-
-			it('returns 3-element content if the input has one TEXT_NODE and two ELEMENT_NODEs', function(){
-				c.load([e0, e3, t4]);
-				expect(c.getElements().length).toBe(3);
-			});
 
 
-			it('creates correct Tag instance from a div element with no children', function(){
-				c.load([e200]);
-				expect(c.getElem(0) instanceof Tag).toBe(true);
-				expect(c.getElem(0).getTag()).toBe('div');
-				expect(c.getElem(0).getContent().length()).toBe(0);
-			});
-		});
-
-		xdescribe('Produces structure of the nested elements', function(){
-			it('generates one element in the "content" if element node has an element node as a child', function(){
-				c.load([e2]);
-				expect(c.getElements().length).toBe(1);
-				expect(c.getElem(0).getContent().getElements().length).toBe(1);
-			});
-
-			it('generates one element if element node has a text node as a child', function(){
-				c.load([e32]);
-				expect(c.getElements().length).toBe(1);
-				expect(c.getElem(0).getContent().getElements().length).toBe(1);
-			});
-
-			it('generates two elements if element node has two element nodes as children', function(){
-				c.load([e0]);
-				expect(c.getElements().length).toBe(1);
-				expect(c.getElem(0).getContent().getElements().length).toBe(2);
-			});
-			it('generates four elements if element node has three element nodes and one text node as children', function(){
-				c.load([e3]);
-				expect(c.getElements().length).toBe(1);
-				expect(c.getElem(0).getContent().getElements().length).toBe(4);
-			});
-		});
-
-		xdescribe('Produces instances of required types', function(){
-			it('creates ListItem instance if ListItem is among available classes', function(){
-				c.load([e0]);
-				expect(c.getElem(0) instanceof ListItem).toBe(true);
-				expect(c.getElem(0).getTag()).toBe('li');
-			});
-			it('creates Text instance if Text is among available classes', function(){
-				c.load([t4]);
-				expect(c.getElem(0) instanceof PlainText).toBe(true);
-				expect(c.getElem(0).getTag()).toBe('text');
-			});
-			it('creates default Tag instance if there is no element-specific classe among available ones', function(){
-				c.load([e3]);
-				expect(c.getElem(0) instanceof Tag).toBe(true);
-				expect(c.getElem(0).getTag()).toBe('span');
-			});
-		});
-
-		xdescribe('Nested elements have correct types', function(){
-			it('a list item has "div" and "a" children', function(){
-				c.load([e0]);
-				expect(c.getElem(0) instanceof ListItem).toBe(true);
-				expect(c.getElem(0).getElem(0) instanceof Tag).toBe(true);
-				expect(c.getElem(0).getElem(1) instanceof Link).toBe(true);
-			} );
-		});
 	});
 
 	describe('Content::stickTo(): appends children to the argument', function(){

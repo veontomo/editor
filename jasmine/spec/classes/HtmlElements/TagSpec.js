@@ -845,104 +845,6 @@ describe('Tag-related functionality', function() {
     });
 
 
-    xdescribe('Tag::load(): populates properties from the argument', function(){
-        var root, e0, t1, e2;
- //          root
- //  __________|____________
- // |          |            |
- // e0        t1           e2
-
-        beforeEach(function(){
-            root = document.createElement('custom');
-            root.setAttribute('class', 'virtual');
-            root.setAttribute('level', 2);
-            root.setAttribute('style', 'color: green; margin: 32em;');
-            e0 = document.createElement('div');
-            t1 = document.createTextNode('hi there!');
-            e2 = document.createElement('span');
-            root.appendChild(e0);
-            root.appendChild(t1);
-            root.appendChild(e2);
-
-            spyOn(tag, 'getContent').and.returnValue(content);
-            spyOn(tag, 'getProperties').and.returnValue(tagProps);
-            // spyOn(tag, 'getStyles').and.returnValue(tagStyle);
-        });
-
-        it('does not call "load" methods, if the argument is missing', function(){
-            spyOn(content, 'load');
-            spyOn(tagProps, 'load');
-            // spyOn(tagStyle, 'load');
-            tag.loadFromElement();
-            expect(content.load).not.toHaveBeenCalled();
-            expect(tagProps.load).not.toHaveBeenCalled();
-            // expect(tagStyle.load).not.toHaveBeenCalled();
-        });
-
-        it('returns false, if the argument is missing', function(){
-            spyOn(content, 'load');
-            spyOn(tagProps, 'load');
-            // spyOn(tagStyle, 'load');
-            expect(tag.loadFromElement()).toBe(false);
-        });
-
-
-        it('sets "tag" property', function(){
-            spyOn(content, 'load');
-            spyOn(tagProps, 'load');
-            // spyOn(tagStyle, 'load');
-            tag.loadFromElement(root);
-            expect(tag.getTag()).toBe('custom');
-        });
-
-
-        it('does not call "load" methods, if the argument has non-ELEMENT nodeType', function(){
-            spyOn(content, 'load');
-            spyOn(tagProps, 'load');
-            // spyOn(tagStyle, 'load');
-            tag.loadFromElement({'nodeType': 'any non element node type'});
-            expect(content.load).not.toHaveBeenCalled();
-            expect(tagProps.load).not.toHaveBeenCalled();
-            // expect(tagStyle.load).not.toHaveBeenCalled();
-        });
-
-        it('returns "true", if all "load" methods return "true"', function(){
-            spyOn(content, 'load').and.returnValue(true);
-            spyOn(tagProps, 'load').and.returnValue(true);
-            // spyOn(tagStyle, 'load').and.returnValue(true);
-            expect(tag.loadFromElement(e0)).toBe(true);
-        });
-
-        it('returns "false", if all "load" methods return "false"', function(){
-            spyOn(content, 'load').and.returnValue(false);
-            spyOn(tagProps, 'load').and.returnValue(false);
-            // spyOn(tagStyle, 'load').and.returnValue(false);
-            expect(tag.loadFromElement(e0)).toBe(false);
-        });
-
-        it('returns "false", if "content.load" method return "false", and the others - "true"', function(){
-            spyOn(content, 'load').and.returnValue(false);
-            spyOn(tagProps, 'load').and.returnValue(true);
-            // spyOn(tagStyle, 'load').and.returnValue(true);
-            expect(tag.loadFromElement(t1)).toBe(false);
-        });
-        it('returns "false", if "attr.load" method return "false", and the others - "true"', function(){
-            spyOn(content, 'load').and.returnValue(true);
-            spyOn(tagProps, 'load').and.returnValue(false);
-            // spyOn(tagStyle, 'load').and.returnValue(true);
-            expect(tag.loadFromElement(e2)).toBe(false);
-        });
-
-        it('calls method to set attributes', function(){
-            spyOn(content, 'load');
-            spyOn(tagProps, 'load');
-            // spyOn(tagStyle, 'load');
-            tag.loadFromElement(root);
-            expect(tagProps.load).toHaveBeenCalledWith(root.attributes);
-        });
-
-    });
-
     describe('Tag::toNode(): transforms element into a DOM.Element', function(){
         beforeEach(function(){
             tag.setTag('mdk');
@@ -1478,30 +1380,6 @@ describe('Tag-related functionality', function() {
             var t = tag.extractChildTemplates(template);
             expect(t).toBe(childrenTemplates);
         });
-    });
-
-    xdescribe('has a method "inflate" that', function(){
-        it('loads attribute-like properties stored in "root"', function(){
-            tag.inflate({root: {'class': 'media', 'id': 'logo'}});
-            expect(tag.getProperty('class')).toBe('media');
-            expect(tag.getProperty('id')).toBe('logo');
-        });
-
-        it('loads style-like properties stored in "root"', function(){
-            tag.inflate({root: {'style': {'padding': 29, 'width': '763px'}}});
-            expect(tag.getStyleProperty('padding')).toBe(29);
-            expect(tag.getStyleProperty('width')).toBe('763px');
-        });
-
-        it('creates two child elements if the templates contains two children', function(){
-            var t1 = {name: 'span'},
-                t2 = {name: 'div'},
-                template = {name: 'anything', children: [t1, t2]};
-            tag.inflate(template);
-            expect(tag.length()).toBe(2);
-        });
-
-
     });
 
 

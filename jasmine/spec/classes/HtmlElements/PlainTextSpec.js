@@ -81,54 +81,6 @@ describe('PlainText-related functionality', function(){
  		});
 	});
 
-	describe('PlainText::load(): loads content from the argument', function(){
-		it('return false if the argument is missing', function(){
-			expect(text.loadFromElement()).toBe(false);
-		});
-
-		it('return false if the argument is a number, an array, a function, an object of non-DOM.Text type', function(){
-			var invalids = [0, -1, 3.52, [], [0, 1], [''], ['string', 1], {}, {'prop': 1}];
-			invalids.forEach(function(invalid){
-				expect(text.loadFromElement(invalid)).toBe(false);
-			});
-		});
-
-		it('return true if the argument is an empty string', function(){
-			expect(text.loadFromElement('')).toBe(true);
-		});
-
-		it('return true if the argument is a non-empty string', function(){
-			expect(text.loadFromElement('non empty')).toBe(true);
-		});
-
-		it('return true if the argument is a DOM.Text', function(){
-			var el = document.createTextNode('a text node');
-			expect(text.loadFromElement(el)).toBe(true);
-		});
-
-		it('calls setContent method if the argument is a string', function(){
-			spyOn(text, 'setContent');
-			text.loadFromElement('a string');
-			expect(text.setContent).toHaveBeenCalledWith('a string');
-		});
-
-		it('calls setContent method if the argument is a DOM.Text', function(){
-			var el = document.createTextNode('a text node');
-			spyOn(text, 'setContent');
-			text.loadFromElement(el);
-			expect(text.setContent).toHaveBeenCalledWith('a text node');
-		});
-
-		it('does not call setContent() if the argument is a number, an array, a function, an object of non-DOM.Text type', function(){
-			var invalids = [0, -1, 3.52, [], [0, 1], [''], ['string', 1], {}, {'prop': 1}];
-			spyOn(text, 'setContent');
-			invalids.forEach(function(invalid){
-				text.loadFromElement(invalid);
-			});
-			expect(text.setContent).not.toHaveBeenCalled();
-		});
-	});
-
 	describe('PlainText::isEmpty(): whether the text tag is empty', function(){
 		it('gives true, if "getContent" returns an empty string', function(){
 			spyOn(text, 'getContent').and.returnValue('');
