@@ -101,8 +101,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		<a href="notes.php" target="blank">Notes</a>
     </div>
 
-
-
 	<form method="post" action='#' enctype="multipart/form-data">
 		<input type="file" id="fileInput" name="fileInput">
 		<input type="submit" value="submit">
@@ -123,24 +121,42 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 	</div>
 
 	<script type="text/javascript">
-		var promise = new Promise(function(resolve, reject) {
-		    // resolve("Stuff worked!");
-		    // reject(Error("It broke"));
 
-		});
-		promise.then(function(result) {
-		  console.log(result); // "Stuff worked!"
-		}, function(err) {
-		  console.log(err); // Error: "It broke"
-		});
-		var resolve = function(x){
-			return x;
-		};
-		var reject = function(x){
-			return x;
-		};
-		console.log(promise);
+		console.log('start');
+		console.info('p1', 'Before declaring');
+		  var p1 = new Promise(
+		    function(resolve, reject) {
+		    	console.log(resolve, reject);
+		      	console.info('p1', 'Promise p1 is started.');
+		      	window.setTimeout(function(){
+		      		console.log(resolve);
+		      		resolve('aaa');
 
+		      	}, 1000);
+		    });
+		console.info('p1', 'Promise p1 is made.');
+
+		console.info('p2', 'Before declaring');
+		  var p2 = new Promise(
+		    function(resolve, reject) {
+		      console.info('p2', 'Promise p2 is started.');
+		      window.setTimeout(function(){
+		      	console.log(resolve);
+		      	resolve('bbb');
+
+		      }, 999);
+		    });
+		console.info('p2', 'Promise p2 is made.');
+
+		function f1(val) {
+		  console.info('p1', val);
+		};
+
+		  // We define what to do when the promise is fulfilled
+		p1.then(f1);
+		p2.then(f1);
+
+		  console.log('end');
 	</script>
 </body>
 </html>
