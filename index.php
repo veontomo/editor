@@ -120,6 +120,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 
 	</div>
 
-	<script type="text/javascript" src="js_prod/promise.js"></script>
+	<script type="text/javascript" src="promise.js"></script>
 </body>
 </html>
