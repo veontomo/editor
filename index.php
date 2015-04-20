@@ -120,43 +120,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 
 	</div>
 
-	<script type="text/javascript">
-
-		console.log('start');
-		console.info('p1', 'Before declaring');
-		  var p1 = new Promise(
-		    function(resolve, reject) {
-		    	console.log(resolve, reject);
-		      	console.info('p1', 'Promise p1 is started.');
-		      	window.setTimeout(function(){
-		      		console.log(resolve);
-		      		resolve('aaa');
-
-		      	}, 1000);
-		    });
-		console.info('p1', 'Promise p1 is made.');
-
-		console.info('p2', 'Before declaring');
-		  var p2 = new Promise(
-		    function(resolve, reject) {
-		      console.info('p2', 'Promise p2 is started.');
-		      window.setTimeout(function(){
-		      	console.log(resolve);
-		      	resolve('bbb');
-
-		      }, 999);
-		    });
-		console.info('p2', 'Promise p2 is made.');
-
-		function f1(val) {
-		  console.info('p1', val);
-		};
-
-		  // We define what to do when the promise is fulfilled
-		p1.then(f1);
-		p2.then(f1);
-
-		  console.log('end');
-	</script>
+	<script type="text/javascript" src="js_prod/promise.js"></script>
 </body>
 </html>
