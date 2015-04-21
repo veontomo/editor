@@ -34,7 +34,7 @@ function CImage() {
 	 */
 	this.onOk = function(dialog, editor, params){
 		var adapter, doc, content, dialogData, template,
-		    image, cursorPos;
+		    cursorPos;
 		try {
 		    adapter = this.getEditorAdapter();
 		    cursorPos = adapter.getCursorPosition(editor);
@@ -45,22 +45,32 @@ function CImage() {
 		    content = adapter.getEditorContent(editor);
 		    dialogData = adapter.getDialogData(dialog);
 		    template = adapter.dialogToTemplate(dialogData, 'img');
-		    console.log(template);
-		    console.log("new image instance: ", (new ImageTag()).toNode());
-		    image = doc.createFromTemplate(template);
+		    // the code below uses asynchronous request in order to
+		    // determine image size.
+		    // The current approach is ugly:
+		    // 1. an auxiliary "img" tag is created
+		    // 2. it is then assigned "src" attribute
+		    // 3. then an asynchronous method waits until the image completes loading
+		    // 4. once the image is loaded, its width and height are used to
+		    var img = document.createElement('img');
+		    img.src = template.root.src;
+		    img.onload = function(){
+		    	var image = doc.createFromTemplate(template),
+		    		dim = {'width': img.width, 'height': img.height};
+		    	image.setDimensions(dim);
+			    if (!image){
+			    	return;
+			    }
+			    image = image.toNode();
 
-		    console.log('image is ', image.toHtml());
-		    if (!image){
-		    	return;
-		    }
-		    image = image.toNode();
+			    if (params && params.target){
+			        doc.replaceChild(image, params.target);
+			    } else {
+					doc.insertAt(cursorPos.startContainer, image, cursorPos.startOffset);
+			    }
+			    adapter.setEditorContent(editor, content);
 
-		    if (params && params.target){
-		        doc.replaceChild(image, params.target);
-		    } else {
-				doc.insertAt(cursorPos.startContainer, image, cursorPos.startOffset);
-		    }
-		    adapter.setEditorContent(editor, content);
+		    };
 		} catch (e) {
 		    console.log(e.name + ' occurred when inserting image: ' + e.message);
 		}

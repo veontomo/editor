@@ -118,6 +118,5 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<li>item 4</li>
 		</ol>
 	</div>
-	<script type="text/javascript" src="event.js"></script>
 </body>
 </html>

@@ -36,10 +36,7 @@ function ImageTag() {
 	this.setProperties(prop);
 
 	/**
-	 * Sets `src` property of ImageTag {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}
-	 * if `url` corresponds to an ImageTag with non zero width and height. In this case, `height` and
-	 * `width` properties are set in {{#crossLink "Tag/styles:property"}}styles{{/crossLink}} and
-	 * {{#crossLink "Tag/attributes:property"}}attributes{{/crossLink}}.
+	 * Sets `src` property of ImageTag {{#crossLink "Tag/_properties:property"}}_properties{{/crossLink}}.
 	 * @method         setOrigin
 	 * @param          {String}             url
 	 * @return         {void}
@@ -50,21 +47,7 @@ function ImageTag() {
 			console.log('protocol ' + protocol + ' is not supported!');
 			return;
 		}
-		var img = document.createElement('img'),
-			imgWidth, imgHeight;
-		img.src = url;
-		img.load = function(){
-			imgWidth = img.width;
-			imgHeight = img.height;
-			if (typeof imgWidth === 'number' && imgWidth > 0 && typeof imgHeight === 'number' && imgHeight > 0){
-				console.log('setting width: ', imgWidth, imgHeight);
-				this.setProperty('src', url);
-				this.setProperty('width', imgWidth);
-				this.setWidth(imgWidth);
-				this.setStyleProperty('height', imgHeight);
-				this.setProperty('height', imgHeight);
-			}
-		}.bind(this));
+		this.setProperty('src', url);
 	};
 
 	/**
@@ -177,6 +160,22 @@ function ImageTag() {
 			if (tmpl[key1] && tmpl[key1].hasOwnProperty(key2)){
 				this.setOrigin(tmpl[key1][key2]);
 			}
+		}
+	};
+
+	/**
+	 * Sets image dimensions.
+	 * @method         setDimensions
+	 * @param          {Object}        obj     json-like object with numeric-valued keys "width" and "height"
+	 * @since          0.2.6
+	 */
+	this.setDimensions = function(obj){
+		var widthKey = 'width',
+			heightKey = 'height';
+		if (obj.hasOwnProperty(widthKey) && obj.hasOwnProperty(heightKey)){
+			this.setWidth(obj[widthKey]);
+			this.setProperty(heightKey, obj[heightKey]);
+			this.setStyleProperty(heightKey, obj[heightKey] + 'px');
 		}
 	};
 }
