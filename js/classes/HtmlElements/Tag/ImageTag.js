@@ -189,7 +189,7 @@ function ImageTag() {
             heightKey = 'height';
         if (obj.hasOwnProperty(widthKey) && obj.hasOwnProperty(heightKey)) {
             this.setWidth(obj[widthKey]);
-            var height = parseInt(obj.hasOwnProperty(heightKey), 10);
+            var height = parseInt(obj[heightKey], 10);
             if (typeof height === 'number') {
                 _setHeight(height);
             }
