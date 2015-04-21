@@ -117,9 +117,6 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 			<li>item 3</li>
 			<li>item 4</li>
 		</ol>
-
 	</div>
-
-	<script type="text/javascript" src="promise.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global ImageProperties, Content, Tag */
+/*global ImageProperties, Content, Tag, Element */
 
 /**
  * Represents an ImageTag.
@@ -53,15 +53,18 @@ function ImageTag() {
 		var img = document.createElement('img'),
 			imgWidth, imgHeight;
 		img.src = url;
-		imgWidth = img.width;
-		imgHeight = img.height;
-		if (typeof imgWidth === 'number' && imgWidth > 0 && typeof imgHeight === 'number' && imgHeight > 0){
-			this.setProperty('src', url);
-			this.setProperty('width', imgWidth);
-			this.setWidth(imgWidth);
-			this.setStyleProperty('height', imgHeight);
-			this.setProperty('height', imgHeight);
-		}
+		img.load = function(){
+			imgWidth = img.width;
+			imgHeight = img.height;
+			if (typeof imgWidth === 'number' && imgWidth > 0 && typeof imgHeight === 'number' && imgHeight > 0){
+				console.log('setting width: ', imgWidth, imgHeight);
+				this.setProperty('src', url);
+				this.setProperty('width', imgWidth);
+				this.setWidth(imgWidth);
+				this.setStyleProperty('height', imgHeight);
+				this.setProperty('height', imgHeight);
+			}
+		}.bind(this));
 	};
 
 	/**
