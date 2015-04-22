@@ -223,6 +223,30 @@ function CTable(){
 	};
 
 	/**
+	 * Returns  array of length `n` each elements of which is a result of execution of `fun(arg)`.
+	 * @method         _xerox
+	 * @param          {Number}        n     non-negative integer
+	 * @param          {Function}      fun
+	 * @param          {Any}           args
+	 * @return         {Array}
+	 * @since          0.2.6
+	 */
+	var _xerox = function(n, fun, args){
+		var output = [],
+			i, copy;
+		for (i = 0; i < n; i++){
+			try {
+				copy = fun(args);
+				output.push(copy);
+			} catch (e){
+				return;
+			}
+		}
+		return output;
+	};
+
+
+	/**
 	 * Removes the nearest table to the cursor position.
 	 * @method         removeTable
 	 * @param          {Object}        editor
@@ -271,11 +295,11 @@ function CTable(){
 				template.root.width = doc.getAvailableWidth(hostElement) || NEWSLETTER.defaultWidth;
 				builder = doc.getFactory();
 				model = builder.createFromTemplate(template);
-				console.log('row template', template.row);
-				var rowModel = builder.createFromTemplate(template.row);
-				var cellModel = builder.createFromTemplate(template.cell);
-				console.log(rowModel.toHtml());
-				console.log(cellModel.toHtml());
+				var rowNum = parseInt(template.rows, 10);
+				var colNum = parseInt(template.columns, 10);
+				var rows = _xerox(rowNum, builder.createFromTemplate, template.row);
+				var cells = _xerox(colNum, builder.createFromTemplate, template.cell);
+				console.log(rowNum, colNum, rows, cells);
 				doc.insertAt(hostElement, model.toNode(), cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);
@@ -283,6 +307,7 @@ function CTable(){
 			console.log(e.name + ' occurred when elaborating table plugin confirm action: ' + e.message);
 		}
 	};
+
 
 }
 

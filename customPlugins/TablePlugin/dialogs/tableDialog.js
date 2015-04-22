@@ -158,7 +158,7 @@ function TableDialog(editor) {
 			// revealing the page
 			this.getDialog().showPage(colWeigthTabId);
 		} catch (e){
-			console.log('Error of type ' + e.name + ' occurred when retrieveing number of columns.');
+			console.log(e.name + ' occurred when retrieveing number of columns: ' + e);
 		}
 	};
 
@@ -338,7 +338,7 @@ function TableDialog(editor) {
 				title: editor.lang[_pluginName].cellNumDescr,
 				id: 'columns',
 				default: '1',
-				onChange: drawInputCells,
+				// onChange: drawInputCells,
 				inputStyle: _inputNumberStyle
 			},
 			 {
