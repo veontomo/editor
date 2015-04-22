@@ -116,7 +116,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 		if (editor.contextMenu) {
 			editor.addMenuGroup(_pluginNameGroup);
 			editor.addMenuItem(_pluginName + 'Delete', {
-				label:   editor.lang[_pluginName].delete,
+				label:   editor.lang[_pluginName].deleteTable,
 				icon:    this.path + 'icons/deleteTable.png',
 				command: _pluginName + 'Delete',
 				group:  _pluginNameGroup
@@ -157,7 +157,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 				cellNum:         'Numero di colonne',
 				cellNumDescr:    'Impostare il numero di colonne della tabella',
 				cells:           'Celle',
-				delete:          'Eliminare la tabella',
+				deleteTable:     'Eliminare la tabella',
 				frameColor:      'Colore della cornice',
 				frameColorDescr: 'Colore del bordo attorno a ogni riga',
 				frameWidth:      'Spessore della cornice',
@@ -187,7 +187,7 @@ CKEDITOR.plugins.add('TablePlugin', {
 				borderWidthDescr:'Set border width in pixels',
 				cellNum:         'Columns',
 				cells:           'Cells',
-				delete:          'Drop the table',
+				deleteTable:     'Drop the table',
 				frameColor:      'Frame color',
 				frameColorDescr: 'Color of the border around each row',
 				frameWidth:      'Frame width',
