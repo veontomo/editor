@@ -113,7 +113,7 @@ CKEDITOR.plugins.add('ImagePlugin', {
 				group: _pluginNameGroup
 			});
 			editor.addMenuItem(_pluginName + 'Delete', {
-				label: editor.lang.ImagePlugin.delete,
+				label: editor.lang.ImagePlugin.deleteImg,
 				icon: this.path + 'icons/image2cancel.png',
 				command: _pluginName + 'Delete',
 				group: _pluginNameGroup
@@ -134,7 +134,7 @@ CKEDITOR.plugins.add('ImagePlugin', {
 		var translations = {
 			it: {
 				alternativeAndTitle: 'Titolo e testo alternativo',
-				'delete': 'Eliminare immagine',
+				deleteImg: 'Eliminare immagine',
 				descr: 'Inserire nuova immagine',
 				generalInfo: 'Informazione generale',
 				invalidUrl: 'URL non valido',
@@ -142,7 +142,7 @@ CKEDITOR.plugins.add('ImagePlugin', {
 			},
 			en: {
 				alternativeAndTitle: 'Title and alternative text',
-				'delete': 'Delete image',
+				deleteImg: 'Delete image',
 				descr: 'Insert new image',
 				generalInfo: 'General information',
 				invalidUrl: 'Invalid URL',
