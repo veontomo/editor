@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Unit, CKEDITOR, NEWSLETTER, Table, CKHelper, Helper, Controller */
+/*global Unit, CKEDITOR, NEWSLETTER, Table, Controller */
 
 /**
  * Table Controller.
@@ -299,7 +299,7 @@ function CTable(){
 				var colNum = parseInt(template.columns, 10);
 				var rows = _xerox(rowNum, builder.createFromTemplate, template.row);
 				var cells = _xerox(colNum, builder.createFromTemplate, template.cell);
-				console.log(rowNum, colNum, rows, cells);
+				model.inflate(rows, cells);
 				doc.insertAt(hostElement, model.toNode(), cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);

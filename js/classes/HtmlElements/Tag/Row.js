@@ -311,6 +311,23 @@ function Row() {
 	};
 
 
+	/**
+	 * Inflates row with cells.
+	 *
+	 * @method         inflate
+	 * @param          {Array}         cells  array of {{#crossLink "Cell"}}Cell{{/crossLink}} instances
+	 * @return         {void}
+	 * @since          0.2.6
+	 */
+	this.inflate = function(cells){
+		cells.forEach(function(cell){
+			console.log(cell);
+			this.appendCell(cell);
+		}.bind(this));
+	};
+
+
+
 }
 Row.prototype = Object.create(Tag.prototype);
 

@@ -1656,6 +1656,22 @@ function Table() {
 		this.setPhantomCellProperties(style);
 	};
 
+	/**
+	 * Inflates table with rows and cells.
+	 *
+	 * @method         inflate
+	 * @param          {Array}         rows   array of {{#crossLink "Row"}}Row{{/crossLink}} instances
+	 * @param          {Array}         cells  array of {{#crossLink "Cell"}}Cell{{/crossLink}} instances
+	 * @return         {void}
+	 * @since          0.2.6
+	 */
+	this.inflate = function(rows, cells){
+		rows.forEach(function(row){
+			var infatedRow = row.inflate(cells);
+			this.appendRow(infatedRow);
+		}.bind(this));
+	};
+
 }
 Table.prototype = Object.create(Tag.prototype);
 
