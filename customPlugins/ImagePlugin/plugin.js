@@ -134,7 +134,7 @@ CKEDITOR.plugins.add('ImagePlugin', {
 		var translations = {
 			it: {
 				alternativeAndTitle: 'Titolo e testo alternativo',
-				delete: 'Eliminare immagine',
+				'delete': 'Eliminare immagine',
 				descr: 'Inserire nuova immagine',
 				generalInfo: 'Informazione generale',
 				invalidUrl: 'URL non valido',
@@ -142,7 +142,7 @@ CKEDITOR.plugins.add('ImagePlugin', {
 			},
 			en: {
 				alternativeAndTitle: 'Title and alternative text',
-				delete: 'Delete image',
+				'delete': 'Delete image',
 				descr: 'Insert new image',
 				generalInfo: 'General information',
 				invalidUrl: 'Invalid URL',
