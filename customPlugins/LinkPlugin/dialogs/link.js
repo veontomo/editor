@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CKHelper, Document, NEWSLETTER, CLink */
+/*global CKEDITOR, Document, NEWSLETTER, CLink, dhtmlXColorPicker */
 
 /**
 * Unified dialog for link and e-mail insertion.
@@ -19,7 +19,6 @@ function LinkDialog(editor) {
 
     /**
      * {{#crossLink "LinkMailDialog/_controller:property"}}_controller{{/crossLink}} configurator.
-     * @method  anonymous
      * @return  {void}
      * @since   0.1.0
      * @private

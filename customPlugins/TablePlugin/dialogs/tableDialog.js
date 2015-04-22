@@ -1,6 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Unit, Table, Row, Cell, TableStyles, TableRowStyles,
-TableCellStyles, Content, NEWSLETTER, alert, CKHelper, Helper, CTable, dhtmlXColorPicker, Selection */
+/*global CKEDITOR, Document, Table, NEWSLETTER, CTable, dhtmlXColorPicker */
 
 /**
  * Returns dialog window for creating a new table.
@@ -20,15 +19,14 @@ function TableDialog(editor) {
 	 * @private
 	 */
 	 var _controller = new CTable();
+	 _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
 
 	 /**
 	  * Configures {{#crossLink "TableDialog/_controller:property"}}_controller{{/crossLink}}.
 	  *
-	  * @method  constructor
 	  * @since   0.2.0
 	  */
 	 (function(){
-		 _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
 	     var worker = new Document();
 	     worker.setFactory(NEWSLETTER.factory);
 	     _controller.setWorker(worker);
@@ -575,7 +573,11 @@ function TableDialog(editor) {
 		 * @return    {void}
 		 */
 		onOk: function () {
-			_controller.onOk(this, editor, _controller.getExtra(this));
+			var params = {
+			    'target':    _controller.getExtra(this),
+			    'selection': _controller.getEditorSelection(editor)
+			};
+			_controller.onOk(this, editor, params);
 			dropInputCells(this);
 		}
 	};

@@ -252,7 +252,7 @@ function CKEditorAdapter(){
 			'rows':     dialog.table.rows,
 			'columns':  dialog.table.columns,
 			row: {
-				name: 'row',
+				name: 'tr',
 				root: {
 					style: {
 						'margin':        dialog.rows.margin,
@@ -266,7 +266,7 @@ function CKEditorAdapter(){
 				'border-middle': dialog.rows.borderMiddle,
 			},
 			cell: {
-				name: 'cell',
+				name: 'td',
 				root: {
 					style: {
 						'margin':    dialog.cells.margin,

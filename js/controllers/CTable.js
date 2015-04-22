@@ -250,13 +250,11 @@ function CTable(){
 	 * @method        onOk
 	 * @param         {Object}         dialog    editor-specific representation of dialog window
 	 * @param         {Object}         editor
-	 * @param         {Element}        seedTable [Optional] [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
-	 *                                           instance that has been passed to the dialog in case when the dialog
-	 *                                           corresponds to modification of existing table.
+	 * @param         {Object}         params         [Optional] json-like object of the form {target: ..., selection: ...}
 	 * @return        {void}
 	 * @since         0.2.0
 	 */
-	this.onOk = function(dialog, editor, seedTable){
+	this.onOk = function(dialog, editor, params){
 		var adapter, content, dialogData, template,
 			model, doc, builder, cursorPos, hostElement;
 		try {
@@ -265,14 +263,19 @@ function CTable(){
 			dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
 			template = adapter.dialogToTemplate(dialogData, 'table');
 			doc = this.getWorker();
-			if (seedTable){
-				doc.updateNode(seedTable, template);
+			if (params && params.target){
+				doc.updateNode(params.target, template);
 			} else {
 				cursorPos = adapter.getCursorPosition(editor);
 				hostElement = cursorPos.startContainer;
 				template.root.width = doc.getAvailableWidth(hostElement) || NEWSLETTER.defaultWidth;
 				builder = doc.getFactory();
 				model = builder.createFromTemplate(template);
+				console.log('row template', template.row);
+				var rowModel = builder.createFromTemplate(template.row);
+				var cellModel = builder.createFromTemplate(template.cell);
+				console.log(rowModel.toHtml());
+				console.log(cellModel.toHtml());
 				doc.insertAt(hostElement, model.toNode(), cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);
