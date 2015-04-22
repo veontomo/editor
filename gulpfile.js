@@ -36,14 +36,14 @@ var sourceFiles = [
 	'js/classes/HtmlElements/Tag/UList.js',
 	'js/classes/HtmlElements/Tag/Link.js',
 	'js/classes/HtmlElements/PlainText.js',
-	 // document-related models
+	// document-related models
 	'js/classes/HtmlElements/Document.js',
 	// converters
 	'js/converters/Converter.js',
 	'js/converters/ConverterGeneral.js',
 	'js/converters/ConverterFixed.js',
 	'js/converters/ConverterElastic.js',
-	 // helpers
+	// helpers
 	'js/classes/CKHelper.js',
 	'js/classes/HtmlElements/Mapper.js',
 	'js/classes/HtmlElements/Factory.js',
@@ -57,13 +57,11 @@ var sourceFiles = [
 	'js/controllers/CDownload.js',
 	'js/controllers/CImage.js',
 	'js/controllers/CTextDecoration.js',
-	 // Adapters
+	// Adapters
 	'js/adapters/EditorAdapter.js',
 	'js/adapters/CKEditor/CKEditorAdapter.js',
-
-	 // event handlers
+	// event handlers
 	'js/eventHandlers/EHToolbar.js',
-
 	// configuration file
 	'settings/general_config.js',
 	// entry file
