@@ -231,7 +231,7 @@ function CTable(){
 	 * @return         {Array}
 	 * @since          0.2.6
 	 */
-	var _xerox = function(n, fun, args){
+	this.xerox = function(n, fun, args){
 		var output = [],
 			i, copy;
 		for (i = 0; i < n; i++){
@@ -239,6 +239,7 @@ function CTable(){
 				copy = fun(args);
 				output.push(copy);
 			} catch (e){
+				console.log(e);
 				return;
 			}
 		}
@@ -294,12 +295,27 @@ function CTable(){
 				hostElement = cursorPos.startContainer;
 				template.root.width = doc.getAvailableWidth(hostElement) || NEWSLETTER.defaultWidth;
 				builder = doc.getFactory();
+				console.log(builder);
 				model = builder.createFromTemplate(template);
+				console.log(model.toHtml());
 				var rowNum = parseInt(template.rows, 10);
 				var colNum = parseInt(template.columns, 10);
-				var rows = _xerox(rowNum, builder.createFromTemplate, template.row);
-				var cells = _xerox(colNum, builder.createFromTemplate, template.cell);
+				var i,
+					rows = [],
+					cells = [];
+				for (i = 0; i < rowNum; i++){
+					rows.push(builder.createFromTemplate(template.row));
+				}
+				for (i = 0; i < colNum; i++){
+					cells.push(builder.createFromTemplate(template.cell));
+				}
+				console.log(rows, cells);
+
+				// var rows = this.xerox(rowNum, builder.createFromTemplate, template.row);
+				// var cells = this.xerox(colNum, builder.createFromTemplate, template.cell);
 				model.inflate(rows, cells);
+				console.log(model.toHtml());
+
 				doc.insertAt(hostElement, model.toNode(), cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);

@@ -1611,33 +1611,6 @@ function Table() {
 														   /// parent table padding, margin and border width
  			this.setPhantomTemplate(phantomTemplate);
 		}
-		var rowNum = parseInt(template.rows, 10),
-			rowTemplate = template.row,
-			r,
-			row;
-		if (typeof rowNum !== 'number'){
-			return;
-		}
-		rowTemplate.cell = template.cell;
-		console.log(rowTemplate);
-		for (r = 0; r < rowNum; r++){
-			row = new Row();
-			if (r === 0 && rowTemplate && rowTemplate['border-first']){
-				row.setStyleProperty('border-top', rowTemplate.root.style['border-width'] + 'px solid ' + rowTemplate.root.style['border-color']);
-			}
-			if (r === rowNum - 1 && template.row['border-last']){
-				console.log('create border of the last row');
-			}
-			if (r > 0 && r < rowNum - 1 && template.row['border-middle']){
-				console.log('create border of the middle row');
-			}
-			console.log('loading row template:', rowTemplate);
-			row.loadTemplate(rowTemplate);
-			this.appendRow(row);
-		}
-
-		console.log('rows: ' + template.rows, ', columns: ' + template.columns);
-		// this.makeShape(, parseInt(template.columns, 10));
 	};
 
 	/**
@@ -1667,8 +1640,8 @@ function Table() {
 	 */
 	this.inflate = function(rows, cells){
 		rows.forEach(function(row){
-			var infatedRow = row.inflate(cells);
-			this.appendRow(infatedRow);
+			row.inflate(cells);
+			this.appendRow(row);
 		}.bind(this));
 	};
 
