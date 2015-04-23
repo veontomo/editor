@@ -1639,7 +1639,11 @@ function Table() {
 	 * @since          0.2.6
 	 */
 	this.inflate = function(rows, cells){
+		var width = this.getUnitWorker(this.getWidth()),
+			rowWidth = width.getValue() - parseInt(this.getStyleProperty('padding'), 10) - parseInt(this.getStyleProperty('margin'), 10);
+		console.log(this.getWidth(), width, width.getValue(), rowWidth);
 		rows.forEach(function(row){
+			row.setWidth(rowWidth);
 			row.inflate(cells);
 			this.appendRow(row);
 		}.bind(this));
