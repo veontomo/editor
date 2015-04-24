@@ -243,5 +243,19 @@ function Calculator() {
     	return this;
     };
 
+    /**
+     * String representation of the calculator state.
+     * @method         toString
+     * @return         {String}
+     * @since          0.2.7
+     */
+    this.toString = function(){
+    	var value = this.getValue(),
+    		unit = this.getUnit();
+    	var result = (typeof value === 'number') ? value.toString() : '';
+    	result += (typeof unit === 'string') ? unit : '';
+    	return result;
+    };
+
 
 }

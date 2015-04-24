@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global describe, it, expect, beforeEach, Calculator */
+/*global describe, it, expect, beforeEach, spyOn, afterEach, Calculator */
 
 describe('Calculator', function() {
     var c;
@@ -183,9 +183,82 @@ describe('Calculator', function() {
         it('returns 174000 if the input is [174, 3]', function() {
             expect(c.toStandard([174, 3])).toBe(174000);
         });
+    });
 
+    describe('has a method "mult" that', function() {
+        it('returns Calculator instance', function() {
+            c.init('100px');
+            expect(c.mult(4) instanceof Calculator).toBe(true);
+        });
+        it('returns 10.2px if argument is 2 and initial state is 5.1px', function() {
+            c.init('5.1px');
+            var result = c.mult(2);
+            expect(result.getValue()).toBe(10.2);
+            expect(result.getUnit()).toBe('px');
+        });
+        it('returns 42 if argument is 6 and initial state is 7', function() {
+            c.init(7);
+            var result = c.mult(6);
+            expect(result.getValue()).toBe(42);
+            expect(result.getUnit()).toBe(null);
+        });
+    });
 
+    describe('has a method "div" that', function() {
+        it('returns Calculator instance', function() {
+            c.init('20sq');
+            expect(c.div(4) instanceof Calculator).toBe(true);
+        });
+        it('returns 0.5px if argument is 5 and initial state is 2.5px', function() {
+            c.init('2.5px');
+            var result = c.div(5);
+            expect(result.getValue()).toBe(0.5);
+            expect(result.getUnit()).toBe('px');
+        });
+        it('returns 23 if argument is 3 and initial state is 69', function() {
+            c.init(69);
+            var result = c.div(3);
+            expect(result.getValue()).toBe(23);
+            expect(result.getUnit()).toBe(null);
+        });
+        it('throws an error if attempting to divide by zero', function() {
+            c.init(2);
+            expect(function() {
+                c.div(0);
+            }).toThrow(new Error('Division by zero!'));
+        });
+    });
 
+    describe('has a method "toString"', function() {
+        it('returns empty string if the instance is not initalized', function() {
+            expect(c.toString()).toBe('');
+        });
+
+        it('returns "25" if the value and measure are 25 and null', function() {
+            spyOn(c, 'getValue').and.returnValue(25);
+            spyOn(c, 'getUnit').and.returnValue(null);
+            expect(c.toString()).toBe('25');
+        });
+        it('returns "10px" if the value and measure are 10 and px', function() {
+            spyOn(c, 'getValue').and.returnValue(10);
+            spyOn(c, 'getUnit').and.returnValue('px');
+            expect(c.toString()).toBe('10px');
+        });
+        it('returns "0px" if the value and measure are 0 and px', function() {
+            spyOn(c, 'getValue').and.returnValue(0);
+            spyOn(c, 'getUnit').and.returnValue('px');
+            expect(c.toString()).toBe('0px');
+        });
+        it('returns "0.02" if the value and measure are 0.02 and null', function() {
+            spyOn(c, 'getValue').and.returnValue(0.02);
+            spyOn(c, 'getUnit').and.returnValue(null);
+            expect(c.toString()).toBe('0.02');
+        });
+        it('returns "-0.01em" if the value and measure are -0.01 and em', function() {
+            spyOn(c, 'getValue').and.returnValue(-0.01);
+            spyOn(c, 'getUnit').and.returnValue('em');
+            expect(c.toString()).toBe('-0.01em');
+        });
     });
 
 });
