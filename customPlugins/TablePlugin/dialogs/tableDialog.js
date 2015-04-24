@@ -23,7 +23,7 @@ function TableDialog(editor) {
 
 	 /**
 	  * Configures {{#crossLink "TableDialog/_controller:property"}}_controller{{/crossLink}}.
-	  *
+	  * @method  constructor
 	  * @since   0.2.0
 	  */
 	 (function(){

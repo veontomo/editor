@@ -11,7 +11,7 @@
 function Calculator() {
     /**
      * Storage for the absolute value of the result of current calculation.
-     * @type           {Number}
+     * @property       {Number}        _memoryValue
      * @since          0.2.7
      * @private
      */
@@ -20,7 +20,7 @@ function Calculator() {
 
     /**
      * Storage for the unit of measurement of the result of current calculation.
-     * @type           {String|Null}
+     * @property       {String|Null}   _memoryUnit
      * @since          0.2.7
      * @private
      */
