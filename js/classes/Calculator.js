@@ -210,4 +210,38 @@ function Calculator() {
         return parseFloat('0.' + (new Array(1 - shift).join('0')) + baseStr, 10);
     };
 
+    /**
+     * Multiplies {{#crossLink "Calculate/_memoryValue:property"}}_memoryValue{{/crossLink}}
+     * by `x`.
+     * @method         mult
+     * @param          {Number}        x
+     * @return         {Calculator}          Current instance with updated state
+     * @chainable
+     * @since          0.2.7
+     */
+    this.mult = function(x){
+    	_memoryValue *= x;
+    	return this;
+    };
+
+
+    /**
+     * Divide {{#crossLink "Calculate/_memoryValue:property"}}_memoryValue{{/crossLink}}
+     * by `x`.
+     * @method         div
+     * @param          {Number}        x
+     * @return         {Calculator}    Current instance with updated state
+     * @chainable
+     * @since          0.2.7
+     * @throws         {Error} If argument is equal to zero
+     */
+    this.div = function(x){
+    	if (x === 0){
+    		throw new Error('Division by zero!');
+    	}
+    	_memoryValue /= x;
+    	return this;
+    };
+
+
 }
