@@ -42,7 +42,7 @@ function Calculator() {
 	 * @return         {String|Null}
 	 * @since          0.2.7
 	 */
-	this.getValue = function(){
+	this.getUnit = function(){
 		return _memoryUnit;
 	};
 
@@ -56,8 +56,8 @@ function Calculator() {
 	 * @return         {void}
 	 */
 	this.init = function(x){
-		var  xParsed = this.parse(x);
-		if (xParsed){
+		if (x !== undefined){
+			var xParsed = this.parse(x);
 			_memoryValue = xParsed.value;
 			_memoryUnit = xParsed.unit;
 		} else {
@@ -90,8 +90,79 @@ function Calculator() {
 			result.unit = unit;
 		}
 		return result;
+	};
+
+
+
+	/**
+	 * Adds `x` to the value stored in the calculator memory.
+	 * @method         add
+	 * @param          {String|Number} x
+	 * @since          0.2.7
+	 * @throws         {Error}         If the values can not be summed up
+	 * @chainable
+	 */
+	this.add = function(x){
+		var xParsed = this.parse(x);
+		if (!xParsed || _memoryUnit !== xParsed.unit){
+			throw new Error('Can not add ' + x.toString());
+		}
+		_memoryValue += xParsed.value;
+		return this;
+	};
+
+	/**
+	 * Subtracts `x` from the value stored in the calculator memory.
+	 * @method         sub
+	 * @param          {String|Number} x
+	 * @since          0.2.7
+	 * @throws         {Error}         If the values can not be subtracted
+	 * @chainable
+	 */
+	this.sub = function(x){
+		var xParsed = this.parse(x);
+		if (!xParsed || _memoryUnit !== xParsed.unit){
+			throw new Error('Can not subtract ' + x.toString());
+		}
+		_memoryValue -= xParsed.value;
+		return this;
+	};
+
+	/**
+	 * Returns an array with two integer numbers [b, n] such that x = b * 10^n, where both b does
+	 * not contain trailing zeroes.
+	 * @method         canonicalForm
+	 * @param          {Number}        x
+	 * @return         {Array}
+	 */
+	this.canonicalForm = function(x){
+		if (x === 0){
+			return [0, 0];
+		}
+		var str = x.toString(),
+			len = str.length,
+			separ = '.',
+			pointPos = str.indexOf(separ),
+			base, exp;
+			console.log('str: ' + str + ', len: ' + len + ', pointPos: ' + pointPos);
+
+		if (pointPos !== -1){
+			base = parseInt(str.replace(separ, ''), 10);
+			exp = pointPos + 1 - len;
+			console.log(base, exp);
+			return [base, exp];
+		}
+		var pattern = new RegExp(/0*$/),
+			startTrailZeroPos = str.search(pattern);
+		console.log('startTrailZeroPos: ' + startTrailZeroPos);
+		base = parseInt(str.replace(pattern, ''), 10);
+		exp = len - startTrailZeroPos;
+		console.log(base, exp);
+		return [base, exp];
 
 	};
+
+
 
 }
 

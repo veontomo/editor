@@ -74,6 +74,102 @@ describe('Calculator', function(){
             expect(c.getValue()).toBe(201);
             expect(c.getUnit()).toBe('cm');
         });
+    });
+
+    describe('has a method "add" that', function() {
+        it('makes the state to be 20px if adding "6px" to initial state with "14px"', function(){
+            c.init('14px');
+            c.add('6px');
+            expect(c.getValue()).toBe(20);
+            expect(c.getUnit()).toBe('px');
+        });
+        it('makes the state to be 4.5 if adding 2.9 to initial state with 1.6', function(){
+            c.init(1.6);
+            c.add(2.9);
+            expect(c.getValue()).toBe(4.5);
+            expect(c.getUnit()).toBe(null);
+        });
+        it('can sum up two numbers', function(){
+            c.init('2px');
+            c.add('2.1px').add('32px');
+            expect(c.getValue()).toBe(36.1);
+            expect(c.getUnit()).toBe('px');
+        });
+
+        it('throws an error if adding 5px to initial state with 3pt', function(){
+            c.init('3pt');
+            expect(function(){
+                c.add('5px');
+            }).toThrow(new Error('Can not add 5px'));
+        });
+    });
+
+    describe('has a method "sub" that', function() {
+        it('makes the state to be 2.4pt if subtracting "0.7pt" from initial state with "3.1pt"', function(){
+            c.init('3.1pt');
+            c.sub('0.7pt');
+            expect(c.getValue()).toBe(2.4);
+            expect(c.getUnit()).toBe('pt');
+        });
+        it('makes the state to be -5 if subtracting 10 from initial state with 5', function(){
+            c.init(5);
+            c.sub(10);
+            expect(c.getValue()).toBe(-5);
+            expect(c.getUnit()).toBe(null);
+        });
+        it('can subtract two numbers', function(){
+            c.init('2px');
+            c.sub('1.5px').sub('2.6px');
+            expect(c.getValue()).toBe(-2.1);
+            expect(c.getUnit()).toBe('px');
+        });
+
+        it('throws an error if subtracting 10cm from initial state with 3pt', function(){
+            c.init('3pt');
+            expect(function(){
+                c.sub('10cm');
+            }).toThrow(new Error('Can not subtract 10cm'));
+        });
+    });
+
+
+    describe('has a method "canonicalForm" that', function(){
+        var result;
+        afterEach(function(){
+            expect(result.length).toBe(2);
+        });
+        it('returns array [0, 0] if the input is 0', function(){
+            result = c.canonicalForm(0);
+            expect(result[0]).toBe(0);
+            expect(result[1]).toBe(0);
+        });
+
+        it('returns array [5, 0] if the input is 5', function(){
+            result = c.canonicalForm(5);
+            expect(result[0]).toBe(5);
+            expect(result[1]).toBe(0);
+        });
+
+
+        it('returns array [335, -4] if the input is 0.0335', function(){
+            result = c.canonicalForm(0.0335);
+            expect(result[0]).toBe(335);
+            expect(result[1]).toBe(-4);
+        });
+
+        it('returns array [1234, 4] if the input is 1230000', function(){
+            result = c.canonicalForm(12340000);
+            expect(result[0]).toBe(1234);
+            expect(result[1]).toBe(4);
+        });
+
+        it('returns array [100001, -3] if the input is 100.001', function(){
+            result = c.canonicalForm(100.001);
+            expect(result[0]).toBe(100001);
+            expect(result[1]).toBe(-3);
+        });
+
+
 
     });
 
