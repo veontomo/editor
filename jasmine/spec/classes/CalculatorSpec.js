@@ -17,6 +17,13 @@ describe('Calculator', function(){
             expect(obj.value).toBe(0.121);
             expect(obj.unit).toBe('em');
         });
+
+        it('returns object {value: 85.2, unit: "px"} if the input is a string "85.2 px"', function(){
+            var obj = c.parse('85.2 px');
+            expect(obj.value).toBe(85.2);
+            expect(obj.unit).toBe('px');
+        });
+
         it('returns object {value: -21.3, unit: "em"} if the input is a string "-21.3em"', function(){
             var obj = c.parse('-21.3em');
             expect(obj.value).toBe(-21.3);
@@ -48,11 +55,10 @@ describe('Calculator', function(){
             expect(obj.value).toBe(-75.2);
             expect(obj.unit).toBe(null);
         });
-
-
-
-
-
+        it('returns nothing if the input is a string "aaa"', function(){
+            var obj = c.parse("aaa");
+            expect(obj).not.toBeDefined();
+        });
 
     });
     // describe('has a method calculate that', function () {
