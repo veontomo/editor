@@ -106,15 +106,14 @@ function Calculator() {
      * @since           0.2.7
      */
     this.preciseSum = function(x, y) {
-        console.log(x, y);
-        var xCan = this.canonicalForm(x),
-            yCan = this.canonicalForm(y),
-            resultExp, resultBase;
-        console.log(xCan, yCan);
-        resultExp = xCan[1] > yCan[1] ? yCan[1] : xCan[1];
-        // resultBase = this.standardForm(xCan[0], xCan[1] - resultExp) + this.standardForm(yCan[0], yCan[1] - resultExp);
-        var result = resultBase * Math.pow(10, resultExp);
-        console.log(resultBase, resultExp, result);
+        var xCan = this.toBaseExp(x),
+            yCan = this.toBaseExp(y),
+            minExp, result,
+            x1, y1;
+        minExp = xCan[1] > yCan[1] ? yCan[1] : xCan[1];
+        x1 = this.toStandard([xCan[0], xCan[1] - minExp]);
+        y1 = this.toStandard([yCan[0], yCan[1] - minExp]);
+        result =  this.toStandard([x1 + y1, minExp]);
         return result;
     };
 
@@ -156,12 +155,12 @@ function Calculator() {
     /**
      * Returns an array with two integer numbers [b, n] such that x = b * 10^n, where both b does
      * not contain trailing zeroes.
-     * @method         canonicalForm
+     * @method         toBaseExp
      * @param          {Number}        x
      * @return         {Array}
      * @since          0.2.7
      */
-    this.canonicalForm = function(x) {
+    this.toBaseExp = function(x) {
         if (x === 0) {
             return [0, 0];
         }
@@ -183,15 +182,18 @@ function Calculator() {
     };
 
     /**
-     * Returns standard form of a number represented by two-element array.
-     * @method standardForm
-     * @param  {Array} canonF
-     * @return {Number}
-     * @since  0.2.7
+     * Convert base-exp representation of a number into the standard one: [b, n] -> b*10^n
+     *
+     * In order to avoid ofthen JS results like 2.4/10 = 0.240000...004, the method performs operations
+     * by means of String class functionality (padding original number with required number of zeroes).
+     * @method         toStandard
+     * @param          {Array}         baseExp
+     * @return         {Number}
+     * @since          0.2.7
      */
-    this.standardForm = function(canonF) {
-        var exp = canonF[1],
-            base = canonF[0],
+    this.toStandard = function(baseExp) {
+        var exp = baseExp[1],
+            base = baseExp[0],
             baseStr = base.toString(),
             baseLen, shift;
         if (exp === 0) {
