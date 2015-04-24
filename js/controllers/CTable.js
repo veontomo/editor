@@ -286,8 +286,11 @@ function CTable(){
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
 			dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
+			console.log(dialogData);
 			template = adapter.dialogToTemplate(dialogData, 'table');
+			console.log(template);
 			doc = this.getWorker();
+			console.log(doc);
 			if (params && params.target){
 				doc.updateNode(params.target, template);
 			} else {
@@ -312,7 +315,7 @@ function CTable(){
 			}
 			adapter.setEditorContent(editor, content);
 		} catch(e){
-			console.log(e.name + ' occurred when elaborating table plugin confirm action: ' + e.message);
+			console.log(e.name + ' occurred when elaborating table plugin confirm action: ' + e.message, e);
 		}
 	};
 

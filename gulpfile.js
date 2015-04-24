@@ -14,8 +14,8 @@ var productionFileName = 'editor.min.js';
 // all of these files are concatenated in a single file.
 var sourceFiles = [
 	'js/classes/Helper.js',
-	'js/classes/Helper/Unit.js',
 	'js/classes/Properties.js',
+	'js/classes/Calculator.js',
 	'js/classes/Properties/ImageProperties.js',
 	'js/classes/Properties/LinkProperties.js',
 	'js/classes/Properties/CellProperties.js',
