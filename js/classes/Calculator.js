@@ -26,6 +26,25 @@ function Calculator() {
 	 */
 	var _memoryUnit;
 
+	/**
+	 * {{#crossLink "Calculator/_memoryValue:property"}}_memoryValue{{/crossLink}} getter.
+	 * @method         getValue
+	 * @return         {Number}
+	 * @since          0.2.7
+	 */
+	this.getValue = function(){
+		return _memoryValue;
+	};
+
+	/**
+	 * {{#crossLink "Calculator/_memoryUnit:property"}}_memoryUnit{{/crossLink}} getter.
+	 * @method         getUnit
+	 * @return         {String|Null}
+	 * @since          0.2.7
+	 */
+	this.getValue = function(){
+		return _memoryUnit;
+	};
 
 	/**
 	 * Initializes {{#crossLink "Calculator/_memoryValue:property"}}_memoryValue{{/crossLink}}

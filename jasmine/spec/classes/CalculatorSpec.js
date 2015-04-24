@@ -62,5 +62,20 @@ describe('Calculator', function(){
 
     });
 
+    describe('has a method "init" that', function(){
+        it('sets value and unit to 0 and null if no argument is given', function(){
+            c.init();
+            expect(c.getValue()).toBe(0);
+            expect(c.getUnit()).toBe(null);
+        });
+        it('sets value and unit to values that method "parse" returns if the argument is given', function(){
+            spyOn(c, 'parse').and.returnValue({'value': 201, 'unit': 'cm'});
+            c.init('whatever');
+            expect(c.getValue()).toBe(201);
+            expect(c.getUnit()).toBe('cm');
+        });
+
+    });
+
 });
 
