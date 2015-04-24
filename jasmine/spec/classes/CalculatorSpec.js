@@ -168,6 +168,18 @@ describe('Calculator', function(){
             expect(result[0]).toBe(100001);
             expect(result[1]).toBe(-3);
         });
+    });
+
+    describe('has a method "standardForm" that', function(){
+        it('returns 20 if the input is [20, 0]', function(){
+            expect(c.standardForm([20, 0])).toBe(20);
+        });
+        it('returns 0.053 if the input is [53, -3]', function(){
+            expect(c.standardForm([53, -3])).toBe(0.053);
+        });
+        it('returns 174000 if the input is [174, 3]', function(){
+            expect(c.standardForm([174, 3])).toBe(174000);
+        });
 
 
 
