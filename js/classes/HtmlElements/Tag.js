@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Element, Content, window, Properties, Unit */
+/*global Node, Element, Content, window, Properties, Calculator */
 
 /**
  * This class is used to represent a general html tag.
@@ -34,7 +34,7 @@ function Tag(tName) {
 	 * Every class that inherits from this one, should override this property.
 	 * @property       {String}    _className
 	 * @type           {String}
-	 * @default        "Tag"
+	 * @default        Tag
 	 * @private
 	 * @readOnly
 	 * @since          0.0.2
@@ -109,39 +109,39 @@ function Tag(tName) {
 	/**
 	 * Reference to a class that performs operations with dimensionful units.
 	 *
-	 * This instance must implement the same methods that class {{#crossLink "Unit"}}Unit{{/crossLink}} has.
-	 * (if there were _interfaces_ in javascript, it would be possible to say that _unitWorker must implement
-	 * Unit interface).
+	 * This instance must implement the same methods that class {{#crossLink "Calculator"}}Calculator{{/crossLink}} has.
+	 * (if there were _interfaces_ in javascript, it would be possible to say that _calculator must implement
+	 * Calculator interface).
 	 *
-	 * @property       {Object} _unitWorker
+	 * @property       {Object}        _calculator
 	 * @private
-	 * @default        Unit
+	 * @default        Calculator
 	 * @since          0.2.1
 	 *
 	 */
-	var _unitWorker = new Unit();
+	var _calculator = new Calculator();
 
 	/**
-	 * {{#crossLink "Tag/_unitWorker:property"}}_unitWorker{{/crossLink}} setter.
-	 * @method         setUnitWorker
+	 * {{#crossLink "Tag/_calculator:property"}}_calculator{{/crossLink}} setter.
+	 * @method         setCalculator
 	 * @param          {Unit}          worker    must implement {{#crossLink "Unit"}}Unit{{/crossLink}} interface
 	 * @since          0.2.1
 	 * @return         {void}
 	 */
-	this.setUnitWorker = function(worker){
+	this.setCalculator = function(worker){
 		if (worker){
-			_unitWorker = worker;
+			_calculator = worker;
 		}
 	};
 
 	/**
-	 * {{#crossLink "Tag/_unitWorker:property"}}_unitWorker{{/crossLink}} getter.
-	 * @method         getUnitWorker
+	 * {{#crossLink "Tag/_calculator:property"}}_calculator{{/crossLink}} getter.
+	 * @method         getCalculator
 	 * @return         {Unit}
 	 * @since          0.2.1
 	 */
-	this.getUnitWorker = function(){
-		return _unitWorker;
+	this.getCalculator = function(){
+		return _calculator;
 	};
 
 	/**

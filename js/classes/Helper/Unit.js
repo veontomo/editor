@@ -12,7 +12,8 @@
 
 function Unit(value, measure) {
     "use strict";
-    // console.log(value, measure);
+    console.log("initialize Unit", value, measure);
+
     var parsedValue, parsedMeasure;
     if (!(this instanceof Unit)) {
         return new Unit(value, measure);
