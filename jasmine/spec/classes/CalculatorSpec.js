@@ -83,6 +83,11 @@ describe('Calculator', function() {
     });
 
     describe('has a method "add" that', function() {
+        it('returns reference to itself', function() {
+            c.init('2px');
+            expect(c.add('8px')).toBe(c);
+        });
+
         it('makes the state to be 20px if adding "6px" to initial state with "14px"', function() {
             c.init('14px');
             c.add('6px');
@@ -95,12 +100,6 @@ describe('Calculator', function() {
             expect(c.getValue()).toBe(4.5);
             expect(c.getUnit()).toBe(null);
         });
-        it('can sum up two numbers', function() {
-            c.init('2px');
-            c.add('2.1px').add('32px');
-            expect(c.getValue()).toBe(36.1);
-            expect(c.getUnit()).toBe('px');
-        });
 
         it('throws an error if adding 5px to initial state with 3pt', function() {
             c.init('3pt');
@@ -111,6 +110,11 @@ describe('Calculator', function() {
     });
 
     describe('has a method "sub" that', function() {
+        it('returns reference to itself', function() {
+            c.init('2em');
+            expect(c.sub('10em')).toBe(c);
+        });
+
         it('makes the state to be 2.4pt if subtracting "0.7pt" from initial state with "3.1pt"', function() {
             c.init('3.1pt');
             c.sub('0.7pt');
@@ -189,10 +193,11 @@ describe('Calculator', function() {
     });
 
     describe('has a method "mult" that', function() {
-        it('returns Calculator instance', function() {
-            c.init('100px');
-            expect(c.mult(4) instanceof Calculator).toBe(true);
+        it('returns reference to itself', function() {
+            c.init('2px');
+            expect(c.mult(4)).toBe(c);
         });
+
         it('returns 10.2px if argument is 2 and initial state is 5.1px', function() {
             c.init('5.1px');
             var result = c.mult(2);
@@ -208,10 +213,11 @@ describe('Calculator', function() {
     });
 
     describe('has a method "div" that', function() {
-        it('returns Calculator instance', function() {
-            c.init('20sq');
-            expect(c.div(4) instanceof Calculator).toBe(true);
+        it('returns reference to itself', function() {
+            c.init('20px');
+            expect(c.div(2)).toBe(c);
         });
+
         it('returns 0.5px if argument is 5 and initial state is 2.5px', function() {
             c.init('2.5px');
             var result = c.div(5);
