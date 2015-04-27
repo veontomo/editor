@@ -2,7 +2,10 @@
 /*global */
 
 /**
- * Calculator
+ * Calculator.
+ *
+ * Naive version of calculator that is able to perform operations with
+ * quantities with dimensions (i.e. 1px + 6px, 7em*2).
  * @module  Helper
  * @class   Calculator
  * @since   0.2.7
