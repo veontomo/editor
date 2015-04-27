@@ -6,6 +6,11 @@
  *
  * Naive version of calculator that is able to perform operations with
  * quantities with dimensions (i.e. 1px + 6px, 7em*2).
+ *
+ * Please, consider passing to a more advanced version of calculator by
+ * implementing an alogorithm describe, for example, here:
+ * https://www.engr.mun.ca/~theo/Misc/exp_parsing.htm
+ *
  * @module  Helper
  * @class   Calculator
  * @since   0.2.7
@@ -67,6 +72,7 @@ function Calculator() {
             _memoryValue = 0;
             _memoryUnit = null;
         }
+        return this;
     };
 
     /**

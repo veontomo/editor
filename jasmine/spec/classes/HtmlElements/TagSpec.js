@@ -916,7 +916,7 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('Shrinking the width of element', function(){
+    xdescribe('Shrinking the width of element', function(){
         it('leaves the target unchanged if argument is missing', function(){
             tag.setWidth(87.6);
             tag.shrinkBy();

@@ -63,6 +63,9 @@ describe('Calculator', function() {
     });
 
     describe('has a method "init" that', function() {
+        it('returns reference to itself', function() {
+            expect(c.init()).toBe(c);
+        });
         it('sets value and unit to 0 and null if no argument is given', function() {
             c.init();
             expect(c.getValue()).toBe(0);
