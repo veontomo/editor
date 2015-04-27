@@ -881,39 +881,6 @@ function Table() {
 		return bodyHtml;
 	};
 
-	/**
-	 * Generates instance of [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element)
-	 * corresponding to this instance.
-	 *
-	 * This method overrides parent one  {{#crossLink "Tag/toNode:method"}}toNode{{/crossLink}} because
-	 * one has to manage presence of properties {{#crossLink "Table/phantomTable:property"}}phantomTable{{/crossLink}},
-	 * {{#crossLink "Table/phantomCell:property"}}phantomCell{{/crossLink}} and
-	 * {{#crossLink "Table/phantomRow:property"}}phantomRow{{/crossLink}}.
-	 * @method         toNode
-	 * @return         {DOM.Element}
-	 */
-	this.toNode = function(){
-		console.log('Table toNode()');
-		var el = document.createElement(this.getTag());
-		this.getProperties().decorateElement(el);
-		if (this.isFramed()){
-			var body = this.getBody();
-			body.forEach(function(row){
-				var rowNode = row.toNode();
-				var phantomRowNode = phantomRow.toNode();
-				var phantomCellNode = phantomCell.toNode();
-				var phantomTableNode = phantomTable.toNode();
-				phantomRowNode.appendChild(phantomCellNode);
-				phantomCellNode.appendChild(phantomTableNode);
-				phantomTableNode.appendChild(rowNode);
-				el.appendChild(phantomRowNode);
-			});
-		} else {
-			this.getContent().stickTo(el);
-		}
-		return el;
-	};
-
 
 	/**
 	 * If the table is fragmented and all rows have the same requested property, then
