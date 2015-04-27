@@ -1639,12 +1639,7 @@ function Table() {
 	 * @since          0.2.6
 	 */
 	this.inflate = function(rows, cells){
-		var calc = this.getCalculator(),
-			rowWidth;
-		calc.init(this.getWidth());
-		console.log('calculator: ', calc);
-		rowWidth = calc.sub(this.getStyleProperty('padding') + 'px').sub(this.getStyleProperty('margin') + 'px').toString();
-		console.log(this.getWidth(), calc, calc.toString(), rowWidth);
+		var rowWidth = this.getInnerWidth();
 		rows.forEach(function(row){
 			row.setWidth(rowWidth);
 			row.inflate(cells);

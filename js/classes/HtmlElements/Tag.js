@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Node, Element, Content, window, Properties, Calculator */
+/*global Node, Element, Content, window, Properties */
 
 /**
  * This class is used to represent a general html tag.
@@ -106,43 +106,6 @@ function Tag(tName) {
      */
     var _marker = null;
 
-    /**
-     * Reference to a class that performs operations with dimensionful units.
-     *
-     * This instance must implement the same methods that class {{#crossLink "Calculator"}}Calculator{{/crossLink}} has.
-     * (if there were _interfaces_ in javascript, it would be possible to say that _calculator must implement
-     * Calculator interface).
-     *
-     * @property       {Object}        _calculator
-     * @private
-     * @default        Calculator
-     * @since          0.2.7
-     *
-     */
-    var _calculator = new Calculator();
-
-    /**
-     * {{#crossLink "Tag/_calculator:property"}}_calculator{{/crossLink}} setter.
-     * @method         setCalculator
-     * @param          {Calculator}       calc    must implement {{#crossLink "Calculator"}}Calculator{{/crossLink}} interface
-     * @since          0.2.7
-     * @return         {void}
-     */
-    this.setCalculator = function(calc) {
-        if (calc instanceof Calculator) {
-            _calculator = calc;
-        }
-    };
-
-    /**
-     * {{#crossLink "Tag/_calculator:property"}}_calculator{{/crossLink}} getter.
-     * @method         getCalculator
-     * @return         {Calculator}
-     * @since          0.2.7
-     */
-    this.getCalculator = function() {
-        return _calculator;
-    };
 
     /**
      * {{#crossLink "Tag/_marker:property"}}_marker{{/crossLink}} getter.
@@ -1135,6 +1098,21 @@ function Tag(tName) {
      */
     this.extractChildTemplates = function(template) {
         return template.children || [];
+    };
+
+    /**
+     * Calculates width available for all children.
+     *
+     * An alias for {{#crossLink "Properties/getInnerWidth:method"}}getInnerWidth{{/crossLink}} method.
+     * @method         getInnerWidth
+     * @return         {String}
+     * @since          0.2.7
+     */
+    this.getInnerWidth = function(){
+    	var prop = this.getProperties();
+    	if (prop){
+    		return prop.getInnerWidth();
+    	}
     };
 }
 

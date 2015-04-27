@@ -1154,6 +1154,25 @@ function Properties(input) {
         }
         return output;
     };
+
+    /**
+     * Calculates width available to the content: it takes the width, subtracts values of paddings, margins and
+     * border widths.
+     *
+     * @method         getInnerWidth
+     * @return         {String}
+     * @since          0.2.7
+     */
+    this.getInnerWidth = function(){
+    	var width = this.getWidth(),
+    		padding = this.getStyleProperty('padding') || 0,
+    		margin = this.getStyleProperty('margin') || 0,
+    		border = this.getBorderInfo(),
+    		borderWidth = border.width || 0,
+    		calculator = this.getCalculator().init(width);
+    	calculator.sub(padding).sub(padding).sub(margin).sub(margin).sub(borderWidth).sub(borderWidth);
+    	return calculator.toString();
+    };
 }
 
 /**

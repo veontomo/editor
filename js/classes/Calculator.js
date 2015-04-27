@@ -221,7 +221,7 @@ function Calculator() {
     };
 
     /**
-     * Multiplies {{#crossLink "Calculate/_memoryValue:property"}}_memoryValue{{/crossLink}}
+     * Multiplies {{#crossLink "Calculator/_memoryValue:property"}}_memoryValue{{/crossLink}}
      * by `x`.
      * @method         mult
      * @param          {Number}        x
@@ -236,7 +236,7 @@ function Calculator() {
 
 
     /**
-     * Divide {{#crossLink "Calculate/_memoryValue:property"}}_memoryValue{{/crossLink}}
+     * Divide {{#crossLink "Calculator/_memoryValue:property"}}_memoryValue{{/crossLink}}
      * by `x`.
      * @method         div
      * @param          {Number}        x
