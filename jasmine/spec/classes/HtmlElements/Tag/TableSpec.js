@@ -496,49 +496,6 @@ describe('Table-related functionality:', function(){
     });
 
 
-    describe('Creates html representation', function(){
-        var attrs;
-        beforeEach(function(){
-            attrs = {toString: function(){return '"attributes"';}};
-            row1 = new Row();
-            row2 = new Row();
-            row3 = new Row();
-            row4 = new Row();       // object with no 'toHtml' method
-            spyOn(row1, 'toHtml').and.returnValue('"row 1"');
-            spyOn(row2, 'toHtml').and.returnValue('"row 2"');
-            spyOn(row3, 'toHtml').and.returnValue('"row 3"');
-            spyOn(row4, 'toHtml').and.returnValue('"row 4"');
-        });
-
-        it('generates html string for a table with empty body', function(){
-            spyOn(table, 'isFramed').and.returnValue(false);
-            spyOn(table, 'getProperties').and.returnValue(attrs);
-            table.setBody([]);
-            expect(table.toHtml()).toBe('<table "attributes"><tbody></tbody></table>');
-        });
-
-
-        it('generates html string for non-framed table', function(){
-            spyOn(table, 'isFramed').and.returnValue(false);
-            spyOn(table, 'getProperties').and.returnValue(attrs);
-            table.setBody([row1, row2]);
-            expect(table.toHtml()).toBe('<table "attributes"><tbody>"row 1""row 2"</tbody></table>');
-        });
-
-
-        it('generates html string for framed table', function(){
-            spyOn(table, 'isFramed').and.returnValue(true);
-            spyOn(table, 'getPhantomTag').and.callFake(function(elem, type){return '<'  + elem + ' ' + type +'>';});
-            spyOn(table, 'getProperties').and.returnValue(attrs);
-            table.setBody([row1, row2, row3]);
-
-            expect(table.toHtml()).toBe('<table "attributes"><tbody>\
-<row open><cell open><table open>"row 1"<table close><cell close><row close>\
-<row open><cell open><table open>"row 2"<table close><cell close><row close>\
-<row open><cell open><table open>"row 3"<table close><cell close><row close>\
-</tbody></table>');
-        });
-    });
 
 
 
@@ -953,45 +910,7 @@ describe('Table-related functionality:', function(){
         });
     });
 
-    describe('Table::toHtml(): generates html representation of the table', function(){
-        it('generates html code of the table if attribute and style properties are both present', function(){
-            spyOn(row1, 'toHtml').and.returnValue('row 1 ');
-            spyOn(row2, 'toHtml').and.returnValue('row 2 html ');
-            spyOn(row3, 'toHtml').and.returnValue('row 3 content');
 
-            spyOn(tableAttr, 'toString').and.returnValue('attributes for the table');
-            table.setProperties(tableAttr);
-            table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table attributes for the table><tbody>row 1 row 2 html row 3 content</tbody></table>');
-        });
-
-
-        it('generates html code of the table if attribute property is empty', function(){
-            spyOn(row1, 'toHtml').and.returnValue('row 1 ');
-            spyOn(row2, 'toHtml').and.returnValue('row 2 html ');
-            spyOn(row3, 'toHtml').and.returnValue('row 3 content');
-
-            spyOn(tableAttr, 'toString').and.returnValue('');
-            table.setProperties(tableAttr);
-            table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table><tbody>row 1 row 2 html row 3 content</tbody></table>');
-        });
-
-        it('generates html code of the table if both attribute and style properties are empty', function(){
-            spyOn(row1, 'toHtml').and.returnValue('row 1 ');
-            spyOn(row2, 'toHtml').and.returnValue('row 2 html ');
-            spyOn(row3, 'toHtml').and.returnValue('row 3 content');
-
-            spyOn(tableAttr, 'toString').and.returnValue('');
-            table.setProperties(tableAttr);
-            tableAttr.setStyles(tableStyle);
-            table.setElements([row1, row2, row3]);
-            expect(table.toHtml()).toEqual('<table><tbody>row 1 row 2 html row 3 content</tbody></table>');
-        });
-
-
-
-    });
 
     describe('Table.setBorder(): sets table border', function(){
         beforeEach(function(){

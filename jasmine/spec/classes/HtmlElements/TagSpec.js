@@ -1,7 +1,7 @@
 /*jslint plusplus: true, white: true */
 /*global describe, it, expect, spyOn, beforeEach, Tag, PlainText, Properties, Content, Link, window, Node, Commen, TagChild */
 
-describe('Tag-related functionality', function() {
+describe('Tag class', function() {
     var tag, tagProps, content;
     beforeEach(function() {
         tagProps = new Properties();
@@ -9,7 +9,7 @@ describe('Tag-related functionality', function() {
         content = new Content();
     });
 
-    describe('Tag::constuctor()', function(){
+    describe('has a constuctor that', function(){
         it('adds keyword "new" if it is missing when an object is created', function(){
             tag = Tag();
             expect(tag instanceof Tag).toBe(true);
@@ -17,8 +17,8 @@ describe('Tag-related functionality', function() {
     });
 
 
-    describe('Properties setter and getter', function(){
-        it('is an instance of Properties class', function(){
+    describe('has Properties setter and getter that', function(){
+        it('return an instance of Properties class', function(){
             expect(tag.getProperties() instanceof Properties).toBe(true);
         });
 
@@ -32,8 +32,8 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('Content setter and getter', function(){
-        it('returns an instance of Content class', function(){
+    describe('has Content setter and getter that', function(){
+        it('return an instance of Content class', function(){
             expect(tag.getContent() instanceof Content).toBe(true);
         });
         it('sets content if the argument is a Content instance', function(){
@@ -63,7 +63,7 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('Clearing content of the Tag', function(){
+    describe('has a method "flushContent" that', function(){
         it('flushes content of empty Tag instance', function(){
             expect(tag.getContent().length()).toBe(0);
             tag.flushContent();
@@ -81,7 +81,7 @@ describe('Tag-related functionality', function() {
     });
 
 
-    describe('Tag setter and getter', function(){
+    describe('has Tag setter and getter that', function(){
         it('transforms argument into a string if a number is given', function(){
             tag.setTag(34);
             expect(tag.getTag()).toBe('34');
@@ -97,13 +97,13 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('Name of the current class', function(){
+    describe('has a name getter that', function(){
         it('gives the class name', function(){
             expect(tag.getName()).toBe('Tag');
         });
     });
 
-    describe('Tag::getWidth(): retrieves the width value from the style', function(){
+    describe('has a method "getWidth"  that', function(){
         it('calls "getWidth()" method on its "property"', function(){
             var props = new Properties();
             spyOn(tag, 'getProperties').and.returnValue(props);
@@ -553,39 +553,20 @@ describe('Tag-related functionality', function() {
         });
     });
 
-    describe('creates html representation of the tag', function(){
-        it('if properties are present', function(){
-            spyOn(tagProps, 'toString').and.returnValue('"attributes of the tag"');
-            spyOn(content, 'toHtml').and.returnValue('html representation of the content');
-            spyOn(tag, 'getContent').and.returnValue(content);
-            spyOn(tag, 'getProperties').and.returnValue(tagProps);
-            spyOn(tag, 'getTag').and.returnValue('htmltag');
-            expect(tag.toHtml()).toBe('<htmltag "attributes of the tag">html representation of the content</htmltag>');
+    describe('has a method "toHtml" that', function(){
+        it('calls method "toNode"', function(){
+            var el = document.createElement('span');
+            spyOn(tag, 'toNode').and.returnValue(el);
+            tag.toHtml();
+            expect(tag.toNode).toHaveBeenCalled();
         });
 
-        it('if attributes are empty', function(){
-            spyOn(tagProps, 'toString').and.returnValue('');
-            spyOn(content, 'toHtml').and.returnValue('html representation of the content');
-            spyOn(tag, 'getContent').and.returnValue(content);
-            spyOn(tag, 'getProperties').and.returnValue(tagProps);
-            spyOn(tag, 'getTag').and.returnValue('htmltag');
-            expect(tag.toHtml()).toBe('<htmltag>html representation of the content</htmltag>');
+        it('returns value of "innerHTML" property of "toNode" output', function(){
+            var fakeEl = {innerHTML: 'html repr'};
+            spyOn(tag, 'toNode').and.returnValue(fakeEl);
+            expect(tag.toHtml()).toBe('html repr');
         });
 
-        it('if content is empty', function(){
-            spyOn(tagProps, 'toString').and.returnValue('"attributes of the tag"');
-            spyOn(content, 'toHtml').and.returnValue('');
-            spyOn(tag, 'getContent').and.returnValue(content);
-            spyOn(tag, 'getProperties').and.returnValue(tagProps);
-            spyOn(tag, 'getTag').and.returnValue('htmltag');
-            expect(tag.toHtml()).toBe('<htmltag "attributes of the tag"></htmltag>');
-        });
-
-
-        it('if tag name is null', function(){
-            tag.tag = null;
-            expect(tag.toHtml()).toBe('<!-- tag name is missing -->');
-        });
     });
 
     describe('Appending style to the tag', function(){
