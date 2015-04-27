@@ -61,7 +61,8 @@ function Calculator() {
      * otherwise they are set to `0` and `null` correspondingly.
      * @method         init
      * @param          {String|Number}  x  [Optional]
-     * @return         {void}
+     * @return         {Calculator}
+     * @chainable
      */
     this.init = function(x) {
         if (x !== undefined) {
