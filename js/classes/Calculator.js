@@ -156,7 +156,6 @@ function Calculator() {
     this.sub = function(x) {
         var xParsed = this.parse(x);
         if (!xParsed || _memoryUnit !== xParsed.unit) {
-            console.log(x, xParsed, this.getValue(), this.getUnit());
             throw new Error('Can not subtract ' + x.toString());
         }
         _memoryValue = this.preciseSum(_memoryValue, -xParsed.value);

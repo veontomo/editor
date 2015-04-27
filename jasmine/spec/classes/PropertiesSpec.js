@@ -475,8 +475,8 @@ describe('Properties-related functionality', function(){
         });
 
         it('populates properties from a string input', function(){
-            props = new Properties('a:10; color: some color; another-attr: un altro valore; bivalued: 1px 3px');
-            expect(props.getProperty('a')).toBe('10');
+            props = new Properties('a:10em; color: some color; another-attr: un altro valore; bivalued: 1px 3px');
+            expect(props.getProperty('a')).toBe('10em');
             expect(props.getProperty('color')).toBe('some color');
             expect(props.getProperty('another-attr')).toBe('un altro valore');
             expect(props.getProperty('bivalued')).toBe('1px 3px');
@@ -677,9 +677,9 @@ describe('Properties-related functionality', function(){
         });
 
         it('appends a string to an empty property', function(){
-            props.appendProperty('last: 10; class: super; last author: J.P.B.');
+            props.appendProperty('last: day; class: super; last author: J.P.B.');
             expect(props.getProperty('last author')).toBe('J.P.B.');
-            expect(props.getProperty('last')).toBe('10');
+            expect(props.getProperty('last')).toBe('day');
             expect(props.getProperty('class')).toBe('super');
         });
 
@@ -697,13 +697,13 @@ describe('Properties-related functionality', function(){
         });
 
         it('appends a string to an empty property', function(){
-            props.setProperty('top pos', 2);
+            props.setProperty('top pos', '2em');
             props.setProperty('title', 'Gone with wind');
-            props.appendProperty('last: 10; class: super; last author: J.P.B.');
+            props.appendProperty('last: day; class: super; last author: J.P.B.');
             expect(props.getProperty('title')).toBe('Gone with wind');
-            expect(props.getProperty('top pos')).toBe(2);
+            expect(props.getProperty('top pos')).toBe('2em');
             expect(props.getProperty('last author')).toBe('J.P.B.');
-            expect(props.getProperty('last')).toBe('10');
+            expect(props.getProperty('last')).toBe('day');
             expect(props.getProperty('class')).toBe('super');
         });
 
@@ -992,9 +992,9 @@ describe('Properties-related functionality', function(){
             var node1 = document.createElement('div');
             var node2 = document.createElement('div');
 
-            node1.setAttribute('width', '21');
+            node1.setAttribute('width', '21em');
             node1.setAttribute('class', 'hidden');
-            node1.setAttribute('border', '9');
+            node1.setAttribute('border', '9px');
 
             node2.setAttribute('id', 'wrapper');
             node2.setAttribute('style', 'padding: 12px; font-size: 4em; color: #001234;');
@@ -1005,26 +1005,26 @@ describe('Properties-related functionality', function(){
             attr2 = node2.attributes;
         });
         it('does not change existing properties if argument is empty', function(){
-            props.setProperty('test', '1');
+            props.setProperty('test', 'first');
             props.setProperty('media', 'paper');
             expect(props.propNum()).toBe(2);
             props.load(attr0);
             expect(props.propNum()).toBe(2);
-            expect(props.getProperty('test')).toBe('1');
+            expect(props.getProperty('test')).toBe('first');
             expect(props.getProperty('media')).toBe('paper');
         });
 
         it('adds properties if argument has only "new" ones ', function(){
-            props.setProperty('test', '1');
+            props.setProperty('test', 'second');
             props.setProperty('media', 'paper');
             expect(props.propNum()).toBe(2);
             props.load(attr1);
             expect(props.propNum()).toBe(5);
-            expect(props.getProperty('test')).toBe('1');
+            expect(props.getProperty('test')).toBe('second');
             expect(props.getProperty('media')).toBe('paper');
-            expect(props.getProperty('width')).toBe(21);
+            expect(props.getProperty('width')).toBe('21em');
             expect(props.getProperty('class')).toBe('hidden');
-            expect(props.getProperty('border')).toBe(9);
+            expect(props.getProperty('border')).toBe('9px');
         });
 
         it('overrides properties if argument has the same properties', function(){
@@ -1034,9 +1034,9 @@ describe('Properties-related functionality', function(){
             expect(props.propNum()).toBe(3);
             props.load(attr1);
             expect(props.propNum()).toBe(3);
-            expect(props.getProperty('width')).toBe(21);
+            expect(props.getProperty('width')).toBe('21em');
             expect(props.getProperty('class')).toBe('hidden');
-            expect(props.getProperty('border')).toBe(9);
+            expect(props.getProperty('border')).toBe('9px');
         });
 
         it('overrides properties if argument has some properties in common', function(){
@@ -1046,9 +1046,9 @@ describe('Properties-related functionality', function(){
             expect(props.propNum()).toBe(3);
             props.load(attr1);
             expect(props.propNum()).toBe(5);
-            expect(props.getProperty('width')).toBe(21);
+            expect(props.getProperty('width')).toBe('21em');
             expect(props.getProperty('class')).toBe('hidden');
-            expect(props.getProperty('border')).toBe(9);
+            expect(props.getProperty('border')).toBe('9px');
             expect(props.getProperty('color')).toBe('red');
             expect(props.getProperty('position')).toBe('absolute');
         });
@@ -1168,9 +1168,9 @@ describe('Properties-related functionality', function(){
 
 
         it('sets width if argument is given as a string', function(){
-            props.setWidth('12');
-            expect(props.getProperty('width')).toBe('12');
-            expect(props.getStyleProperty('width')).toBe('12');
+            props.setWidth('12px');
+            expect(props.getProperty('width')).toBe('12px');
+            expect(props.getStyleProperty('width')).toBe('12px');
         });
     });
 

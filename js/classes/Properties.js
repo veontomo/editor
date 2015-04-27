@@ -184,7 +184,6 @@ function Properties(input) {
      * @return   {Boolean}               true in case of success, false otherwise.
      */
     this.setProperty = function(key, value) {
-    	console.log('setting ', key, value);
         var keyType = typeof key,
             valueType = typeof value;
         if (this.getAllowedKeyTypes().indexOf(keyType) !== -1 && this.getAllowedValueTypes().indexOf(valueType) !== -1) {
@@ -192,12 +191,11 @@ function Properties(input) {
                 this.setStyles(value);
             } else {
             	var valueAsNumber = parseFloat(value, 10);
-            	if (isNaN(valueAsNumber)){
+            	if (isNaN(valueAsNumber) || valueAsNumber.toString() !== value){
             		core[key] = value;
             	} else {
             		core[key] = valueAsNumber.toString() + 'px';
             	}
-            	console.log('core: ', core[key]);
             }
             return true;
         }
@@ -1177,9 +1175,6 @@ function Properties(input) {
     		border = this.getBorderInfo(),
     		borderWidth = border.width,
     		calculator = this.getCalculator().init(width);
-    	console.log('padding: ', padding);
-    	console.log('margin: ', margin);
-    	console.log('borderWidth: ', borderWidth);
     	calculator.sub(padding).sub(padding).sub(margin).sub(margin).sub(borderWidth).sub(borderWidth);
     	return calculator.toString();
     };

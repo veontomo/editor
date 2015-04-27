@@ -286,11 +286,8 @@ function CTable(){
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
 			dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
-			console.log('dialog data', dialogData);
 			template = adapter.dialogToTemplate(dialogData, 'table');
-			console.log('template', template);
 			doc = this.getWorker();
-			console.log(doc);
 			if (params && params.target){
 				doc.updateNode(params.target, template);
 			} else {
@@ -299,6 +296,9 @@ function CTable(){
 				template.root.width = doc.getAvailableWidth(hostElement) || NEWSLETTER.defaultWidth;
 				builder = doc.getFactory();
 				model = builder.createFromTemplate(template);
+				console.log('1: table html:', model.toHtml());
+				console.log('template.row', template.row, builder.createFromTemplate(template.row).toHtml());
+
 				var rowNum = parseInt(template.rows, 10);
 				var colNum = parseInt(template.columns, 10);
 				var i,
@@ -311,6 +311,7 @@ function CTable(){
 					cells.push(builder.createFromTemplate(template.cell));
 				}
 				model.inflate(rows, cells);
+				console.log('2. table html:', model.toHtml());
 				doc.insertAt(hostElement, model.toNode(), cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);

@@ -620,23 +620,12 @@ function Tag(tName) {
 
     /**
      * Gives html representation of the instance.
-     * If {{#crossLink "Tag/_tag:property"}}_tag{{/crossLink}} is not a non-empty string, just html comment is generated.
      * @method         toHtml
      * @return         {String}
      * @since          0.0.1
      */
     this.toHtml = function() {
-        var tagStr = this.getTag(),
-            openStr = this.openingTag(),
-            closeStr = this.closingTag(),
-            constStr = this.getContent().toHtml(),
-            html;
-        if (typeof tagStr === 'string' && tagStr.length > 0) {
-            html = openStr + constStr + closeStr;
-        } else {
-            html = '<!-- tag name is missing -->';
-        }
-        return html;
+    	return this.toNode().innerHTML;
     };
 
     /**

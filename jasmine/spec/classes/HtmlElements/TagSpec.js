@@ -1142,11 +1142,11 @@ describe('Tag-related functionality', function() {
             var el = document.createElement('span');
             tag = new Tag('div');
             tag.setProperty('class', 'best');
-            tag.setProperty('width', '321');
+            tag.setProperty('width', '321px');
             tag.setProperty('id', 'x');
             tag.loadIntoElement(el);
             expect(el.getAttribute('class')).toBe('best');
-            expect(el.getAttribute('width')).toBe('321');
+            expect(el.getAttribute('width')).toBe('321px');
             expect(el.getAttribute('id')).toBe('x');
         });
 

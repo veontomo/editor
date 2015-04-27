@@ -882,36 +882,6 @@ function Table() {
 	};
 
 	/**
-	 * Generates html code corresponding to this instance. Makes use of
-	 * {{#crossLink "Table/bodyToHtml:method"}}bodyToHtml{{/crossLink}} method.
-	 *
-	 * This method overrides parent one {{#crossLink "Tag/toHtml:method"}}toHtml{{/crossLink}} because one has to manage
-	 * presence of properties {{#crossLink "Table/phantomTable:property"}}phantomTable{{/crossLink}},
-	 * {{#crossLink "Table/phantomCell:property"}}phantomCell{{/crossLink}} and
-	 * {{#crossLink "Table/phantomRow:property"}}phantomRow{{/crossLink}}.
-	 * @method         toHtml
-	 * @return         {String}
-	 */
-	this.toHtml = function () {
-		var tableHtml  = this.openingTag();
-		var that = this;
-
-		this.getElements().forEach(function(el){
-			if (typeof el.toHtml === 'function'){
-				if (el.getTag() === 'tbody'){
-					tableHtml += el.openingTag() + that.bodyToHtml() + el.closingTag();
-				} else {
-					tableHtml += el.toHtml();
-				}
-
-			}
-		});
-		tableHtml += this.closingTag();
-		return tableHtml;
-	};
-
-
-	/**
 	 * Generates instance of [DOM.Element](https://developer.mozilla.org/en-US/docs/Web/API/element)
 	 * corresponding to this instance.
 	 *
@@ -923,6 +893,7 @@ function Table() {
 	 * @return         {DOM.Element}
 	 */
 	this.toNode = function(){
+		console.log('Table toNode()');
 		var el = document.createElement(this.getTag());
 		this.getProperties().decorateElement(el);
 		if (this.isFramed()){
@@ -1640,9 +1611,12 @@ function Table() {
 	 */
 	this.inflate = function(rows, cells){
 		var rowWidth = this.getInnerWidth();
+		console.log('row width', rowWidth);
 		rows.forEach(function(row){
 			row.setWidth(rowWidth);
+			console.log('after setting row width', row.getWidth());
 			row.inflate(cells);
+			console.log('after inflating row ', row.toHtml());
 			this.appendRow(row);
 		}.bind(this));
 	};
