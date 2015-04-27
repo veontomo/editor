@@ -184,13 +184,20 @@ function Properties(input) {
      * @return   {Boolean}               true in case of success, false otherwise.
      */
     this.setProperty = function(key, value) {
+    	console.log('setting ', key, value);
         var keyType = typeof key,
             valueType = typeof value;
         if (this.getAllowedKeyTypes().indexOf(keyType) !== -1 && this.getAllowedValueTypes().indexOf(valueType) !== -1) {
             if (key === 'style') {
                 this.setStyles(value);
             } else {
-                core[key] = value;
+            	var valueAsNumber = parseFloat(value, 10);
+            	if (isNaN(valueAsNumber)){
+            		core[key] = value;
+            	} else {
+            		core[key] = valueAsNumber.toString() + 'px';
+            	}
+            	console.log('core: ', core[key]);
             }
             return true;
         }
@@ -907,7 +914,7 @@ function Properties(input) {
      */
     this.getBorderInfo = function() {
         var output = {};
-        output.width = this.getProperty('border-width') || 0;
+        output.width = this.getProperty('border-width') || '0px';
         output.style = this.getProperty('border-style') || 'none';
         if (this.hasProperty('border-color')) {
             output.color = this.getProperty('border-color');
@@ -1165,11 +1172,14 @@ function Properties(input) {
      */
     this.getInnerWidth = function(){
     	var width = this.getWidth(),
-    		padding = this.getStyleProperty('padding') || 0,
-    		margin = this.getStyleProperty('margin') || 0,
+    		padding = this.getStyleProperty('padding'),
+    		margin = this.getStyleProperty('margin'),
     		border = this.getBorderInfo(),
-    		borderWidth = border.width || 0,
+    		borderWidth = border.width,
     		calculator = this.getCalculator().init(width);
+    	console.log('padding: ', padding);
+    	console.log('margin: ', margin);
+    	console.log('borderWidth: ', borderWidth);
     	calculator.sub(padding).sub(padding).sub(margin).sub(margin).sub(borderWidth).sub(borderWidth);
     	return calculator.toString();
     };
