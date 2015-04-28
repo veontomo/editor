@@ -1588,6 +1588,22 @@ function Table() {
 		}.bind(this));
 	};
 
+	/**
+	 * Sets width, min-width and max-width of the table.
+	 * @method         setWidth
+	 * @param          {String|Number} 	    w
+	 * @return         {void}
+	 * @since          0.2.7
+	 */
+	this.setWidth = function(w) {
+	    if (w !== undefined) {
+	        _properties.setWidth(w);
+	        this.setStyleProperty('max-width', w);
+	        this.setStyleProperty('min-width', w);
+	    }
+	};
+
+
 }
 Table.prototype = Object.create(Tag.prototype);
 

@@ -951,8 +951,6 @@ function Properties(input) {
         this.initializeStyle();
         this.setProperty('width', w);
         this.setStyleProperty('width', w);
-        // this.setStyleProperty('max-width', w);
-        // this.setStyleProperty('min-width', w);
     };
 
 
