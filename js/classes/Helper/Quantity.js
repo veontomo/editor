@@ -23,7 +23,7 @@ function Quantity(value, measure) {
      * @private
      * @since          0.2.8
      */
-    var _value;
+    var _value = null;
 
     /**
      * Measurement unit.
@@ -31,7 +31,7 @@ function Quantity(value, measure) {
      * @private
      * @since          0.2.8
      */
-    var _measure;
+    var _measure = null;
 
 
     /**
@@ -154,7 +154,7 @@ function Quantity(value, measure) {
 
         var val = parsed.value,
             mes = parsed.measure;
-        if (val === undefined) {
+        if (typeof val !== 'number') {
             return;
         }
         if (m !== undefined && typeof m !== 'string') {
