@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Attributes, Cell, Table, TableRowStyles, Tag, Content, Unit */
+/*global Cell, Table, RowProperties, Tag, Content, Unit */
 
 /**
  * Represents a table row
@@ -320,13 +320,19 @@ function Row() {
 	 * @since          0.2.6
 	 */
 	this.inflate = function(cells){
+		var innerWidth = this.getInnerWidth();
+		var cellNum = cells.length;
+		if (cells === 0){
+			return;
+		}
+		var c = new Calculator();
+		var cellWidth = c.init(innerWidth).div(cellNum);
+
 		cells.forEach(function(cell){
-			console.log(cell);
+			cell.setWidth(cellWidth);
 			this.appendCell(cell);
 		}.bind(this));
 	};
-
-
 
 }
 Row.prototype = Object.create(Tag.prototype);

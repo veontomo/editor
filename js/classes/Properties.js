@@ -1210,6 +1210,7 @@ function Properties(input) {
             border = this.getBorderInfo(),
             borderWidth = border.width,
             calculator = this.getCalculator().init(width);
+        console.log(width, padding, margin, borderWidth);
         calculator.sub(padding).sub(padding).sub(margin).sub(margin).sub(borderWidth).sub(borderWidth);
         return calculator.toString();
     };

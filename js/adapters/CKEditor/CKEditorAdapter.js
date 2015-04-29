@@ -238,15 +238,15 @@ function CKEditorAdapter(){
 			name: 'table',
 			root: {
 				'style': {
-					'margin':        dialog.table.margin,
-					'padding':       dialog.table.padding,
-					'border-width':  dialog.table['border-width'],
+					'margin':        dialog.table.margin + 'px',
+					'padding':       dialog.table.padding + 'px',
+					'border-width':  dialog.table['border-width'] + 'px',
 					'border-color':  dialog.table['border-color'],
 					'background':    dialog.table.background,
 				},
 			},
 			'frame': {
-				'width': dialog.rows.frameWidth,
+				'width': dialog.rows.frameWidth + 'px',
 				'color': dialog.rows.frameColor
 			},
 			'rows':     dialog.table.rows,
@@ -255,9 +255,9 @@ function CKEditorAdapter(){
 				name: 'tr',
 				root: {
 					style: {
-						'margin':        dialog.rows.margin,
-						'padding':       dialog.rows.padding,
-						'border-width':  dialog.rows['border-width'],
+						'margin':        dialog.rows.margin + 'px',
+						'padding':       dialog.rows.padding + 'px',
+						'border-width':  dialog.rows['border-width'] + 'px',
 						'border-color':  dialog.rows['border-color'],
 					}
 				},
@@ -269,8 +269,8 @@ function CKEditorAdapter(){
 				name: 'td',
 				root: {
 					style: {
-						'margin':    dialog.cells.margin,
-						'padding':   dialog.cells.padding,
+						'margin':    dialog.cells.margin + 'px',
+						'padding':   dialog.cells.padding + 'px',
 					}
 				},
 				'border-first':  dialog.cells.borderFirst,

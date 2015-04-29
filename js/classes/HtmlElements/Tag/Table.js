@@ -1594,7 +1594,9 @@ function Table() {
 	 */
 	this.setWidth = function(w) {
 	    if (w !== undefined) {
-	        _properties.setWidth(w);
+	    	var prop = this.getProperties();
+	        prop.setWidth(w);
+	        this.setProperties(prop);
 	        this.setStyleProperty('max-width', w);
 	        this.setStyleProperty('min-width', w);
 	    }
