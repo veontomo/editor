@@ -28,7 +28,7 @@ describe('Properties-related functionality', function(){
             });
 
         });
-    })
+    });
 
 
     describe('setProperty(): property setter', function(){
@@ -1140,37 +1140,26 @@ describe('Properties-related functionality', function(){
         });
     });
 
-    describe('Set widths', function(){
-        it('sets key "width"', function(){
+    describe('has a method "setWidth" that', function(){
+        it('sets attribute to 120 and style to "120px" if the argument is 120', function(){
             props.setWidth(120);
             expect(props.getProperty('width')).toBe(120);
+            expect(props.getStyleProperty('width')).toBe('120px');
         });
-
-        it('overrides key "width"', function(){
+        it('sets attribute to 120 and style to "120px" if the argument is "120"', function(){
+            props.setWidth('120');
+            expect(props.getProperty('width')).toBe(120);
+            expect(props.getStyleProperty('width')).toBe('120px');
+        });
+        it('sets attribute to 120 and style to "120px" if the argument is "120px"', function(){
+            props.setWidth('120px');
+            expect(props.getProperty('width')).toBe(120);
+            expect(props.getStyleProperty('width')).toBe('120px');
+        });
+        it('sets attribute to "120em" and style to "120em" if the argument is "120em"', function(){
             props.setWidth(120);
-            props.setWidth(32);
-            expect(props.getProperty('width')).toBe(32);
-        });
-
-
-        it('sets width inside "style" key if "style" is not present', function(){
-            expect(props.hasProperty('style')).toBe(false);
-            props.setWidth(83);
-            expect(props.getStyleProperty('width')).toBe(83);
-        });
-
-        it('overrides width inside "style" key if "style" is present', function(){
-            props.setStyles(new Properties({width: 20}));
-            expect(props.hasProperty('style')).toBe(true);
-            props.setWidth(31);
-            expect(props.getStyleProperty('width')).toBe(31);
-        });
-
-
-        it('sets width if argument is given as a string', function(){
-            props.setWidth('12px');
-            expect(props.getProperty('width')).toBe('12px');
-            expect(props.getStyleProperty('width')).toBe('12px');
+            expect(props.getProperty('width')).toBe(120);
+            expect(props.getStyleProperty('width')).toBe('120px');
         });
     });
 

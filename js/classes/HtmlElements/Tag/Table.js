@@ -1578,12 +1578,9 @@ function Table() {
 	 */
 	this.inflate = function(rows, cells){
 		var rowWidth = this.getInnerWidth();
-		console.log('row width', rowWidth);
 		rows.forEach(function(row){
 			row.setWidth(rowWidth);
-			console.log('after setting row width', row.getWidth());
 			row.inflate(cells);
-			console.log('after inflating row ', row.toHtml());
 			this.appendRow(row);
 		}.bind(this));
 	};

@@ -35,39 +35,6 @@ function Quantity(value, measure) {
 
 
     /**
-     * Returns an object with keys "value" and "measure" that represents the input argument.
-     * @method         parse
-     * @param          {String|Number}    x
-     * @return         {Object|Null}
-     * @since          0.2.7
-     */
-    this.parse = function(x) {
-        var xType = typeof x;
-        if (xType !== 'string' && xType !== 'number') {
-            return;
-        }
-        var result = {
-            'value': null,
-            'measure': null
-        };
-        if (typeof x === 'number') {
-            result.value = x;
-            return result;
-        }
-        var xTrimmed = x.trim();
-        var xValue = parseFloat(xTrimmed, 10);
-        if (isNaN(xValue)) {
-            return;
-        }
-        result.value = xValue;
-        var xMeasure = xTrimmed.replace(xValue.toString(), '').trim();
-        if (xMeasure.length > 0) {
-            result.measure = xMeasure;
-        }
-        return result;
-    };
-
-    /**
      * {{#crossLink "Quantity/_value:property"}}_value{{/crossLink}} getter.
      * @method         getValue
      * @return         {Number}
@@ -114,7 +81,7 @@ function Quantity(value, measure) {
         _measure = null;
         if (typeof m === 'string') {
             var trimmed = m.trim();
-            if (trimmed.length > 0){
+            if (trimmed.length > 0) {
                 _measure = trimmed;
             }
         }
@@ -146,32 +113,64 @@ function Quantity(value, measure) {
      * @param     {String|Null}          measure
      */
     (function(v, m, context) {
-        var parsed = context.parse(v);
-        console.log(parsed);
-        if (!parsed) {
-            return;
+            var parsed = Quantity.prototype.parse(v);
+            if (parsed) {
+                context.setValue(parsed.getValue());
+                context.setMeasure(parsed.getMeasure());
+                if (typeof m === 'string') {
+                    var trimmed = m.trim();
+                    if (trimmed.length > 0) {
+                        context.setMeasure(trimmed);
+                    }
+
+                }
+            }
         }
+        (value, measure, this));
 
-        var val = parsed.value,
-            mes = parsed.measure;
-        if (typeof val !== 'number') {
-            return;
-        }
-        if (m !== undefined && typeof m !== 'string') {
-            return;
-        }
-        context.setValue(val);
-        if (m !== undefined) {
-            console.log('defined', m);
-            context.setMeasure(m);
-        } else {
-            console.log('m is undefined', mes);
-            context.setMeasure(mes);
-        }
-    }
-    (value, measure, this));
-
-
-
-
+    /**
+     * String representation of the quantity.
+     * @method         toString
+     * @return         {String}
+     * @since          0.2.8
+     */
+    this.toString = function() {
+        var val = this.getValue(),
+            unit = this.getMeasure();
+        var result = (val === null) ? '' : val.toString();
+        result += (typeof unit === 'string') ? unit : '';
+        return result;
+    };
 }
+
+/**
+ * Returns an object with keys "value" and "measure" that represents the input argument.
+ * @method         parse
+ * @param          {String|Number}    x
+ * @return         {Quantity}
+ * @static
+ * @since          0.2.7
+ */
+Quantity.prototype.parse = function(x) {
+    var xType = typeof x;
+    if (xType !== 'string' && xType !== 'number') {
+        return;
+    }
+    var q = new Quantity();
+
+    if (typeof x === 'number') {
+        q.setValue(x);
+        return q;
+    }
+    var xTrimmed = x.trim(),
+        xValue = parseFloat(xTrimmed, 10);
+    if (isNaN(xValue)) {
+        return;
+    }
+    q.setValue(xValue);
+    var xMeasure = xTrimmed.replace(xValue.toString(), '').trim();
+    if (xMeasure.length > 0) {
+        q.setMeasure(xMeasure);
+    }
+    return q;
+};

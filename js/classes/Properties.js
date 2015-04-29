@@ -1,6 +1,6 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global Properties, window, Calculator */
+/*global Properties, window, Calculator, Quantity */
 
 /**
  * A general Property class. If the argument is an object, then its properties are copied
@@ -86,6 +86,36 @@ function Properties(input) {
      */
     var _calculator = new Calculator();
 
+    /**
+     * Parser to deal with dimensionful values (i.e., 2cm, 1.3em)
+     * @property       {Quantity}          _quantityParser
+     * @since          0.2.8
+     * @private
+     */
+    var _quantityParser = Quantity.prototype;
+
+
+    /**
+     * {{#crossLink "Properties/_quantityParser:property"}}_quantityParser{{/crossLink}} getter.
+     * @method         getQuantityParser
+     * @return         {Quantity}
+     * @since          0.2.8
+     */
+    this.getQuantityParser = function() {
+        return _quantityParser;
+    };
+
+    /**
+     * {{#crossLink "Properties/_quantityParser:property"}}_quantityParser{{/crossLink}} setter.
+     * @method         setQuantityParser
+     * @param          {Quantity}      parser
+     * @since          0.2.8
+     */
+    this.setQuantityParser = function(parser) {
+        if (parser instanceof Quantity) {
+            _quantityParser = parser;
+        }
+    };
 
     /**
      * {{#crossLink "Properties/_calculator:property"}}_calculator{{/crossLink}} setter.
@@ -94,10 +124,10 @@ function Properties(input) {
      * @since          0.2.7
      * @return         {void}
      */
-    this.setCalculator = function(calc){
-    	if (calc instanceof Calculator){
-    		_calculator = calc;
-    	}
+    this.setCalculator = function(calc) {
+        if (calc instanceof Calculator) {
+            _calculator = calc;
+        }
     };
 
     /**
@@ -106,8 +136,8 @@ function Properties(input) {
      * @return         {Calculator}
      * @since          0.2.7
      */
-    this.getCalculator = function(){
-    	return _calculator;
+    this.getCalculator = function() {
+        return _calculator;
     };
 
     /**
@@ -190,12 +220,7 @@ function Properties(input) {
             if (key === 'style') {
                 this.setStyles(value);
             } else {
-            	var valueAsNumber = parseFloat(value, 10);
-            	if (isNaN(valueAsNumber) || valueAsNumber.toString() !== value){
-            		core[key] = value;
-            	} else {
-            		core[key] = valueAsNumber.toString() + 'px';
-            	}
+                core[key] = value;
             }
             return true;
         }
@@ -943,14 +968,26 @@ function Properties(input) {
     /**
      * Sets key `width` inside {{#crossLink "Poroperties/_core:property"}}_core{{/crossLink}}
      * as well as key `width` inside `style` of {{#crossLink "Poroperties/_core:property"}}_core{{/crossLink}}.
+     *
+     * Width being treated as attribute is supposed to be set as a number except the case when the
+     * unit of measuremtnt is different from "px".
+     *
+     * Width being treated as a style property is supposed to be added the unit of measurement "px"
+     * in case it is missing.
      * @method         setWidth
      * @param          {Number|String}      w
      * @since          0.0.5
      */
     this.setWidth = function(w) {
         this.initializeStyle();
-        this.setProperty('width', w);
-        this.setStyleProperty('width', w);
+        var wQuantity = this.getQuantityParser().parse(w);
+        if (!wQuantity.getMeasure()) {
+            wQuantity.setMeasure('px');
+        }
+        var widthStyle = wQuantity.toString(),
+            widthAttr = (wQuantity.getMeasure() === Properties.UNIT_PX) ? wQuantity.getValue() : wQuantity.toString();
+        this.setProperty('width', widthAttr);
+        this.setStyleProperty('width', widthStyle);
     };
 
 
@@ -1166,15 +1203,15 @@ function Properties(input) {
      * @return         {String}
      * @since          0.2.7
      */
-    this.getInnerWidth = function(){
-    	var width = this.getWidth(),
-    		padding = this.getStyleProperty('padding'),
-    		margin = this.getStyleProperty('margin'),
-    		border = this.getBorderInfo(),
-    		borderWidth = border.width,
-    		calculator = this.getCalculator().init(width);
-    	calculator.sub(padding).sub(padding).sub(margin).sub(margin).sub(borderWidth).sub(borderWidth);
-    	return calculator.toString();
+    this.getInnerWidth = function() {
+        var width = this.getWidth(),
+            padding = this.getStyleProperty('padding'),
+            margin = this.getStyleProperty('margin'),
+            border = this.getBorderInfo(),
+            borderWidth = border.width,
+            calculator = this.getCalculator().init(width);
+        calculator.sub(padding).sub(padding).sub(margin).sub(margin).sub(borderWidth).sub(borderWidth);
+        return calculator.toString();
     };
 }
 
@@ -1228,5 +1265,18 @@ Object.defineProperty(Properties, 'SEPARATOR_RECORDS', {
  */
 Object.defineProperty(Properties, 'SEPARATOR_KEY_VALUE', {
     value: ':',
+    writable: false
+});
+
+/**
+ * Unit of measurement for pixel.
+ * @property    {String}     UNIT_PX
+ * @type        {String}
+ * @static
+ * @final
+ * @since       0.2.8
+ */
+Object.defineProperty(Properties, 'UNIT_PX', {
+    value: 'px',
     writable: false
 });

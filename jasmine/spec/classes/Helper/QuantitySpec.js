@@ -43,13 +43,6 @@ describe('Class Quantity', function () {
             expect(q.getMeasure()).toBe(null);
         });
 
-        it('to null if the second argument is not a string ', function(){
-            var q = new Quantity(1, 1);
-            expect(q.getValue()).toBe(null);
-            expect(q.getMeasure()).toBe(null);
-        });
-
-
     });
 
     describe('has method "setValue" that', function(){
