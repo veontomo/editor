@@ -157,6 +157,9 @@ CKEDITOR.plugins.add('TablePlugin', {
 				cellNum:         'Numero di colonne',
 				cellNumDescr:    'Impostare il numero di colonne della tabella',
 				cells:           'Celle',
+				columnNo:        'Colonna no.',
+				colWeightDescr:  'Precisare i fattori con i quali le colonne contribuiscono nella larghezza totale',
+				colWeightLabel:  'Fattori',
 				deleteTable:     'Eliminare la tabella',
 				frameColor:      'Colore della cornice',
 				frameColorDescr: 'Colore del bordo attorno a ogni riga',
@@ -169,11 +172,12 @@ CKEDITOR.plugins.add('TablePlugin', {
 				padding:         'Padding',
 				paddingDescr:    'Spazio tra il bordo e l\'interno in pixel',
 				rowBorderColor:  'Colore del bordo',
-				rowBorderWidth:  'Spessore del bordo',
 				rowBorderDescr:  'Esterni oppure interni bordi delle righe',
+				rowBorderWidth:  'Spessore del bordo',
 				rowNum:          'Numero di righe',
 				rowNumDescr:     'Impostare il numero di righe della tabella',
 				rows:            'Righe',
+				widthOfColumnNo: 'Largezza di colonna n.',
 			},
 			en: {
 				background:      'Background color',
@@ -187,6 +191,9 @@ CKEDITOR.plugins.add('TablePlugin', {
 				borderWidthDescr:'Set border width in pixels',
 				cellNum:         'Columns',
 				cells:           'Cells',
+				columnNo:        'Column n.',
+				colWeightDescr:  'Set up the weights with which each column contributes to the total width',
+				colWeightLabel:  'Weights',
 				deleteTable:     'Drop the table',
 				frameColor:      'Frame color',
 				frameColorDescr: 'Color of the border around each row',
@@ -199,12 +206,12 @@ CKEDITOR.plugins.add('TablePlugin', {
 				padding:         'Padding',
 				paddingDescr:    'Space between border and the content in pixels',
 				rowBorderColor:  'Border color',
-				rowBorderWidth:  'Border width',
 				rowBorderDescr:  'External or internal row borders',
+				rowBorderWidth:  'Border width',
 				rowNum:          'Rows',
 				rowNumDescr:     'The number of table rows',
 				rows:            'Rows',
-
+				widthOfColumnNo: 'Width of column n.',
 			}
 		};
 

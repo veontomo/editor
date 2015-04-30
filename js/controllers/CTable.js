@@ -287,6 +287,7 @@ function CTable(){
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
 			dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
+			console.log(dialogData);
 			template = adapter.dialogToTemplate(dialogData, 'table');
 			doc = this.getWorker();
 			if (params && params.target){
