@@ -280,6 +280,7 @@ function CTable(){
 	 * @since         0.2.0
 	 */
 	this.onOk = function(dialog, editor, params){
+		console.log('editor: ', editor);
 		var adapter, content, dialogData, template,
 			model, doc, builder, cursorPos, hostElement;
 		try {

@@ -326,7 +326,7 @@ function Row() {
 			return;
 		}
 		var c = new Calculator();
-		var cellWidth = c.init(innerWidth).div(cellNum);
+		var cellWidth = c.init(innerWidth).div(cellNum).getValue();
 
 		cells.forEach(function(cell){
 			cell.setWidth(cellWidth);

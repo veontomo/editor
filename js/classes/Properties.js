@@ -981,6 +981,7 @@ function Properties(input) {
     this.setWidth = function(w) {
         this.initializeStyle();
         var wQuantity = this.getQuantityParser().parse(w);
+        console.log(w, '->', wQuantity);
         if (!wQuantity.getMeasure()) {
             wQuantity.setMeasure('px');
         }
