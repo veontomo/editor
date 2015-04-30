@@ -123,10 +123,10 @@ function TableDialog(editor) {
      * Creates a new tab in the dialog window with input fields to insert weight
      * factors for the column widths.
      *
-     * The number of text input field is taken from a text input field responsable for the
-     * number of table columns. Once that text input field is modified, this function is fired.
+     * This function is executed each time the value of dialog input field `el` changes.
      *
      * @method         drawInputCells
+     * @property       {Object}        el
      * @return         {void}
      * @since          0.2.8
      * @private
