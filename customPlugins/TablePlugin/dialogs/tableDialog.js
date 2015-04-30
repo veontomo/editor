@@ -123,7 +123,8 @@ function TableDialog(editor) {
      * Creates a new tab in the dialog window with input fields to insert weight
      * factors for the column widths.
      *
-     * This function is executed each time the value of dialog input field `el` changes.
+     * This function is executed each time the value of a dialog input field to which this
+     * function is "assigned" changes.
      *
      * @method         drawInputCells
      * @property       {Object}        el
@@ -134,15 +135,17 @@ function TableDialog(editor) {
     var drawInputCells = function(el) {
         try {
         	var dialog = this.getDialog(),
-            	lastColNum = parseInt(el.data.value, 10) + 1,
+            	lastColNum = parseInt(el.data.value, 10),
             	children = [],
                 child,
                 i;
             dialog.hidePage(COLUMN_WEIGHT_PAGE_ID);
             if (isNaN(lastColNum) || lastColNum <= 2){
+            	// this.setValue(1);
             	return;
             }
-            for (i = 1; i < lastColNum; i++) {
+            // this.setValue(lastColNum);
+            for (i = 1; i < lastColNum + 1; i++) {
                 child = {
                     type: 'text',
                     id: 'colWeight' + i,
