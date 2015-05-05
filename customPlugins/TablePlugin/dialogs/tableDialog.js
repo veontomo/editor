@@ -133,18 +133,21 @@ function TableDialog(editor) {
      * @private
      */
     var drawInputCells = function(el) {
+    	console.log('drawInputCells', el, el.sender);
         try {
-        	var dialog = this.getDialog(),
-            	lastColNum = parseInt(el.data.value, 10),
-            	children = [],
+            var dialog = this.getDialog(),
+                lastColNum = parseInt(el.data.value, 10),
+                children = [],
                 child,
                 i;
             dialog.hidePage(COLUMN_WEIGHT_PAGE_ID);
-            if (isNaN(lastColNum) || lastColNum <= 2){
-            	// this.setValue(1);
-            	return;
+            if (isNaN(lastColNum) || lastColNum <= 2) {
+            	// changing input value in this way triggers
+            	// recursive calls
+                // this.setValue("1");
+                return;
             }
-            // this.setValue(lastColNum);
+
             for (i = 1; i < lastColNum + 1; i++) {
                 child = {
                     type: 'text',
@@ -152,7 +155,7 @@ function TableDialog(editor) {
                     label: editor.lang[_pluginName].columnNo + ' ' + i,
                     inputStyle: 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em',
                 };
-               	children.push(child);
+                children.push(child);
             }
             var colWeigthTab = {
                 id: COLUMN_WEIGHT_PAGE_ID,
@@ -168,7 +171,7 @@ function TableDialog(editor) {
             this.getDialog().addPage(colWeigthTab);
             this.getDialog().selectPage(COLUMN_WEIGHT_PAGE_ID);
         } catch (e) {
-            console.log(e.name + ' occurred when retrieveing number of columns: ' + e.message);
+            console.log(e.name + ' occurred when retrieving number of columns: ' + e.message);
         }
     };
 
@@ -342,14 +345,14 @@ function TableDialog(editor) {
                 onChange: asNumber,
                 inputStyle: _inputNumberStyle
             }, {
-                    type: 'text',
-                    label: editor.lang[_pluginName].cellNum,
-                    title: editor.lang[_pluginName].cellNumDescr,
-                    id: 'columns',
-                    default: '1',
-                    onChange: drawInputCells,
-                    inputStyle: _inputNumberStyle
-                }]
+                type: 'text',
+                label: editor.lang[_pluginName].cellNum,
+                title: editor.lang[_pluginName].cellNumDescr,
+                id: 'columns',
+                default: '1',
+                onChange: drawInputCells,
+                inputStyle: _inputNumberStyle
+            }]
         }, {
             id: 'rows',
             label: editor.lang[_pluginName].rows,
