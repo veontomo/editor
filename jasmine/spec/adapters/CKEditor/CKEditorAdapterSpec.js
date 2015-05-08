@@ -103,17 +103,17 @@ describe('Class CKEditorAdapter', function() {
     });
 
     describe('has a method "findSimilarKey" that', function() {
-        it('returns null if the object is empty', function() {
+        it('returns undefined if the object is empty', function() {
             var re = new RegExp('abc');
-            expect(adapter.findSimilarKey({}, re)).toBe(null);
+            expect(adapter.findSimilarKey({}, re)).toBe(undefined);
         });
-        it('returns null if no key matches', function() {
+        it('returns undefined if no key matches', function() {
             var re = new RegExp('AAA');
             var obj = {
                 'a': 1,
                 'b': 2
             };
-            expect(adapter.findSimilarKey(obj, re)).toBe(null);
+            expect(adapter.findSimilarKey(obj, re)).toBe(undefined);
         });
 
         it('returns a key it is a unique one that matches', function() {
