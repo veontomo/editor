@@ -415,7 +415,7 @@ function CKEditorAdapter(){
 	 *
 	 * @method         findSimilarKey
 	 * @param          {Object}        obj
-	 * @param          {String|Regexp} pattern
+	 * @param          {Regexp}        pattern
 	 * @return         {String|null}
 	 * @since          0.2.8
 	 */
