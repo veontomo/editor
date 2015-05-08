@@ -411,17 +411,23 @@ function CKEditorAdapter(){
 	/**
 	 * Returns first key in `dialog` that matches `pattern`.
 	 *
-	 * If no key matches, null is returned.
+	 * If no key matches, nothing is returned.
 	 *
 	 * @method         findSimilarKey
 	 * @param          {Object}        obj
-	 * @param          {String|Regexp} pattern
-	 * @return         {String|null}
+	 * @param          {Regexp}        pattern
+	 * @return         {String}
 	 * @since          0.2.8
 	 */
 	this.findSimilarKey = function(obj, pattern){
-		/// !!! stub
-		return null;
+		var key;
+		for (key in obj){
+			if (obj.hasOwnProperty(key)){
+				if (key.match(pattern)){
+					return key;
+				}
+			}
+		}
 	};
 
 	/**
