@@ -85,6 +85,19 @@ function TableDialog(editor) {
     var COLUMN_WEIGHT_PAGE_ID = 'columnWeight';
 
     /**
+     * Incrementing counter.
+     *
+     * It is used to be appended to {{#crossLink "TableDialog/COLUMN_WEIGHT_PAGE_ID:property"}}COLUMN_WEIGHT_PAGE_ID{{/crossLink}}
+     * in order to have distinct ids of the tab corresponding to column weights.
+     *
+     * I am forced to introduce this variable since I have not succeeded in neither removing nor updating content of tab
+     * with id COLUMN_WEIGHT_PAGE_ID.
+     * @property {Integer} _counter
+     * @since    0.2.7
+     */
+    var _counter = 0;
+
+    /**
      * Color picker (JavaScript ColorPicker).
      *
      * dhtmlxColorPicker is open source GPL v2 and Free License [JavaScript component](http://dhtmlx.com/docs/products/dhtmlxColorPicker/)
@@ -133,32 +146,44 @@ function TableDialog(editor) {
      * @private
      */
     var drawInputCells = function(el) {
-    	console.log('drawInputCells', el, el.sender);
         try {
             var dialog = this.getDialog(),
-                lastColNum = parseInt(el.data.value, 10),
+                valueRaw = el.data.value,
+                valueInt = parseInt(valueRaw, 10),
                 children = [],
                 child,
                 i;
-            dialog.hidePage(COLUMN_WEIGHT_PAGE_ID);
-            if (isNaN(lastColNum) || lastColNum <= 2) {
-            	// changing input value in this way triggers
-            	// recursive calls
-                // this.setValue("1");
+            // currently id of the tab with column weights
+            var tabId = COLUMN_WEIGHT_PAGE_ID + _counter;
+            dialog.hidePage(tabId);
+            if (isNaN(valueInt) || valueInt < 1) {
+                this.setValue(1);
+                return;
+            }
+            if (valueInt === 1) {
                 return;
             }
 
-            for (i = 1; i < lastColNum + 1; i++) {
+            if (valueRaw !== valueInt) {
+                this.setValue(valueInt);
+                return;
+            }
+
+            for (i = 0; i < valueInt; i++) {
                 child = {
                     type: 'text',
                     id: 'colWeight' + i,
-                    label: editor.lang[_pluginName].columnNo + ' ' + i,
+                    label: editor.lang[_pluginName].columnNo + ' ' + (i + 1),
                     inputStyle: 'min-width: 3em; width: 5em; text-align: center; margin: 0.2em',
                 };
                 children.push(child);
             }
+
+            _counter = _counter + 1;
+
             var colWeigthTab = {
-                id: COLUMN_WEIGHT_PAGE_ID,
+            	// create tab with new id
+                id: COLUMN_WEIGHT_PAGE_ID + _counter.toString(),
                 label: editor.lang[_pluginName].colWeightLabel,
                 elements: [{
                     'type': 'html',
@@ -169,22 +194,12 @@ function TableDialog(editor) {
                 }]
             };
             this.getDialog().addPage(colWeigthTab);
-            this.getDialog().selectPage(COLUMN_WEIGHT_PAGE_ID);
+            this.getDialog().selectPage(colWeigthTab.id);
         } catch (e) {
             console.log(e.name + ' occurred when retrieving number of columns: ' + e.message);
         }
     };
 
-    /**
-     * Removes (if any) input field resposible for column widths.
-     * @param          {CKEDITOR.dialog}    dialog
-     * @method         dropInputCells
-     * @return         {void}
-     * @since          0.0.6
-     */
-    var dropInputCells = function(dialog) {
-        dialog.hidePage(COLUMN_WEIGHT_PAGE_ID);
-    };
 
     /**
      * It takes the content of input field that invoked this function and converts
@@ -282,8 +297,6 @@ function TableDialog(editor) {
                     } catch (e) {
                         console.log(e.name + ' occurred when linking color picking dialog to input element (' + i + ' of tab ' + tab + '): ' + e.message);
                     }
-
-
                 }
             }
         }
@@ -576,7 +589,6 @@ function TableDialog(editor) {
                 'selection': _controller.getEditorSelection(editor)
             };
             _controller.onOk(this, editor, params);
-            dropInputCells(this);
         }
     };
     return dialogWindow;
