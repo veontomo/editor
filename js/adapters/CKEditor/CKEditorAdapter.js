@@ -419,7 +419,7 @@ function CKEditorAdapter(){
 	 * @return         {String|null}
 	 * @since          0.2.8
 	 */
-	this.findSimilarKey(dialog, pattern){
+	this.findSimilarKey = function(obj, pattern){
 		/// !!! stub
 		return null;
 	};
