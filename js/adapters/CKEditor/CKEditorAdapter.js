@@ -278,6 +278,7 @@ function CKEditorAdapter(){
 				'border-middle': dialog.cells.borderMiddle,
 			}
 		};
+		console.log(this.findSimilarKey(dialog, 'columnWeight'));
 		return tableTemplate;
 	};
 
@@ -405,6 +406,22 @@ function CKEditorAdapter(){
 	this.defaultDialogToTemplate = function(template){
 		console.log('default dialog -> template converter is called');
 		return {'tab': template.root};
+	};
+
+	/**
+	 * Returns first key in `dialog` that matches `pattern`.
+	 *
+	 * If no key matches, null is returned.
+	 *
+	 * @method         findSimilarKey
+	 * @param          {Object}        obj
+	 * @param          {String|Regexp} pattern
+	 * @return         {String|null}
+	 * @since          0.2.8
+	 */
+	this.findSimilarKey(dialog, pattern){
+		/// !!! stub
+		return null;
 	};
 
 	/**
