@@ -230,10 +230,13 @@ function CKEditorAdapter(){
 	 *
 	 * @method         tableDialogToTemplate
 	 * @param          {Object}        dialog
+	 * @param          {Object}        context    it is required because in chain of calls
+	 *                                            "this" becomes undefined
 	 * @return         {Object}
 	 * @since          0.2.1
 	 */
-	this.tableDialogToTemplate = function(dialog){
+	this.tableDialogToTemplate = function(dialog, context){
+		var columnWeightKeyName = 'columnWeight';
 		var tableTemplate = {
 			name: 'table',
 			root: {
@@ -278,8 +281,49 @@ function CKEditorAdapter(){
 				'border-middle': dialog.cells.borderMiddle,
 			}
 		};
-		console.log(this.findSimilarKey(dialog, 'columnWeight'));
+		var key = context.findSimilarKey(dialog, new RegExp(columnWeightKeyName));
+		if (key){
+			var content = context.getValues(dialog[key]);
+			if (content){
+				var arrFloat = context.parseArrayAsNumber(content);
+				if (arrFloat){
+					tableTemplate[columnWeightKeyName] = arrFloat;
+				}
+			}
+		}
 		return tableTemplate;
+	};
+
+	/**
+	 * Converts JSON-like object `obj` into an array; output array contains only `obj`'s key values
+	 * and not keys themselves.
+	 * @method         getValues
+	 * @param          {Object}        obj  json-like object
+	 * @return         {Array}         array whose elements are
+	 * @since          0.2.8
+	 */
+	this.getValues = function(json){
+		var key,
+			output = [];
+		for (key in json){
+			if (json.hasOwnProperty(key)){
+				output.push(json[key]);
+			}
+		}
+		return output;
+	};
+
+	/**
+	 * Transforms each `arr`'s element into a number.
+	 *
+	 * @method  parseArrayAsNumber
+	 * @param {Array} arr
+	 * @return {Array}
+	 */
+	this.parseArrayAsNumber = function(arr){
+		return arr.map(function(el){
+			return parseFloat(el);
+		});
 	};
 
 	/**
@@ -420,6 +464,7 @@ function CKEditorAdapter(){
 	 * @since          0.2.8
 	 */
 	this.findSimilarKey = function(obj, pattern){
+		console.log(obj, pattern);
 		var key;
 		for (key in obj){
 			if (obj.hasOwnProperty(key)){
@@ -467,13 +512,14 @@ function CKEditorAdapter(){
 	 * @since          0.1.0
 	 */
 	this.dialogToTemplate = function(dialog, marker){
+		// find out why "this" gets lost when passing to the executor.
 		var marker2 = (typeof marker === 'string') ? marker.toLowerCase() : 'default';
 		var mapper = marker2 + 'DialogToTemplate';
 		var executor = this[mapper];
 		if (typeof executor !== 'function'){
 			executor = this.defaultDialogToTemplate;
 		}
-		return executor(dialog);
+		return executor(dialog, this);
 	};
 
 

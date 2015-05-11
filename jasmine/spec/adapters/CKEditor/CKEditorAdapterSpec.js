@@ -105,6 +105,7 @@ describe('Class CKEditorAdapter', function() {
     describe('has a method "findSimilarKey" that', function() {
         it('returns undefined if the object is empty', function() {
             var re = new RegExp('abc');
+
             expect(adapter.findSimilarKey({}, re)).toBe(undefined);
         });
         it('returns undefined if no key matches', function() {
@@ -125,6 +126,7 @@ describe('Class CKEditorAdapter', function() {
                 'c': true
             };
             expect(adapter.findSimilarKey(obj, re)).toBe('a1');
+            console.log(adapter.tableDialogToTemplate({}));
         });
 
         it('returns the first key that matches', function() {
