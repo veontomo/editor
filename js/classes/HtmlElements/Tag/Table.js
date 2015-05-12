@@ -1573,14 +1573,15 @@ function Table() {
 	 * @method         inflate
 	 * @param          {Array}         rows   array of {{#crossLink "Row"}}Row{{/crossLink}} instances
 	 * @param          {Array}         cells  array of {{#crossLink "Cell"}}Cell{{/crossLink}} instances
+	 * @param          {Array}         colWeights [Optional] array of weights of each column
 	 * @return         {void}
 	 * @since          0.2.6
 	 */
-	this.inflate = function(rows, cells){
+	this.inflate = function(rows, cells, colWeights){
 		var rowWidth = this.getInnerWidth();
 		rows.forEach(function(row){
 			row.setWidth(rowWidth);
-			row.inflate(cells);
+			row.inflate(cells, colWeights);
 			this.appendRow(row);
 		}.bind(this));
 	};

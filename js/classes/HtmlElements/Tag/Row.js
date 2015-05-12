@@ -314,12 +314,17 @@ function Row() {
 	/**
 	 * Inflates row with cells.
 	 *
+	 * Widths of cells are calculated based on optional parameter `weights` that gives numeric factors with
+	 * which corresponding cells contribute into the row width. If it is not given, it is supposed that all
+	 * cells contribute equally.
+	 *
 	 * @method         inflate
 	 * @param          {Array}         cells  array of {{#crossLink "Cell"}}Cell{{/crossLink}} instances
+	 * @param          {Array}         weight [Optional] array of numbers
 	 * @return         {void}
 	 * @since          0.2.6
 	 */
-	this.inflate = function(cells){
+	this.inflate = function(cells, weights){
 		var innerWidth = this.getInnerWidth();
 		var cellNum = cells.length;
 		if (cells === 0){

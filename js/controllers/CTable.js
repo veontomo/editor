@@ -289,6 +289,7 @@ function CTable(){
 			dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
 			console.log(dialogData);
 			template = adapter.dialogToTemplate(dialogData, 'table');
+			console.log('Template', template);
 			doc = this.getWorker();
 			if (params && params.target){
 				doc.updateNode(params.target, template);
@@ -300,6 +301,9 @@ function CTable(){
 				model = builder.createFromTemplate(template);
 				var rowNum = parseInt(template.rows, 10);
 				var colNum = parseInt(template.columns, 10);
+				var colWeights = template.columnWeight;
+console.log('row template ', template.row);
+console.log('cell template ', template.cell);
 				var i,
 					rows = [],
 					cells = [];
@@ -309,7 +313,7 @@ function CTable(){
 				for (i = 0; i < colNum; i++){
 					cells.push(builder.createFromTemplate(template.cell));
 				}
-				model.inflate(rows, cells);
+				model.inflate(rows, cells, colWeights);
 				doc.insertAt(hostElement, model.toNode(), cursorPos.startOffset);
 			}
 			adapter.setEditorContent(editor, content);
