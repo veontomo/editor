@@ -280,16 +280,13 @@ function CTable(){
 	 * @since         0.2.0
 	 */
 	this.onOk = function(dialog, editor, params){
-		console.log('editor: ', editor);
 		var adapter, content, dialogData, template,
 			model, doc, builder, cursorPos, hostElement;
 		try {
 			adapter = this.getEditorAdapter();
 			content = adapter.getEditorContent(editor);
 			dialogData = adapter.getDialogData(dialog, ['text', 'checkbox']);
-			console.log(dialogData);
 			template = adapter.dialogToTemplate(dialogData, 'table');
-			console.log('Template', template);
 			doc = this.getWorker();
 			if (params && params.target){
 				doc.updateNode(params.target, template);
@@ -302,8 +299,6 @@ function CTable(){
 				var rowNum = parseInt(template.rows, 10);
 				var colNum = parseInt(template.columns, 10);
 				var colWeights = template.columnWeight;
-console.log('row template ', template.row);
-console.log('cell template ', template.cell);
 				var i,
 					rows = [],
 					cells = [];

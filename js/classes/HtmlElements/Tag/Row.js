@@ -325,12 +325,21 @@ function Row() {
 	 * @since          0.2.6
 	 */
 	this.inflate = function(cells, weights){
+		console.log("row inflater:", weights);
 		var innerWidth = this.getInnerWidth();
 		var cellNum = cells.length;
-		if (cells === 0){
+		var actualWeights;
+		if (cellNum === 0){
 			return;
 		}
 		var c = new Calculator();
+		if (!weights){
+			/// define default weights
+			/// actualWeights = ...
+		} else {
+			actualWeights = weights;
+		}
+
 		var cellWidth = c.init(innerWidth).div(cellNum).getValue();
 
 		cells.forEach(function(cell){
@@ -338,6 +347,45 @@ function Row() {
 			this.appendCell(cell);
 		}.bind(this));
 	};
+
+	/**
+     * Splits the first argument according to the weights given by the second argument.
+     * The elements of the second array must be positive numbers.
+     * @method     splitWeighted
+     * @example    (10, [1, 2, 2])    -> [2, 4, 4],
+     *             (30, [4, 2, 3, 1]) -> [12, 6, 9, 3]
+     * @param      {Number}      overall       a number to be splitted
+     * @param      {Array}       pieces        array of weigths
+     * @return     {Array}       array of numbers
+     */
+	this.splitWeighted = function(overall, pieces){
+        var trace = this.trace(pieces),
+            result = [],
+            len = norm.length,
+            i;
+        for (i = 0; i < len; i++) {
+            result[i] = overall * pieces[i] / trace;
+        }
+        return result;
+    };
+
+
+    /**
+     * Calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.
+     * @method      trace
+     * @example     [1, 2, 2] -> 1 + 2 + 2 = 5
+     * @param       {Array}    arr    array of numbers
+     * @return      {Number}
+     */
+    this.trace = function(arr){
+        var accum = 0,
+            len = arr.length,
+            i;
+        for (i = 0; i < len; i++) {
+            accum = accum + arr[i];
+        }
+        return accum;
+    };
 
 }
 Row.prototype = Object.create(Tag.prototype);
