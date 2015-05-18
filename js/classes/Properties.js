@@ -1220,14 +1220,14 @@ function Properties(input) {
 
     /**
      * Calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.
-     * @method      trace
+     * @method      _trace
      * @example     [1, 2, 2] -> 1 + 2 + 2 = 5
      * @param       {Array}    arr    array of numbers
      * @return      {Number}
      * @since       0.2.8
      */
-    var trace = function(arr){
-        console.log("trace input", arr);
+    var _trace = function(arr){
+        console.log("_trace input", arr);
         var accum = 0,
             len = arr.length,
             i;
@@ -1239,18 +1239,16 @@ function Properties(input) {
     };
 
     /**
-     * Divides each element by trace of  the array.
-     * @method         normalize
+     * Divides each element by _trace of  the array.
+     * @method         _normalize
      * @param          {Array}        arr     array of numbers
      * @return         {Array}
      * @private
      * @since          0.2.8
-     * @throws        {Error}          If the trace is equal to zero
+     * @throws        {Error}          If the _trace is equal to zero
      */
-    var normalize = function(arr){
-        console.log("normalize input", arr);
-        var tr = trace(arr);
-        console.log("trace of ", arr, " is ", tr);
+    var _normalize = function(arr){
+        var tr = _trace(arr);
         if (tr === 0){
             throw new Error("Can not normalize zero-traced array");
         }
@@ -1260,21 +1258,20 @@ function Properties(input) {
         for (i = 0; i < len; i++){
             result.push(arr[i]/tr);
         }
-        console.log("normalize output", result);
         return result;
     };
 
     /**
      * Splits number `num` into pieces according to their `weights`.
      *
-     * @method        splitNumberWeighted
+     * @method        _splitNumberWeighted
      * @param         {Number}         value
      * @param         {Array}          weights
      * @return        {Array}          array of numbers
      * @since         0.2.8
      */
-    var splitNumberWeighted = function(num, weights){
-        var norm = normalize(weights),
+    var _splitNumberWeighted = function(num, weights){
+        var norm = _normalize(weights),
             len = weights.length,
             i,
             result = [],
@@ -1289,14 +1286,14 @@ function Properties(input) {
     /**
      * Splits number `num` into integer pieces according to their `weights`.
      *
-     * @method        integerSplitNumberWeighted
+     * @method        _integerSplitNumberWeighted
      * @param         {Number}         value
      * @param         {Array}          weights
      * @return        {Array}          array of numbers
      * @since         0.2.8
      */
-    var integerSplitNumberWeighted = function(num, weights){
-        var norm = normalize(weights),
+    var _integerSplitNumberWeighted = function(num, weights){
+        var norm = _normalize(weights),
             len = weights.length,
             i,
             result = [],
@@ -1311,11 +1308,14 @@ function Properties(input) {
         return result;
     };
 
+
     /**
      * Splits `value` into pieces according to their `weights`.
      *
      * The value might be given as a number or as a string containing
      * absolute value as well as unit of measurement.
+     *
+     * If the third parameter is given, the splitting occurs into integer numbers.
      *
      * @method        splitWeighted
      * @param         {String|Number}  value
@@ -1323,7 +1323,26 @@ function Properties(input) {
      * @return        {Array}          array of strings or numbers
      * @since         0.2.8
      */
-    this.splitWeighted = function(value, weights){
+    this.splitWeighted = function(value, weights, isInteger){
+        if (isInteger === true){
+            return this.integerSplitWeighted(value, weights);
+        }
+        return this.floatSplitWeighted(value, weights);
+    };
+
+    /**
+     * Splits `value` into pieces according to their `weights`.
+     *
+     * The value might be given as a number or as a string containing
+     * absolute value as well as unit of measurement.
+     *
+     * @method        floatSplitWeighted
+     * @param         {String|Number}  value
+     * @param         {Array}          weights
+     * @return        {Array}          array of strings or numbers
+     * @since         0.2.8
+     */
+    this.floatSplitWeighted = function(value, weights){
         var isNumber = typeof value === 'number',
             calc,
             valueAbs, valueMeasure,
@@ -1335,7 +1354,7 @@ function Properties(input) {
             valueAbs = calc.getValue();
             valueMeasure = calc.getUnit();
         }
-        splitNumber = splitNumberWeighted(valueAbs, weights);
+        splitNumber = _splitNumberWeighted(valueAbs, weights);
         if (!isNumber){
             return splitNumber.map(function(n){return n.toString() + valueMeasure;});
         }
@@ -1366,13 +1385,11 @@ function Properties(input) {
             valueAbs = calc.getValue();
             valueMeasure = calc.getUnit();
         }
-        splitNumber = integerSplitNumberWeighted(valueAbs, weights);
+        splitNumber = _integerSplitNumberWeighted(valueAbs, weights);
         if (!isNumber){
             return splitNumber.map(function(n){return n.toString() + valueMeasure;});
         }
         return splitNumber;
-
-
     };
 }
 

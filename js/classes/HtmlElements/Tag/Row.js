@@ -338,7 +338,7 @@ function Row() {
 		} else {
 			actualWeights = weights;
 		}
-		cellWidths = this.splitWeighted(innerWidth, actualWeights);
+		cellWidths = this.splitWeighted(innerWidth, actualWeights, true);
 
 		cells.forEach(function(cell, i){
 			cell.setWidth(cellWidths[i]);

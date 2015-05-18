@@ -1116,10 +1116,11 @@ function Tag(tName) {
      * @param         {String|Number}  value
      * @param         {Array}          weights
      * @return        {Array}          array of strings or numbers
+     * @param         {Boolean}        isInteger  whether the resulting terms should be integer
      * @since         0.2.8
      */
-    this.splitWeighted = function(value, weights){
-    	return this.getProperties().splitWeighted(value, weights);
+    this.splitWeighted = function(value, weights, isInteger){
+    	return this.getProperties().splitWeighted(value, weights, isInteger);
     };
 }
 

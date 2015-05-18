@@ -1291,33 +1291,33 @@ describe('Properties-related functionality', function(){
             expect(template.foo).toBe(fakeTemplate);
         });
     });
-    describe('has a method "splitWeighted" that', function() {
+    describe('has a method "floatSplitWeighted" that', function() {
         it('throws an error if the weight array has zero trace', function(){
             expect(function(){
-                props.splitWeighted("32cm", [1, -1]);
+                props.floatSplitWeighted("32cm", [1, -1]);
             }).toThrow(new Error("Can not normalize zero-traced array"));
         });
         it('returns an array with initial number-valued argument if weight array contains single element', function(){
-            var split = props.splitWeighted(201, [5]);
+            var split = props.floatSplitWeighted(201, [5]);
             expect(Array.isArray(split)).toBe(true);
             expect(split.length).toBe(1);
             expect(split[0]).toBe(201);
         });
         it('returns an array with initial string-valued argument if weight array contains single element', function(){
-            var split = props.splitWeighted("144px", [5]);
+            var split = props.floatSplitWeighted("144px", [5]);
             expect(Array.isArray(split)).toBe(true);
             expect(split.length).toBe(1);
             expect(split[0]).toBe("144px");
         });
         it('splits 30 into [10, 20] if weight array is [1, 2]', function(){
-            var split = props.splitWeighted(30, [1, 2]);
+            var split = props.floatSplitWeighted(30, [1, 2]);
             expect(Array.isArray(split)).toBe(true);
             expect(split.length).toBe(2);
             expect(split[0]).toBe(10);
             expect(split[1]).toBe(20);
         });
         it('splits "55pt" into ["22pt", "22pt", "11pt"]  if weight array is [2, 2, 1]', function(){
-            var split = props.splitWeighted("55pt", [2, 2, 1]);
+            var split = props.floatSplitWeighted("55pt", [2, 2, 1]);
             expect(Array.isArray(split)).toBe(true);
             expect(split.length).toBe(3);
             expect(split[0]).toBe("22pt");
