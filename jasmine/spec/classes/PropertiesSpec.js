@@ -1294,7 +1294,7 @@ describe('Properties-related functionality', function(){
     describe('has a method "splitWeighted" that', function() {
         it('throws an error if the weight array has zero trace', function(){
             expect(function(){
-                props.splitWeighted("whatever", [1, -1]);
+                props.splitWeighted("32cm", [1, -1]);
             }).toThrow(new Error("Can not normalize zero-traced array"));
         });
         it('returns an array with initial number-valued argument if weight array contains single element', function(){
@@ -1329,7 +1329,7 @@ describe('Properties-related functionality', function(){
     describe('has a method "integerSplitWeighted" that', function() {
         it('throws an error if the weight array has zero trace', function(){
             expect(function(){
-                props.integerSplitWeighted("whatever", [1, -1]);
+                props.integerSplitWeighted("788mm", [1, -1]);
             }).toThrow(new Error("Can not normalize zero-traced array"));
         });
         it('returns an array with initial number-valued argument if weight array contains single element', function(){
