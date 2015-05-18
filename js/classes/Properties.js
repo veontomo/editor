@@ -1278,24 +1278,23 @@ function Properties(input) {
         var norm = normalize(weights),
             len = weights.length,
             i,
-            result = [];
-        console.log('norm of ', weights, ' is ', norm);
-        if (typeof value === 'string'){
-            var calc = this.getCalculator();
-            for (i = 0; i < len; i++){
+            result = [],
+            isNumber = typeof value === 'number',
+            calc, piece;
+        if (!isNumber){
+            calc = this.getCalculator();
+        }
+        for (i = 0; i < len; i++){
+            if (isNumber){
+                piece = value*norm[i];
+            } else {
                 calc.init(value);
-                result.push(calc.mult(norm[i]).toString());
+                piece = calc.mult(norm[i]).toString();
             }
-            return result;
+            result.push(piece);
         }
-        if (typeof value === 'number'){
-            for (i = 0; i < len; i++){
-                result.push(value*norm[i]);
-            }
-            return result;
-        }
+        return result;
     };
-
 }
 
 /**
