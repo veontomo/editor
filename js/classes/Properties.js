@@ -1216,6 +1216,50 @@ function Properties(input) {
         return calculator.toString();
     };
 
+
+
+    /**
+     * Calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.
+     * @method      trace
+     * @example     [1, 2, 2] -> 1 + 2 + 2 = 5
+     * @param       {Array}    arr    array of numbers
+     * @return      {Number}
+     * @since       0.2.8
+     */
+    var trace = function(arr){
+        var accum = 0,
+            len = arr.length,
+            i;
+        for (i = 0; i < len; i++) {
+            accum = accum + arr[i];
+        }
+        return accum;
+    };
+
+    /**
+     * Divides each element by trace of  the array.
+     * @method         normalize
+     * @param          {Array}        arr     array of numbers
+     * @return         {Array}
+     * @private
+     * @since          0.2.8
+     * @throws        {Error}          If the trace is equal to zero
+     */
+    var normalize = function(arr){
+        var tr = trace(arr);
+        console.log("trace of ", arr, " is ", tr);
+        if (tr === 0){
+            throw new Error("Can not normalize zero-traced array");
+        }
+        var result = [],
+            len = arr.length,
+            i;
+        for (i = 0; i < len; i++){
+            result.push(arr[i]/tr);
+        }
+        return result;
+    };
+
     /**
      * Splits `value` into pieces according to their `weights`.
      *
@@ -1231,9 +1275,27 @@ function Properties(input) {
      * @since         0.2.8
      */
     this.splitWeighted = function(value, weights){
-        /// !!! stub
-        return  [value];
+        var norm = normalize(weights),
+            len = weights.length,
+            i,
+            result = [];
+        console.log('norm of ', weights, ' is ', norm);
+        if (typeof value === 'string'){
+            var calc = this.getCalculator();
+            for (i = 0; i < len; i++){
+                calc.init(value);
+                result.push(calc.mult(norm[i]).toString());
+            }
+            return result;
+        }
+        if (typeof value === 'number'){
+            for (i = 0; i < len; i++){
+                result.push(value*norm[i]);
+            }
+            return result;
+        }
     };
+
 }
 
 /**
