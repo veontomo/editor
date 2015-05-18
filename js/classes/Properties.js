@@ -981,7 +981,6 @@ function Properties(input) {
     this.setWidth = function(w) {
         this.initializeStyle();
         var wQuantity = this.getQuantityParser().parse(w);
-        console.log(w, '->', wQuantity);
         if (!wQuantity.getMeasure()) {
             wQuantity.setMeasure('px');
         }
@@ -1227,14 +1226,12 @@ function Properties(input) {
      * @since       0.2.8
      */
     var _trace = function(arr){
-        console.log("_trace input", arr);
         var accum = 0,
             len = arr.length,
             i;
         for (i = 0; i < len; i++) {
             accum = accum + arr[i];
         }
-        console.log("trce output", accum);
         return accum;
     };
 
@@ -1325,9 +1322,9 @@ function Properties(input) {
      */
     this.splitWeighted = function(value, weights, isInteger){
         if (isInteger === true){
-            return this.integerSplitWeighted(value, weights);
+            return _integerSplitWeighted(value, weights);
         }
-        return this.floatSplitWeighted(value, weights);
+        return _floatSplitWeighted(value, weights);
     };
 
     /**
@@ -1336,13 +1333,13 @@ function Properties(input) {
      * The value might be given as a number or as a string containing
      * absolute value as well as unit of measurement.
      *
-     * @method        floatSplitWeighted
+     * @method        _floatSplitWeighted
      * @param         {String|Number}  value
      * @param         {Array}          weights
      * @return        {Array}          array of strings or numbers
      * @since         0.2.8
      */
-    this.floatSplitWeighted = function(value, weights){
+    var _floatSplitWeighted = function(value, weights){
         var isNumber = typeof value === 'number',
             calc,
             valueAbs, valueMeasure,
@@ -1359,7 +1356,7 @@ function Properties(input) {
             return splitNumber.map(function(n){return n.toString() + valueMeasure;});
         }
         return splitNumber;
-    };
+    }.bind(this);
 
     /**
      * Splits `value` into integer pieces according to their `weights`.
@@ -1367,13 +1364,13 @@ function Properties(input) {
      * The value might be given as a number or as a string containing
      * absolute value as well as unit of measurement.
      *
-     * @method        integerSplitWeighted
+     * @method        _integerSplitWeighted
      * @param         {String|Number}  value
      * @param         {Array}          weights
      * @return        {Array}          array of strings or numbers
      * @since         0.2.8
      */
-    this.integerSplitWeighted = function(value, weights){
+    var _integerSplitWeighted = function(value, weights){
         var isNumber = typeof value === 'number',
             calc,
             valueAbs, valueMeasure,
@@ -1390,7 +1387,7 @@ function Properties(input) {
             return splitNumber.map(function(n){return n.toString() + valueMeasure;});
         }
         return splitNumber;
-    };
+    }.bind(this);
 }
 
 /**

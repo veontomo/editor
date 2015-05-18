@@ -464,7 +464,6 @@ function CKEditorAdapter(){
 	 * @since          0.2.8
 	 */
 	this.findSimilarKey = function(obj, pattern){
-		console.log(obj, pattern);
 		var key;
 		for (key in obj){
 			if (obj.hasOwnProperty(key)){
