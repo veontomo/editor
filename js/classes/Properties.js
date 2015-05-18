@@ -1295,6 +1295,24 @@ function Properties(input) {
         }
         return result;
     };
+
+    /**
+     * Splits `value` into integer pieces according to their `weights`.
+     *
+     * The value might be given as a number or as a string containing
+     * absolute value as well as unit of measurement.
+     *
+     * Alias for {{#crossLink "Properties"}}Properties{{/crossLink}}:
+     * {{#crossLink "Properties/splitWeighted:method"}}splitWeighted{{/crossLink}} method.
+     * @method        splitWeighted
+     * @param         {String|Number}  value
+     * @param         {Array}          weights
+     * @return        {Array}          array of strings or numbers
+     * @since         0.2.8
+     */
+    this.inetegerSplitWeighted = function(value, weights){
+        /// !!! stub
+    };
 }
 
 /**

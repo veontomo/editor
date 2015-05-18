@@ -1324,6 +1324,42 @@ describe('Properties-related functionality', function(){
             expect(split[1]).toBe("22pt");
             expect(split[2]).toBe("11pt");
         });
+    });
+
+    describe('has a method "integerSplitWeighted" that', function() {
+        it('throws an error if the weight array has zero trace', function(){
+            expect(function(){
+                props.integerSplitWeighted("whatever", [1, -1]);
+            }).toThrow(new Error("Can not normalize zero-traced array"));
+        });
+        it('returns an array with initial number-valued argument if weight array contains single element', function(){
+            var split = props.integerSplitWeighted(34, [5]);
+            expect(Array.isArray(split)).toBe(true);
+            expect(split.length).toBe(1);
+            expect(split[0]).toBe(34);
+        });
+        it('returns an array with initial string-valued argument if weight array contains single element', function(){
+            var split = props.integerSplitWeighted("22pt", [5]);
+            expect(Array.isArray(split)).toBe(true);
+            expect(split.length).toBe(1);
+            expect(split[0]).toBe("22pt");
+        });
+        it('splits 30 into [17, 13] if weight array is [5, 4]', function(){
+            var split = props.integerSplitWeighted(30, [5, 4]);
+            expect(Array.isArray(split)).toBe(true);
+            expect(split.length).toBe(2);
+            expect(split[0]).toBe(17);
+            expect(split[1]).toBe(13);
+        });
+        it('splits "55pt" into ["12pt", "24pt", "19pt"]  if weight array is [2, 4, 3]', function(){
+            var split = props.integerSplitWeighted("55pt", [2, 4, 3]);
+            expect(Array.isArray(split)).toBe(true);
+            expect(split.length).toBe(3);
+            expect(split[0]).toBe("12pt");
+            expect(split[1]).toBe("24pt");
+            expect(split[2]).toBe("19pt");
+        });
+
 
 
 
