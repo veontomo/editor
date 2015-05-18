@@ -126,7 +126,6 @@ describe('Class CKEditorAdapter', function() {
                 'c': true
             };
             expect(adapter.findSimilarKey(obj, re)).toBe('a1');
-            console.log(adapter.tableDialogToTemplate({}));
         });
 
         it('returns the first key that matches', function() {

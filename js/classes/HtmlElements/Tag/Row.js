@@ -325,27 +325,23 @@ function Row() {
 	 * @since          0.2.6
 	 */
 	this.inflate = function(cells, weights){
-		console.log("row inflater:", weights);
-		var innerWidth = this.getInnerWidth();
-		var cellNum = cells.length;
-		var actualWeights;
+		var innerWidth = this.getInnerWidth(),
+			cellNum = cells.length,
+			actualWeights,
+			cellWidths;
 		if (cellNum === 0){
 			return;
 		}
 		if (!weights){
-			/// define weights
+			/// define default weights
 			actualWeights = Array.apply(null, new Array(cellNum)).map(function(){return 1;});
 		} else {
 			actualWeights = weights;
 		}
-		var trace = this.trace(actualWeights);
+		cellWidths = this.splitWeighted(innerWidth, actualWeights);
 
-
-
-		var c = new Calculator();
 		cells.forEach(function(cell, i){
-			var cellWidth = c.init(innerWidth).mult(actualWeights[i]).div(trace).getValue();
-			cell.setWidth(cellWidth);
+			cell.setWidth(cellWidths[i]);
 			this.appendCell(cell);
 		}.bind(this));
 	};
@@ -357,7 +353,7 @@ function Row() {
      * @param       {Array}    arr    array of numbers
      * @return      {Number}
      */
-    this.trace = function(arr){
+    this.trace_to_delete = function(arr){
         var accum = 0,
             len = arr.length,
             i;
@@ -366,6 +362,7 @@ function Row() {
         }
         return accum;
     };
+
 
 }
 Row.prototype = Object.create(Tag.prototype);

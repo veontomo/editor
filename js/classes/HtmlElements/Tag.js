@@ -1103,6 +1103,24 @@ function Tag(tName) {
     		return prop.getInnerWidth();
     	}
     };
+
+    /**
+     * Splits `value` into pieces according to their `weights`.
+     *
+     * The value might be given as a number or as a string containing
+     * absolute value as well as unit of measurement.
+     *
+     * Alias for {{#crossLink "Properties"}}Properties{{/crossLink}}:
+     * {{#crossLink "Properties/splitWeighted:method"}}splitWeighted{{/crossLink}} method.
+     * @method        splitWeighted
+     * @param         {String|Number}  value
+     * @param         {Array}          weights
+     * @return        {Array}          array of strings or numbers
+     * @since         0.2.8
+     */
+    this.splitWeighted = function(value, weights){
+    	return this.getProperties().splitWeighted(value, weights);
+    };
 }
 
 /**
