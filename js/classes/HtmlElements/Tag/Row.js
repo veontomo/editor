@@ -345,25 +345,6 @@ function Row() {
 			this.appendCell(cell);
 		}.bind(this));
 	};
-
-    /**
-     * Calculates the sum the array elements. The elements are supposed to be numbers. Otherwise nothing is guaranteed.
-     * @method      trace
-     * @example     [1, 2, 2] -> 1 + 2 + 2 = 5
-     * @param       {Array}    arr    array of numbers
-     * @return      {Number}
-     */
-    this.trace_to_delete = function(arr){
-        var accum = 0,
-            len = arr.length,
-            i;
-        for (i = 0; i < len; i++) {
-            accum = accum + arr[i];
-        }
-        return accum;
-    };
-
-
 }
 Row.prototype = Object.create(Tag.prototype);
 
