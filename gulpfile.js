@@ -58,6 +58,7 @@ var sourceFiles = [
 	'js/controllers/CDownload.js',
 	'js/controllers/CImage.js',
 	'js/controllers/CTextDecoration.js',
+	'js/controllers/CFile.js',
 	// Adapters
 	'js/adapters/EditorAdapter.js',
 	'js/adapters/CKEditor/CKEditorAdapter.js',
