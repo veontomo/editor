@@ -18,15 +18,35 @@ function CFile() {
 
 
 	/**
+	 * Returns time stamp string.
+	 * @method         timeStamp
+	 * @return         {String}
+	 * @since          0.2.8
+	 */
+	var _timeStamp = function(){
+		var timeNow = new Date(),
+			templateName = [
+				timeNow.getFullYear(),
+				('0' + (timeNow.getMonth() + 1)).slice(-2),     // padding with zeros in case the string is one-symbol length
+				('0' + timeNow.getDate()).slice(-2),
+				('0' + timeNow.getHours()).slice(-2),
+				('0' + timeNow.getMinutes()).slice(-2),
+				('0' + timeNow.getSeconds()).slice(-2)
+			].join('-');
+		return templateName;
+	};
+
+	/**
 	 * Generates a string to be used as a file name.
 	 * @method  suggestFileName
 	 * @return  String
 	 * @since   0.2.8
 	 */
 	this.suggestFileName = function(){
-		/// !!! stub
-		return "test.html";
-	}
+		var time = _timeStamp();
+		return 'template_' + time + '.html';
+	};
+
 
 }
 

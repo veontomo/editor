@@ -131,18 +131,6 @@ function SaveDialog(editor) {
 	                title:  editor.lang[_pluginName].fileNameDescr,
 	                style:  _textInputStyle,
 	                "default": _controller.suggestFileName()
-	            }, {
-	                type: 'checkbox',
-	                id: 'isUnderlined',
-	                label: editor.lang[_pluginName].underline,
-	                title: editor.lang[_pluginName].underlineDescr,
-	                'default': true,
-	            }, {
-	                type: 'checkbox',
-	                id: 'isTargetBlank',
-	                label: editor.lang[_pluginName].target,
-	                title: editor.lang[_pluginName].targetDescr,
-	                "default": true,
 	            }],
 	        }]
 	    }],
