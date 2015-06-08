@@ -48,6 +48,30 @@ function CFile() {
 	};
 
 
+	/**
+	     * Saves the content of the `editor` into a file.
+	     * @method         onOk
+	     * @param          {Object}        dialog
+	     * @param          {Object}        editor
+	     * @return         {void}
+	     * @since          0.1.0
+	     */
+	    this.onOk = function(dialog, editor) {
+	        var adapter, doc, content, dialogData;
+	        try {
+	            adapter = this.getEditorAdapter();
+	            doc = this.getWorker();
+	            content = adapter.getEditorContent(editor);
+	            dialogData = adapter.getDialogData(dialog);
+	            console.log('onOK data: ', dialogData);
+	        } catch (e) {
+	            console.log(e.name + ' occurred when inserting link: ' + e.message);
+	        }
+
+	    };
+
+
+
 }
 
 CFile.prototype = Object.create(Controller.prototype);

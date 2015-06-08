@@ -150,9 +150,7 @@ function SaveDialog(editor) {
 	    },
 
 	    onOk: function(){
-	        var params = {
-	        };
-	        _controller.onOk(this, editor, params);
+	        _controller.onOk(this, editor);
 	    }
 	};
 
