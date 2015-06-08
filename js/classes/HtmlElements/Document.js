@@ -1885,5 +1885,12 @@ function Document(){
 		}
 	};
 
+	this.saveAs = function(content, fileName){
+		/// !!! stub
+		console.log("saving:");
+		console.log("content: " + content);
+		console.log("file name: " + fileName);
+	};
+
 
 }

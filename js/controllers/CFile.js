@@ -57,13 +57,15 @@ function CFile() {
 	     * @since          0.1.0
 	     */
 	    this.onOk = function(dialog, editor) {
-	        var adapter, doc, content, dialogData;
+	        var adapter, doc, content, dialogData, fileName;
 	        try {
 	            adapter = this.getEditorAdapter();
 	            doc = this.getWorker();
 	            content = adapter.getEditorContent(editor);
 	            dialogData = adapter.getDialogData(dialog);
-	            console.log('onOK data: ', dialogData);
+	            fileName = dialogData.saveInfoTab.fileName;
+	            doc.saveAs(content, fileName);
+
 	        } catch (e) {
 	            console.log(e.name + ' occurred when inserting link: ' + e.message);
 	        }
