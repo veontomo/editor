@@ -1792,4 +1792,39 @@ describe('Class "Document"', function() {
         });
     });
 
+    describe('has a method escapeString that', function(){
+        it('replaces < with &lt;', function(){
+            expect(doc.escapeString('<')).toBe('&lt;');
+        });
+        it('replaces > with &gt;', function(){
+            expect(doc.escapeString('>')).toBe('&gt;');
+        });
+        it('replaces & with &amp;', function(){
+            expect(doc.escapeString('&')).toBe('&amp;');
+        });
+        it('replaces apostrophe with &#039;', function(){
+            expect(doc.escapeString('\'')).toBe('&#039;');
+        });
+        it('replaces à ì è ò ù é with their html codes', function(){
+            expect(doc.escapeString('à ì è ò ù é')).toBe('&agrave; &igrave; &egrave; &ograve; &ugrave; &eacute;');
+        });
+
+        it('replaces À Ì È Ò Ù É with their html codes', function(){
+            expect(doc.escapeString('À Ì È Ò Ù É')).toBe('&Agrave; &Igrave; &Egrave; &Ograve; &Ugrave; &Eacute;');
+        });
+
+        it('does not change "safe" characters', function(){
+            var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]!?.,;:%_";
+            expect(doc.escape(str)).toBe(str);
+        });
+
+
+
+
+
+
+
+
+    });
+
 });

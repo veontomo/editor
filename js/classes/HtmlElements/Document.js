@@ -1942,12 +1942,46 @@ function Document(){
 
 
 	/**
-	 * Returns a new text node whose special symbols are escaped.
-	 * @method         escapeTextNodeContent
+	 * Returns a new string whose special symbols are escaped.
+	 * @method         escapeString
 	 * @param          {Text}       node      [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
 	 * @return         {Text}
+	 * @since          0.2.8
 	 */
-	this.escapeTextNodeContent = function(node){
+	this.escapeString = function(str){
+		var len = str.length,
+			code, i, symb,
+			output = '',
+			pool = {
+				'à': '&agrave;',
+				'ì': '&igrave;',
+				'è': '&egrave;',
+				'ò': '&ograve;',
+				'ù': '&ugrave;',
+				'é': '&eacute;',
+				'À': '&Agrave;',
+				'Ì': '&Igrave;',
+				'È': '&Egrave;',
+				'Ò': '&Ograve;',
+				'Ù': '&Ugrave;',
+				'É': '&Eacute;',
+				'\'': '&#039;',
+				'<': '&lt;',
+				'>': '&gt;',
+				'&': '&amp;'
+			};
+
+		for (i = 0; i < len; i++){
+			symb = str[i];
+			if (pool.hasOwnProperty(symb)){
+				output += pool[symb];
+			} else {
+				code = symb.charCodeAt(0);
+				output += (code > 31 && code < 126) ? symb : '&#' + code + ';';
+			}
+		}
+		return output;
+
 
 	};
 
