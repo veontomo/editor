@@ -178,8 +178,6 @@ function CDownload (){
 		// httpRequest.send(contentToSend);
 	};
 
-	this.file
-
 
 }
 CDownload.prototype = Object.create(Controller.prototype);

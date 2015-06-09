@@ -1885,12 +1885,40 @@ function Document(){
 		}
 	};
 
-	this.saveAs = function(content, fileName){
+	/**
+	 * Replaces non-safe symbols (non-ASCII, &, etc.) by their html codes.
+	 * @method         escape
+	 * @param          {String}        data      text to elaborate
+	 * @return         {String}
+	 * @since          0.2.8
+	 */
+	this.escape = function(data){
 		/// !!! stub
-		console.log("saving:");
-		console.log("content: " + content);
-		console.log("file name: " + fileName);
+		return data;
 	};
+
+    /**
+     * Prepares the content of the editor for downloading in html format and launches the window
+     * for downloading.
+     *
+     * It sends ajax post request to the script `php/saveDraft.php` using JQuery library.
+     * @method         downloadAsHtml
+     * @param          {String}            data
+     * @param          {String}            fileName
+     * @return         {void}
+     */
+    this.saveAs = function(data, fileName){
+    	try {
+    		doc.setWrapCss(bodyCss);
+    		doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
+    		doc.convertTo(mode);
+    		fileContent = doc.docHtml();
+    		// console.log(fileContent);
+    		this.downloadFile(fileContent, fileName);
+    	} catch (e){
+    		this.showMessage(e.name + ': ' + e.message);
+    	}
+    };
 
 
 }
