@@ -1976,15 +1976,15 @@ function Document(){
 	 * @since          0.2.8
 	 */
 	this.escapeElementAttributes = function(node){
-		var tagName = node.tagName,
-			attrs = node.attributes,
-			len = attrs.length,
-			i,
+		var tagName, attrs, len, i,
 			result, attrName, attrValue;
 		try {
+			tagName = node.tagName;
+			attrs = node.attributes;
+			len = attrs.length;
 			result = document.createElement(tagName);
 		} catch (e){
-			console.log(e.name + ' occurred: ' + e.getMessage());
+			console.log(e.name + ' occurred: ' + e.message);
 			return;
 		}
 		for (i = 0; i < len; i++){
@@ -2003,7 +2003,34 @@ function Document(){
 	 * @since          0.2.8
 	 */
 	this.escapeNode = function(node){
-		return node;
+		if (!(node instanceof Node)){
+			return;
+		}
+		if (node.nodeType === Node.TEXT_NODE){
+			return this.escapeTextNode(node);
+		}
+		if (node.nodeType !== Node.ELEMENT_NODE){
+			return;
+		}
+		var nodeEscaped, childNodes, len, i, nodeTmp;
+
+		// elaborates node itself, ignore eventual child nodes
+		nodeEscaped = this.escapeElementAttributes(node);
+		if (!nodeEscaped){
+			return;
+		}
+		// elaborate eventual child nodes
+		childNodes = node.childNodes;
+		len = childNodes.length;
+		for (i = 0; i < len; i++){
+			try {
+				nodeTmp = this.escapeNode(childNodes[i]);
+				nodeEscaped.appendChild(nodeTmp);
+			} catch(e){
+				console.log(e.name + ' occurred when escaping special symbols: ' + e.message);
+			}
+		}
+		return nodeEscaped;
 	};
 
     /**

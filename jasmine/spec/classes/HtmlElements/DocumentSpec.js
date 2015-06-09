@@ -1813,8 +1813,6 @@ describe('Class "Document"', function() {
             expect(doc.escapeString).toHaveBeenCalledWith('1');
         });
 
-
-
         it('escapes special symbols inside many element attribute', function(){
             var n = document.createElement('div');
             n.setAttribute('title', 'a > 2');
@@ -1825,11 +1823,42 @@ describe('Class "Document"', function() {
             expect(result.getAttribute('title')).toBe('a &gt; 2');
         });
 
+        it('returns nothing if the argument is missing', function(){
+           var result = doc.escapeElementAttributes();
+           expect(result).not.toBeDefined();
+        });
+
     });
 
 
     describe('has a method escapeNode that', function(){
-        it('escapes special symbols inside element', function(){
+        it('returns nothing if the argument is missing', function(){
+            var result = doc.escapeNode();
+            expect(result).not.toBeDefined();
+        });
+
+        it('returns nothing if method escapeElementAttributes returns nothing', function(){
+            spyOn(doc, 'escapeElementAttributes').and.returnValue();
+            var n = document.createElement('img');
+            var result = doc.escapeNode(n);
+            expect(result).not.toBeDefined();
+        });
+
+
+        it('escapes special symbols of a childless node', function(){
+            var n = document.createElement('img');
+            n.setAttribute('src', 'image.png');
+            n.setAttribute('title', 'i&o');
+            var result = doc.escapeNode(n);
+            expect(result instanceof Node).toBe(true);
+            expect(result).hasTagName('img');
+            expect(result.childNodes.length).toBe(0);
+            expect(result.getAttribute('src', 'image.png'));
+            expect(result.getAttribute('title', 'i&amp;o'));
+        });
+
+
+        it('escapes special symbols inside an element with one child', function(){
             var n = document.createElement('span'),
                 t = document.createTextNode('à & è');
             n.appendChild(t);
@@ -1840,6 +1869,36 @@ describe('Class "Document"', function() {
             expect(result.childNodes[0] instanceof Text).toBe(true);
             expect(result.childNodes[0].nodeValue).toBe('&agrave; &amp; &egrave;');
         });
+
+        it('returns nothing if the argument is a comment node', function(){
+            var n = document.createComment('& comment &');
+            var result = doc.escapeNode(n);
+            expect(result).not.toBeDefined();
+        });
+
+
+
+        it('escapes special symbols inside an element with two children', function(){
+            var ol = document.createElement('ol'),
+                li1 = document.createElement('li'),
+                li2 = document.createElement('li'),
+                t1 = document.createTextNode('à & è'),
+                t2 = document.createTextNode('3 > 2');
+            ol.appendChild(li1);
+            ol.appendChild(li2);
+            li1.appendChild(t1);
+            li2.appendChild(t2);
+
+            var result = doc.escapeNode(ol);
+            expect(result instanceof Node).toBe(true);
+            expect(result).hasTagName('ol');
+            expect(result.childNodes.length).toBe(2);
+            expect(result.childNodes[0]).hasTagName('li');
+            expect(result.childNodes[1]).hasTagName('li');
+            expect(result.childNodes[0].childNodes[0].nodeValue).toBe('&agrave; &amp; &egrave;');
+            expect(result.childNodes[1].childNodes[0].nodeValue).toBe('3 &gt; 2');
+        });
+
     });
 
 
