@@ -1919,6 +1919,8 @@ function Document(){
 		var len = str.length,
 			code, i, symb,
 			output = '',
+			MAX_CHAR_CODE = 126, // exclusive max value of ascii code
+			MIN_CHAR_CODE = 31,  // exclusive min value of ascii code
 			pool = {
 				'à': '&agrave;',
 				'ì': '&igrave;',
@@ -1944,7 +1946,7 @@ function Document(){
 				output += pool[symb];
 			} else {
 				code = symb.charCodeAt(0);
-				output += (code > 31 && code < 126) ? symb : '&#' + code + ';';
+				output += (code > MIN_CHAR_CODE && code < MAX_CHAR_CODE) ? symb : '&#' + code.toString() + ';';
 			}
 		}
 		return output;
