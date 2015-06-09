@@ -1933,6 +1933,24 @@ function Document(){
         return output;
 	};
 
+
+	this.escape2 = function(node){
+		if (node instanceof Node && node.nodeType === Node.TEXT_NODE){
+			return this.escapeTextNodeContent(node);
+		}
+	};
+
+
+	/**
+	 * Returns a new text node whose special symbols are escaped.
+	 * @method         escapeTextNodeContent
+	 * @param          {Text}       node      [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
+	 * @return         {Text}
+	 */
+	this.escapeTextNodeContent = function(node){
+
+	};
+
     /**
 	 * Launches a window for downloading file with content `data` and suggested name `filename`.
 	 * If `filename` is not given or is not valid, the file name will be generated.

@@ -68,7 +68,7 @@ function CFile() {
             dialogData = adapter.getDialogData(dialog);
             fileName = dialogData.saveInfoTab.fileName;
             contentString = doc.escape(contentString);
-            if (typeof contentString !== 'string'){
+            if (typeof contentString === 'string'){
             	doc.saveToLocal(contentString, fileName);
             }
         } catch (e) {
