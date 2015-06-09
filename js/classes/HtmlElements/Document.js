@@ -93,7 +93,7 @@ function Document(){
 
 	/**
 	 * {{#crossLink "Document/_factory:property"}}_factory{{/crossLink}} setter.
-	 * @method         setFactory5
+	 * @method         setFactory
 	 * @param          {Object}             f          an object to used as a factory
 	 * @return         {void}
 	 * @since          0.1.0
@@ -1954,7 +1954,7 @@ function Document(){
 
 
 	/**
-	 * Escapes symbols of the content of a text node.
+	 * Escapes special symbols of the content of a text node.
 	 * @method         escapeTextNode
 	 * @param          {Text}     node    [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
 	 * @return         {Text}             [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
@@ -1964,6 +1964,46 @@ function Document(){
 		var str = node.nodeValue,
 			content = this.escapeString(str);
 		return document.createTextNode(content);
+	};
+
+	/**
+	 * Returns a shallow copy of a node in which special symbols inside the node attribute
+	 * values get escaped.
+	 *
+	 * @method         escapeElementAttributes
+	 * @param          {Node}          node   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {Node}                 [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @since          0.2.8
+	 */
+	this.escapeElementAttributes = function(node){
+		var tagName = node.tagName,
+			attrs = node.attributes,
+			len = attrs.length,
+			i,
+			result, attrName, attrValue;
+		try {
+			result = document.createElement(tagName);
+		} catch (e){
+			console.log(e.name + ' occurred: ' + e.getMessage());
+			return;
+		}
+		for (i = 0; i < len; i++){
+			attrName = attrs.item(i).name;
+			attrValue = this.escapeString(attrs.item(i).value);
+			result.setAttribute(attrName, attrValue);
+		}
+		return result;
+	};
+
+	/**
+	 * Escapes special symbols in node and its descendants.
+	 * @method         escapeNode
+	 * @param          {Node}          node  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @return         {Node}                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
+	 * @since          0.2.8
+	 */
+	this.escapeNode = function(node){
+		return node;
 	};
 
     /**

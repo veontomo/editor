@@ -1778,7 +1778,6 @@ describe('Class "Document"', function() {
             var t = document.createTextNode('whatever');
             expect(doc.escapeTextNode(t) instanceof Text).toBe(true);
         });
-
         it('returns a text Node instance whose content is taken from escapeString method', function(){
             var t = document.createTextNode('this is an &');
             var fakeResult = 'a string';
@@ -1786,7 +1785,63 @@ describe('Class "Document"', function() {
             expect(doc.escapeTextNode(t) instanceof Text).toBe(true);
             expect(doc.escapeTextNode(t).nodeValue).toBe(fakeResult);
         });
+    });
+
+    describe('has a method escapeElementAttributes that', function(){
+        it('returns a node with single attribute value taken from output of escapeString method', function(){
+            var n = document.createElement('div');
+            n.setAttribute('title', 'a > 2');
+            spyOn(doc, 'escapeString').and.callFake(function(){return 'whatever';});
+            var result = doc.escapeElementAttributes(n);
+            expect(result instanceof Element).toBe(true);
+            expect(result).hasTagName('div');
+            expect(result.getAttribute('title')).toBe('whatever');
+            expect(doc.escapeString).toHaveBeenCalledWith('a > 2');
+        });
+
+        it('returns a node with many attribute values taken from outputs of escapeString method', function(){
+            var n = document.createElement('div');
+            n.setAttribute('title', 'a > 2');
+            n.setAttribute('id', '1');
+            spyOn(doc, 'escapeString').and.callFake(function(s){return s + '...';});
+            var result = doc.escapeElementAttributes(n);
+            expect(result instanceof Element).toBe(true);
+            expect(result).hasTagName('div');
+            expect(result.getAttribute('title')).toBe('a > 2...');
+            expect(result.getAttribute('id')).toBe('1...');
+            expect(doc.escapeString).toHaveBeenCalledWith('a > 2');
+            expect(doc.escapeString).toHaveBeenCalledWith('1');
+        });
+
+
+
+        it('escapes special symbols inside many element attribute', function(){
+            var n = document.createElement('div');
+            n.setAttribute('title', 'a > 2');
+            var result = doc.escapeElementAttributes(n);
+            expect(result instanceof Element).toBe(true);
+            expect(result).hasTagName('div');
+            expect(result.childNodes.length).toBe(0);
+            expect(result.getAttribute('title')).toBe('a &gt; 2');
+        });
 
     });
+
+
+    describe('has a method escapeNode that', function(){
+        it('escapes special symbols inside element', function(){
+            var n = document.createElement('span'),
+                t = document.createTextNode('à & è');
+            n.appendChild(t);
+            var result = doc.escapeNode(n);
+            expect(result instanceof Node).toBe(true);
+            expect(result).hasTagName('span');
+            expect(result.childNodes.length).toBe(1);
+            expect(result.childNodes[0] instanceof Text).toBe(true);
+            expect(result.childNodes[0].nodeValue).toBe('&agrave; &amp; &egrave;');
+        });
+    });
+
+
 
 });
