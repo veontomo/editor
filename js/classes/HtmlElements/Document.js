@@ -1916,8 +1916,21 @@ function Document(){
 	 * @since          0.2.8
 	 */
 	this.escape = function(data){
-		/// !!! stub
-		return data;
+        var type = typeof data,
+            len, i, code, symb, output = '';
+        if (type !== 'number' && type !== 'string'){
+            return null;
+        }
+        if (type === 'number'){
+            return data;
+        }
+        len = data.length;
+        for (i = 0; i < len; i++){
+            code = data.charCodeAt(i);
+            symb = (code > 31 && code < 126) ? data[i] : '&#' + code + ';';
+            output += symb;
+        }
+        return output;
 	};
 
     /**

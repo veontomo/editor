@@ -1744,51 +1744,51 @@ describe('Class "Document"', function() {
 
     describe('Escaping special characters', function(){
         it('returns the argument if it is a zero', function(){
-            expect(doc.specialChar(0)).toBe(0);
+            expect(doc.escape(0)).toBe(0);
         });
         it('returns the argument if it is a positive integer number', function(){
-            expect(doc.specialChar(5)).toBe(5);
+            expect(doc.escape(5)).toBe(5);
         });
         it('returns the argument if it is a negative integer number', function(){
-            expect(doc.specialChar(-45)).toBe(-45);
+            expect(doc.escape(-45)).toBe(-45);
         });
         it('returns the argument if it is a positive float number', function(){
-            expect(doc.specialChar(9.81)).toBe(9.81);
+            expect(doc.escape(9.81)).toBe(9.81);
         });
         it('returns the argument if it is a positive float number', function(){
-            expect(doc.specialChar(-45.1)).toBe(-45.1);
+            expect(doc.escape(-45.1)).toBe(-45.1);
         });
         it('returns null, if the argument is a function', function(){
-            expect(doc.specialChar(function(i){return i;})).toBe(null);
+            expect(doc.escape(function(i){return i;})).toBe(null);
         });
 
         it('returns null, if the argument is an object', function(){
-            expect(doc.specialChar({'foo': true})).toBe(null);
+            expect(doc.escape({'foo': true})).toBe(null);
         });
         it('does not change "safe" characters', function(){
             var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]!?.,;:%&\\/^\"'<>_";
-            expect(doc.specialChar(str)).toBe(str);
+            expect(doc.escape(str)).toBe(str);
         });
 
         it('escapes single character à', function(){
-            expect(doc.specialChar('à')).toBe("&#224;");
+            expect(doc.escape('à')).toBe("&#224;");
         });
 
         it('does not change ampersand sign', function(){
-            expect(doc.specialChar('&')).toBe('&');
-            expect(doc.specialChar('abcd&ef')).toBe('abcd&ef');
-            expect(doc.specialChar('&ef')).toBe('&ef');
-            expect(doc.specialChar('abc&')).toBe('abc&');
+            expect(doc.escape('&')).toBe('&');
+            expect(doc.escape('abcd&ef')).toBe('abcd&ef');
+            expect(doc.escape('&ef')).toBe('&ef');
+            expect(doc.escape('abc&')).toBe('abc&');
         });
 
         it('escapes special characters', function(){
             var str = "à ò è";
-            expect(doc.specialChar(str)).toBe("&#224; &#242; &#232;");
+            expect(doc.escape(str)).toBe("&#224; &#242; &#232;");
         });
 
         it('escapes only special characters in mixed strings', function(){
             var str = "<div style=\"color:red;\">01 à A ò (È) è</div>";
-            expect(doc.specialChar(str)).toBe("<div style=\"color:red;\">01 &#224; A &#242; (&#200;) &#232;</div>");
+            expect(doc.escape(str)).toBe("<div style=\"color:red;\">01 &#224; A &#242; (&#200;) &#232;</div>");
         });
     });
 
