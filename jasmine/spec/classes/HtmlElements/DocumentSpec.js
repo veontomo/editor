@@ -1765,12 +1765,28 @@ describe('Class "Document"', function() {
 
         it('does not change "safe" characters', function(){
             var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]!?.,;:%_";
-            expect(doc.escape(str)).toBe(str);
+            expect(doc.escapeString(str)).toBe(str);
         });
 
         it('replaces § with &#167;', function(){
             expect(doc.escapeString('§')).toBe('&#167;');
         });
+    });
+
+    describe('has a method escapeTextNode that', function(){
+        it('returns a text Node instance', function(){
+            var t = document.createTextNode('whatever');
+            expect(doc.escapeTextNode(t) instanceof Text).toBe(true);
+        });
+
+        it('returns a text Node instance whose content is taken from escapeString method', function(){
+            var t = document.createTextNode('this is an &');
+            var fakeResult = 'a string';
+            spyOn(doc, 'escapeString').and.returnValue(fakeResult);
+            expect(doc.escapeTextNode(t) instanceof Text).toBe(true);
+            expect(doc.escapeTextNode(t).nodeValue).toBe(fakeResult);
+        });
+
     });
 
 });

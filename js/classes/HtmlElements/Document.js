@@ -1911,8 +1911,8 @@ function Document(){
 	/**
 	 * Returns a new string whose special symbols are escaped.
 	 * @method         escapeString
-	 * @param          {Text}       node      [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
-	 * @return         {Text}
+	 * @param          {String}        node
+	 * @return         {String}
 	 * @since          0.2.8
 	 */
 	this.escapeString = function(str){
@@ -1948,8 +1948,20 @@ function Document(){
 			}
 		}
 		return output;
+	};
 
 
+	/**
+	 * Escapes symbols of the content of a text node.
+	 * @method         escapeTextNode
+	 * @param          {Text}     node    [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
+	 * @return         {Text}             [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
+	 * @since          0.2.8
+	 */
+	this.escapeTextNode = function(node){
+		var str = node.nodeValue,
+			content = this.escapeString(str);
+		return document.createTextNode(content);
 	};
 
     /**
