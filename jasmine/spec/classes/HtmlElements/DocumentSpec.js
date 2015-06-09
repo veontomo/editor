@@ -1818,6 +1818,13 @@ describe('Class "Document"', function() {
             expect(doc.escape(str)).toBe(str);
         });
 
+        it('replaces § with &#167;', function(){
+            expect(doc.escapeString('§')).toBe('&#167;');
+        });
+
+
+
+
 
 
 
