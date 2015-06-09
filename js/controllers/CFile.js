@@ -16,7 +16,6 @@ function CFile() {
     }
     Controller.call(this);
 
-
     /**
      * Returns time stamp string.
      * @method         timeStamp
@@ -57,24 +56,25 @@ function CFile() {
      * @since          0.1.0
      */
     this.onOk = function(dialog, editor) {
-        var adapter, doc, contentRaw, dialogData, fileName,
-        	content;
+        var adapter, doc, contentString, contentNode, dialogData, fileName;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
-            contentRaw = adapter.getEditorContent(editor);
+            contentNode = adapter.getEditorContent(editor);
+            if (!contentNode){
+            	return;
+            }
+            contentString = contentNode.outerHTML;
             dialogData = adapter.getDialogData(dialog);
             fileName = dialogData.saveInfoTab.fileName;
-            content = doc.escape(contentRaw);
-            doc.saveAs(content, fileName);
+            contentString = doc.escape(contentString);
+            if (typeof contentString !== 'string'){
+            	doc.saveToLocal(contentString, fileName);
+            }
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
         }
-
     };
-
-
-
 }
 
 CFile.prototype = Object.create(Controller.prototype);

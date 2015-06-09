@@ -17,6 +17,29 @@ function Document(){
 		return new Document();
 	}
 
+    /**
+	 * Path to a server-side script that saves content.
+	 *
+	 * The path is relative with respect to the `index.php` of the application.
+	 * @property       _saveScriptPath
+	 * @type           {String}
+	 * @private
+	 * @since          0.0.7
+	 */
+	var _saveScriptPath = 'php/saveDraft.php';
+
+    /**
+	 * Path to a server-side script that downloads file.
+	 *
+	 * The path is relative with repsect to the `index.php` of the application.
+	 * @property       _downloadScriptPath
+	 * @type           {String}
+	 * @private
+	 * @since          0.0.7
+	 */
+	var _downloadScriptPath = 'php/downloadFile.php';
+
+
 
 	/**
 	 * (Optional) Styles to be applied to overall content of the newsletter before saving it.
@@ -1898,27 +1921,26 @@ function Document(){
 	};
 
     /**
-     * Prepares the content of the editor for downloading in html format and launches the window
-     * for downloading.
-     *
-     * It sends ajax post request to the script `php/saveDraft.php` using JQuery library.
-     * @method         downloadAsHtml
-     * @param          {String}            data
-     * @param          {String}            fileName
-     * @return         {void}
-     */
-    this.saveAs = function(data, fileName){
-    	try {
-    		doc.setWrapCss(bodyCss);
-    		doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
-    		doc.convertTo(mode);
-    		fileContent = doc.docHtml();
-    		// console.log(fileContent);
-    		this.downloadFile(fileContent, fileName);
-    	} catch (e){
-    		this.showMessage(e.name + ': ' + e.message);
-    	}
-    };
+	 * Launches a window for downloading file with content `data` and suggested name `filename`.
+	 * If `filename` is not given or is not valid, the file name will be generated.
+	 *
+	 * For the moment, the method use jQuery library. It is desirable to rewrite
+	 * the method such that native javascript methods are used.
+	 * (The commented code at the end contains some hints.)
+	 * @method         saveToLocal
+	 * @param          {String}        data
+	 * @param          {String}        filename
+	 * @return         {void}
+	 */
+	this.saveToLocal = function(data, filename){
+		$.post(_saveScriptPath,
+			{'data': data, 'filename': filename},
+				function(fn){
+					// console.log('downloading is blocked: filename' + fn);
+					$(location).attr('href',  _downloadScriptPath + '?filename=' + fn);
+			}
+		);
+	};
 
 
 }
