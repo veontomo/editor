@@ -1909,39 +1909,6 @@ function Document(){
 	};
 
 	/**
-	 * Replaces non-safe symbols (non-ASCII, &, etc.) by their html codes.
-	 * @method         escape
-	 * @param          {String}        data      text to elaborate
-	 * @return         {String}
-	 * @since          0.2.8
-	 */
-	this.escape = function(data){
-        var type = typeof data,
-            len, i, code, symb, output = '';
-        if (type !== 'number' && type !== 'string'){
-            return null;
-        }
-        if (type === 'number'){
-            return data;
-        }
-        len = data.length;
-        for (i = 0; i < len; i++){
-            code = data.charCodeAt(i);
-            symb = (code > 31 && code < 126) ? data[i] : '&#' + code + ';';
-            output += symb;
-        }
-        return output;
-	};
-
-
-	this.escape2 = function(node){
-		if (node instanceof Node && node.nodeType === Node.TEXT_NODE){
-			return this.escapeTextNodeContent(node);
-		}
-	};
-
-
-	/**
 	 * Returns a new string whose special symbols are escaped.
 	 * @method         escapeString
 	 * @param          {Text}       node      [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
