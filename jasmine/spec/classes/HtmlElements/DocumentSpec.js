@@ -1743,20 +1743,24 @@ describe('Class "Document"', function() {
     });
 
     describe('has a method escapeString that', function(){
-        it('replaces < with &lt;', function(){
-            expect(doc.escapeString('<')).toBe('&lt;');
+        it('replaces standing alone < with &lt;', function(){
+            expect(doc.escapeString('1 < 5')).toBe('1 &lt; 5');
         });
-        it('replaces > with &gt;', function(){
-            expect(doc.escapeString('>')).toBe('&gt;');
+        it('replaces standing alone > with &gt;', function(){
+            expect(doc.escapeString('3>2')).toBe('2&gt;3');
         });
-        it('replaces alone-standing & with &amp;', function(){
+        it('does not replace tag-related signs < and >', function(){
+            expect(doc.escapeString('<span title="1">text</span>')).toBe('<span title="1">text</span>');
+        });
+
+        it('replaces standing alone & with &amp;', function(){
             expect(doc.escapeString('&')).toBe('&amp;');
         });
         it('leaves & sign if it is a part of an html code', function(){
             expect(doc.escapeString('&ndash;')).toBe('&ndash;');
         });
 
-        it('replaces apostrophe with &#039;', function(){
+        xit('replaces apostrophe with &#039;', function(){
             expect(doc.escapeString('\'')).toBe('&#039;');
         });
         it('replaces à ì è ò ù é with their html codes', function(){

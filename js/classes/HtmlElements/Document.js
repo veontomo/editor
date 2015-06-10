@@ -1915,16 +1915,13 @@ function Document(){
 	 * @since          0.2.8
 	 */
 	this.escapeString = function(str){
-		console.log("escaping string: " + str);
-		var len = str.length,
-			code, i, symb,
-			output = '',
+		var len, code, i, symb,	output,
 			MAX_CHAR_CODE = 126, // exclusive max value of ascii code
 			MIN_CHAR_CODE = 31,  // exclusive min value of ascii code
-			pool = {
+			dictionary = {
 				'à':  '&agrave;',     // do not include replacement for & here
 				'ì':  '&igrave;',     // because it should be treated separately:
-				'è':  '&egrave;',     // only alone-standing & should be escaped
+				'è':  '&egrave;',     // only stand alone & signs should be escaped
 				'ò':  '&ograve;',
 				'ù':  '&ugrave;',
 				'é':  '&eacute;',
@@ -1936,17 +1933,27 @@ function Document(){
 				'É':  '&Eacute;'
 			};
 
+		len = str.length;
+		var output = '';
+
+
 		for (i = 0; i < len; i++){
 			symb = str[i];
-			if (pool.hasOwnProperty(symb)){
-				output += pool[symb];
+			if (dictionary.hasOwnProperty(symb)){
+				output += dictionary[symb];
 			} else {
 				code = symb.charCodeAt(0);
 				output += (code > MIN_CHAR_CODE && code < MAX_CHAR_CODE) ? symb : '&#' + code.toString() + ';';
 			}
 		}
-		// replacing alone-standing ampersands:
+		// use online tool to find out correct regex: https://regex101.com/
+		// replace standing alone signs "&"
 		output = output.replace(/&(?![a-zA-Z#0-9]*;)/g, '&amp;');
+		// replace standing alone signs "<"
+		output = output.replace(/\<(?!([a-zA-Z\/]+).*?>.*?(<\/\1>)?)/g, '&lt;');
+
+		// todo: replace standing alone signs ">"
+
 		return output;
 	};
 
