@@ -56,19 +56,18 @@ function CFile() {
      * @since          0.1.0
      */
     this.onOk = function(dialog, editor) {
-        var adapter, doc, contentString, contentNode, dialogData, fileName;
+        var adapter, doc, contentEscaped, content, dialogData, fileName;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
-            contentNode = adapter.getEditorContent(editor);
-            if (!contentNode){
+            content = adapter.getEditorContent(editor);
+            if (!content){
             	return;
             }
             dialogData = adapter.getDialogData(dialog);
             fileName = dialogData.saveInfoTab.fileName;
-            contentNode = doc.escapeNode(contentNode);
-            console.log('escaped: ', contentNode);
-        	// doc.saveToLocal(contentNode.outerHTML, fileName);
+            contentEscaped = doc.escapeString(content.outerHTML);
+        	doc.saveToLocal(contentEscaped, fileName);
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
         }

@@ -1933,10 +1933,7 @@ function Document(){
 				'È':  '&Egrave;',
 				'Ò':  '&Ograve;',
 				'Ù':  '&Ugrave;',
-				'É':  '&Eacute;',
-				'\'': '&#039;',
-				'<':  '&lt;',
-				'>':  '&gt;',
+				'É':  '&Eacute;'
 			};
 
 		for (i = 0; i < len; i++){
@@ -1953,88 +1950,6 @@ function Document(){
 		return output;
 	};
 
-
-	/**
-	 * Escapes special symbols of the content of a text node.
-	 * @method         escapeTextNode
-	 * @param          {Text}     node    [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
-	 * @return         {Text}             [Text](https://developer.mozilla.org/en-US/docs/Web/API/Text) instance
-	 * @since          0.2.8
-	 */
-	this.escapeTextNode = function(node){
-		var str = node.nodeValue,
-			content = this.escapeString(str).replace('&', '\u0026'),
-			textNode = document.createTextNode(content);
-		console.info('XXX', "escapeTextNode: input = " + str + ", escaped = " + content + ", text node content = " + textNode.nodeValue);
-		var clone = textNode.cloneNode();
-		return textNode;
-	};
-
-	/**
-	 * Returns a shallow copy of a node in which special symbols inside the node attribute
-	 * values get escaped.
-	 *
-	 * @method         escapeElementAttributes
-	 * @param          {Node}          node   [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @return         {Node}                 [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @since          0.2.8
-	 */
-	this.escapeElementAttributes = function(node){
-		var tagName, attrs, len, i,
-			result, attrName, attrValue;
-		try {
-			tagName = node.tagName;
-			attrs = node.attributes;
-			len = attrs.length;
-			result = document.createElement(tagName);
-		} catch (e){
-			console.log(e.name + ' occurred: ' + e.message);
-			return;
-		}
-		for (i = 0; i < len; i++){
-			attrName = attrs.item(i).name;
-			attrValue = this.escapeString(attrs.item(i).value);
-			result.setAttribute(attrName, attrValue);
-		}
-		return result;
-	};
-
-	/**
-	 * Escapes special symbols in node and its descendants.
-	 * @method         escapeNode
-	 * @param          {Node}          node  [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @return         {Node}                [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @since          0.2.8
-	 */
-	this.escapeNode = function(node){
-		if (node.nodeType === Node.TEXT_NODE){
-			var node2 = this.escapeTextNode(node);
-			return node2;
-		}
-		if (node.nodeType !== Node.ELEMENT_NODE){
-			return;
-		}
-		var nodeEscaped, childNodes, len, i, nodeTmp;
-
-		// elaborates node itself, ignore eventual child nodes
-		nodeEscaped = this.escapeElementAttributes(node);
-		// console.log('%cnode after escaping attributes: ' + nodeEscaped.outerHTML, 'color: ' + color);
-		if (!nodeEscaped){
-			return;
-		}
-		// elaborate eventual child nodes
-		childNodes = node.childNodes;
-		len = childNodes.length;
-		for (i = 0; i < len; i++){
-			try {
-				nodeTmp = this.escapeNode(childNodes[i]);
-				nodeEscaped.appendChild(nodeTmp);
-			} catch(e){
-				console.log(e.name + ' occurred when escaping special symbols: ' + e.message);
-			}
-		}
-		return nodeEscaped;
-	};
 
     /**
 	 * Launches a window for downloading file with content `data` and suggested name `filename`.

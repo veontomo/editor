@@ -111,6 +111,5 @@ if(isset($_FILES['fileInput']) && array_key_exists('error', $_FILES['fileInput']
 		}?>
 		perché à &?
 	</div>
-
 </body>
 </html>
