@@ -53,7 +53,6 @@ function Document(){
 	 */
 	var _wrapCss;
 
-
 	/**
 	 * Instance of {{#crossLink "Converter"}}Converter{{/crossLink}}. Its responsibility is to convert
 	 * current instance into different formats.
@@ -1916,28 +1915,28 @@ function Document(){
 	 * @since          0.2.8
 	 */
 	this.escapeString = function(str){
+		console.log("escaping string: " + str);
 		var len = str.length,
 			code, i, symb,
 			output = '',
 			MAX_CHAR_CODE = 126, // exclusive max value of ascii code
 			MIN_CHAR_CODE = 31,  // exclusive min value of ascii code
 			pool = {
-				'à': '&agrave;',
-				'ì': '&igrave;',
-				'è': '&egrave;',
-				'ò': '&ograve;',
-				'ù': '&ugrave;',
-				'é': '&eacute;',
-				'À': '&Agrave;',
-				'Ì': '&Igrave;',
-				'È': '&Egrave;',
-				'Ò': '&Ograve;',
-				'Ù': '&Ugrave;',
-				'É': '&Eacute;',
+				'à':  '&agrave;',     // do not include replacement for & here
+				'ì':  '&igrave;',     // because it should be treated separately:
+				'è':  '&egrave;',     // only alone-standing & should be escaped
+				'ò':  '&ograve;',
+				'ù':  '&ugrave;',
+				'é':  '&eacute;',
+				'À':  '&Agrave;',
+				'Ì':  '&Igrave;',
+				'È':  '&Egrave;',
+				'Ò':  '&Ograve;',
+				'Ù':  '&Ugrave;',
+				'É':  '&Eacute;',
 				'\'': '&#039;',
-				'<': '&lt;',
-				'>': '&gt;',
-				'&': '&amp;'
+				'<':  '&lt;',
+				'>':  '&gt;',
 			};
 
 		for (i = 0; i < len; i++){
@@ -1949,6 +1948,8 @@ function Document(){
 				output += (code > MIN_CHAR_CODE && code < MAX_CHAR_CODE) ? symb : '&#' + code.toString() + ';';
 			}
 		}
+		// replacing alone-standing ampersands:
+		output = output.replace(/&(?![a-zA-Z#0-9]*;)/g, '&amp;');
 		return output;
 	};
 
@@ -1962,8 +1963,11 @@ function Document(){
 	 */
 	this.escapeTextNode = function(node){
 		var str = node.nodeValue,
-			content = this.escapeString(str);
-		return document.createTextNode(content);
+			content = this.escapeString(str).replace('&', '\u0026'),
+			textNode = document.createTextNode(content);
+		console.info('XXX', "escapeTextNode: input = " + str + ", escaped = " + content + ", text node content = " + textNode.nodeValue);
+		var clone = textNode.cloneNode();
+		return textNode;
 	};
 
 	/**
@@ -2003,11 +2007,9 @@ function Document(){
 	 * @since          0.2.8
 	 */
 	this.escapeNode = function(node){
-		if (!(node instanceof Node)){
-			return;
-		}
 		if (node.nodeType === Node.TEXT_NODE){
-			return this.escapeTextNode(node);
+			var node2 = this.escapeTextNode(node);
+			return node2;
 		}
 		if (node.nodeType !== Node.ELEMENT_NODE){
 			return;
@@ -2016,6 +2018,7 @@ function Document(){
 
 		// elaborates node itself, ignore eventual child nodes
 		nodeEscaped = this.escapeElementAttributes(node);
+		// console.log('%cnode after escaping attributes: ' + nodeEscaped.outerHTML, 'color: ' + color);
 		if (!nodeEscaped){
 			return;
 		}

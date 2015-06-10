@@ -1749,9 +1749,13 @@ describe('Class "Document"', function() {
         it('replaces > with &gt;', function(){
             expect(doc.escapeString('>')).toBe('&gt;');
         });
-        it('replaces & with &amp;', function(){
+        it('replaces alone-standing & with &amp;', function(){
             expect(doc.escapeString('&')).toBe('&amp;');
         });
+        it('leaves & sign if it is a part of an html code', function(){
+            expect(doc.escapeString('&ndash;')).toBe('&ndash;');
+        });
+
         it('replaces apostrophe with &#039;', function(){
             expect(doc.escapeString('\'')).toBe('&#039;');
         });
@@ -1771,6 +1775,14 @@ describe('Class "Document"', function() {
         it('replaces § with &#167;', function(){
             expect(doc.escapeString('§')).toBe('&#167;');
         });
+
+        it('is idempotent', function(){
+            var start = 'è & ù &agrave;!',
+                first = doc.escapeString(start),
+                second = doc.escapeString(first);
+            expect(second).toBe(first);
+        });
+
     });
 
     describe('has a method escapeTextNode that', function(){
@@ -1784,6 +1796,19 @@ describe('Class "Document"', function() {
             spyOn(doc, 'escapeString').and.returnValue(fakeResult);
             expect(doc.escapeTextNode(t) instanceof Text).toBe(true);
             expect(doc.escapeTextNode(t).nodeValue).toBe(fakeResult);
+        });
+        it('returns a text Node instance where alone-standing & is escaped', function(){
+            var t = document.createTextNode('this is alone-standing & sign');
+            expect(t.nodeValue).toBe('this is alone-standing & sign');
+            expect(doc.escapeTextNode(t) instanceof Text).toBe(true);
+            expect(doc.escapeTextNode(t).nodeValue).toBe('this is alone-standing &amp; sign');
+        });
+
+        it('returns a text Node instance where & standing in html code is not escaped', function(){
+            var t = document.createTextNode('this is an html code \u0026agrave;');
+            expect(t.nodeValue).toBe('this is an html code &agrave;');
+            expect(doc.escapeTextNode(t) instanceof Text).toBe(true);
+            expect(doc.escapeTextNode(t).nodeValue).toBe('this is an html code &agrave;');
         });
     });
 
@@ -1832,11 +1857,6 @@ describe('Class "Document"', function() {
 
 
     describe('has a method escapeNode that', function(){
-        it('returns nothing if the argument is missing', function(){
-            var result = doc.escapeNode();
-            expect(result).not.toBeDefined();
-        });
-
         it('returns nothing if method escapeElementAttributes returns nothing', function(){
             spyOn(doc, 'escapeElementAttributes').and.returnValue();
             var n = document.createElement('img');

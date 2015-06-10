@@ -64,13 +64,11 @@ function CFile() {
             if (!contentNode){
             	return;
             }
-            contentString = contentNode.outerHTML;
             dialogData = adapter.getDialogData(dialog);
             fileName = dialogData.saveInfoTab.fileName;
-            contentString = doc.escape(contentString);
-            if (typeof contentString === 'string'){
-            	doc.saveToLocal(contentString, fileName);
-            }
+            contentNode = doc.escapeNode(contentNode);
+            console.log('escaped: ', contentNode);
+        	// doc.saveToLocal(contentNode.outerHTML, fileName);
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
         }
