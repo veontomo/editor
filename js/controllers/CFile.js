@@ -107,8 +107,14 @@ function CFile() {
     };
 
     this.saveASync = function(data, fileName, parser){
-    	console.log("Async saver", data, fileName, parser);
-    	var worker = new Worker('fileSaver.js');
+    	var model = this.getModel();
+    	var worker;
+    	try {
+    		worker = new Worker(model.fileSaver);
+    	} catch(e){
+    		console.log(e.name + ' occurred when initializing an async worker: ' + e.message);;
+    	}
+
     	worker.postMessage([data, fileName]);
     };
 }
