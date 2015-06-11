@@ -56,7 +56,7 @@ function CFile() {
      * @since          0.1.0
      */
     this.onOk = function(dialog, editor) {
-        var adapter, doc, contentEscaped, content, dialogData, fileName;
+        var adapter, doc, content, dialogData, fileName;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
@@ -66,11 +66,43 @@ function CFile() {
             }
             dialogData = adapter.getDialogData(dialog);
             fileName = dialogData.saveInfoTab.fileName;
-            contentEscaped = doc.escapeString(content.outerHTML);
-        	doc.saveToLocal(contentEscaped, fileName);
+            // if (window.Worker){
+            	/// start job using worker
+            // } else {
+            	this.saveSync(content.outerHTML, fileName, doc);
+            // }
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
         }
+    };
+
+
+    /**
+     * Elaborates `data` and then launches a window to save in a file
+     * with name `fileName`.
+     * @method         saveSync
+     * @param          {String}        data
+     * @param          {String}        fileName
+     * @param          {Document}      parser         {{#crossLink "Document"}}Document{{/crossLink}} instance
+     *                                                that parses the data
+     * @return         {void}
+     * @since          0.2.8
+     */
+    this.saveSync = function(data, fileName, parser){
+    	var contentEscaped;
+    	try {
+		    contentEscaped = parser.escapeString(data);
+    	} catch (e){
+    		console.log(e.name + " occurred when escaping special characters: " + e.message);
+    		return;
+    	}
+    	try {
+    		parser.saveToLocal(contentEscaped, fileName);
+    	} catch (e){
+    		console.log(e.name + " occurred when saving the file: " + e.message);
+    		return;
+    	}
+
     };
 }
 
