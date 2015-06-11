@@ -69,7 +69,7 @@ function CFile() {
             dialogData = adapter.getDialogData(dialog);
             fileName = dialogData.saveInfoTab.fileName;
             data = doc.sanitize(content.outerHTML);
-        	_fileWorker.saveToLocal(data, fileName, doc);
+        	_fileWorker.saveDraft(data, fileName, doc);
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
         }
