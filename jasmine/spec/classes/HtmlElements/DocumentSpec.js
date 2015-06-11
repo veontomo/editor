@@ -1742,48 +1742,48 @@ describe('Class "Document"', function() {
 
     });
 
-    describe('has a method escapeString that', function(){
+    describe('has a method sanitize that', function(){
         it('replaces standing alone < with &lt;', function(){
-            expect(doc.escapeString('1 < 5')).toBe('1 &lt; 5');
+            expect(doc.sanitize('1 < 5')).toBe('1 &lt; 5');
         });
         it('replaces standing alone > with &gt;', function(){
-            expect(doc.escapeString('3>2')).toBe('2&gt;3');
+            expect(doc.sanitize('3>2')).toBe('2&gt;3');
         });
         it('does not replace tag-related signs < and >', function(){
-            expect(doc.escapeString('<span title="1">text</span>')).toBe('<span title="1">text</span>');
+            expect(doc.sanitize('<span title="1">text</span>')).toBe('<span title="1">text</span>');
         });
 
         it('replaces standing alone & with &amp;', function(){
-            expect(doc.escapeString('&')).toBe('&amp;');
+            expect(doc.sanitize('&')).toBe('&amp;');
         });
         it('leaves & sign if it is a part of an html code', function(){
-            expect(doc.escapeString('&ndash;')).toBe('&ndash;');
+            expect(doc.sanitize('&ndash;')).toBe('&ndash;');
         });
 
         xit('replaces apostrophe with &#039;', function(){
-            expect(doc.escapeString('\'')).toBe('&#039;');
+            expect(doc.sanitize('\'')).toBe('&#039;');
         });
         it('replaces à ì è ò ù é with their html codes', function(){
-            expect(doc.escapeString('à ì è ò ù é')).toBe('&agrave; &igrave; &egrave; &ograve; &ugrave; &eacute;');
+            expect(doc.sanitize('à ì è ò ù é')).toBe('&agrave; &igrave; &egrave; &ograve; &ugrave; &eacute;');
         });
 
         it('replaces À Ì È Ò Ù É with their html codes', function(){
-            expect(doc.escapeString('À Ì È Ò Ù É')).toBe('&Agrave; &Igrave; &Egrave; &Ograve; &Ugrave; &Eacute;');
+            expect(doc.sanitize('À Ì È Ò Ù É')).toBe('&Agrave; &Igrave; &Egrave; &Ograve; &Ugrave; &Eacute;');
         });
 
         it('does not change "safe" characters', function(){
             var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]!?.,;:%_";
-            expect(doc.escapeString(str)).toBe(str);
+            expect(doc.sanitize(str)).toBe(str);
         });
 
         it('replaces § with &#167;', function(){
-            expect(doc.escapeString('§')).toBe('&#167;');
+            expect(doc.sanitize('§')).toBe('&#167;');
         });
 
         it('is idempotent', function(){
             var start = 'è & ù &agrave;!',
-                first = doc.escapeString(start),
-                second = doc.escapeString(first);
+                first = doc.sanitize(start),
+                second = doc.sanitize(first);
             expect(second).toBe(first);
         });
 

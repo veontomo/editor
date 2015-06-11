@@ -16,7 +16,7 @@ function CFile() {
     }
     Controller.call(this);
 
-    this.setModel(File);
+    var _fileWorker = new File();
 
     /**
      * Returns time stamp string.
@@ -58,7 +58,7 @@ function CFile() {
      * @since          0.1.0
      */
     this.onOk = function(dialog, editor) {
-        var adapter, doc, content, dialogData, fileName;
+        var adapter, doc, content, data, dialogData, fileName;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
@@ -68,54 +68,11 @@ function CFile() {
             }
             dialogData = adapter.getDialogData(dialog);
             fileName = dialogData.saveInfoTab.fileName;
-            if (window.Worker){
-            	this.saveASync(content.outerHTML, fileName, doc);
-            } else {
-            	this.saveSync(content.outerHTML, fileName, doc);
-            }
+            data = doc.sanitize(content.outerHTML);
+        	_fileWorker.saveToLocal(data, fileName, doc);
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
         }
-    };
-
-
-    /**
-     * Elaborates `data` and then launches a window to save in a file
-     * with name `fileName`.
-     * @method         saveSync
-     * @param          {String}        data
-     * @param          {String}        fileName
-     * @param          {Document}      parser         {{#crossLink "Document"}}Document{{/crossLink}} instance
-     *                                                that parses the data
-     * @return         {void}
-     * @since          0.2.8
-     */
-    this.saveSync = function(data, fileName, parser){
-    	var contentEscaped;
-    	try {
-		    contentEscaped = parser.escapeString(data);
-    	} catch (e){
-    		console.log(e.name + " occurred when escaping special characters: " + e.message);
-    		return;
-    	}
-    	try {
-    		parser.saveToLocal(contentEscaped, fileName);
-    	} catch (e){
-    		console.log(e.name + " occurred when saving the file: " + e.message);
-    		return;
-    	}
-    };
-
-    this.saveASync = function(data, fileName, parser){
-    	var model = this.getModel();
-    	var worker;
-    	try {
-    		worker = new Worker(model.fileSaver);
-    	} catch(e){
-    		console.log(e.name + ' occurred when initializing an async worker: ' + e.message);;
-    	}
-
-    	worker.postMessage([data, fileName]);
     };
 }
 

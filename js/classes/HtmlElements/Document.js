@@ -17,29 +17,6 @@ function Document(){
 		return new Document();
 	}
 
-    /**
-	 * Path to a server-side script that saves content.
-	 *
-	 * The path is relative with respect to the `index.php` of the application.
-	 * @property       _saveScriptPath
-	 * @type           {String}
-	 * @private
-	 * @since          0.0.7
-	 */
-	var _saveScriptPath = 'php/saveDraft.php';
-
-    /**
-	 * Path to a server-side script that downloads file.
-	 *
-	 * The path is relative with repsect to the `index.php` of the application.
-	 * @property       _downloadScriptPath
-	 * @type           {String}
-	 * @private
-	 * @since          0.0.7
-	 */
-	var _downloadScriptPath = 'php/downloadFile.php';
-
-
 
 	/**
 	 * (Optional) Styles to be applied to overall content of the newsletter before saving it.
@@ -1909,12 +1886,12 @@ function Document(){
 
 	/**
 	 * Returns a new string whose special symbols are escaped.
-	 * @method         escapeString
+	 * @method         sanitize
 	 * @param          {String}        node
 	 * @return         {String}
 	 * @since          0.2.8
 	 */
-	this.escapeString = function(str){
+	this.sanitize = function(str){
 		var len, code, i, symb,	output,
 			MAX_CHAR_CODE = 126, // exclusive max value of ascii code
 			MIN_CHAR_CODE = 31,  // exclusive min value of ascii code
@@ -1958,27 +1935,6 @@ function Document(){
 	};
 
 
-    /**
-	 * Launches a window for downloading file with content `data` and suggested name `filename`.
-	 * If `filename` is not given or is not valid, the file name will be generated.
-	 *
-	 * For the moment, the method use jQuery library. It is desirable to rewrite
-	 * the method such that native javascript methods are used.
-	 * (The commented code at the end contains some hints.)
-	 * @method         saveToLocal
-	 * @param          {String}        data
-	 * @param          {String}        filename
-	 * @return         {void}
-	 */
-	this.saveToLocal = function(data, filename){
-		$.post(_saveScriptPath,
-			{'data': data, 'filename': filename},
-				function(fn){
-					// console.log('downloading is blocked: filename' + fn);
-					$(location).attr('href',  _downloadScriptPath + '?filename=' + fn);
-			}
-		);
-	};
 
 
 }
