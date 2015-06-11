@@ -37,6 +37,7 @@ var sourceFiles = [
 	'js/classes/HtmlElements/Tag/UList.js',
 	'js/classes/HtmlElements/Tag/Link.js',
 	'js/classes/HtmlElements/PlainText.js',
+	'js/classes/HtmlElements/File.js',
 	// document-related models
 	'js/classes/HtmlElements/Document.js',
 	// converters

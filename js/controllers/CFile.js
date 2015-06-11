@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global Controller, Cell */
+/*global Controller, Cell, Worker, File, window */
 
 /**
  * File system controller.
@@ -15,6 +15,8 @@ function CFile() {
         return new CFile();
     }
     Controller.call(this);
+
+    this.setModel(File);
 
     /**
      * Returns time stamp string.
@@ -66,11 +68,11 @@ function CFile() {
             }
             dialogData = adapter.getDialogData(dialog);
             fileName = dialogData.saveInfoTab.fileName;
-            // if (window.Worker){
-            	/// start job using worker
-            // } else {
+            if (window.Worker){
+            	this.saveASync(content.outerHTML, fileName, doc);
+            } else {
             	this.saveSync(content.outerHTML, fileName, doc);
-            // }
+            }
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
         }
@@ -102,7 +104,12 @@ function CFile() {
     		console.log(e.name + " occurred when saving the file: " + e.message);
     		return;
     	}
+    };
 
+    this.saveASync = function(data, fileName, parser){
+    	console.log("Async saver", data, fileName, parser);
+    	var worker = new Worker('fileSaver.js');
+    	worker.postMessage([data, fileName]);
     };
 }
 
