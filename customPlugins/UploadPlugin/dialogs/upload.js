@@ -1,4 +1,4 @@
-CKEDITOR.dialog.add('uploadDialog', function(editor) {
+CKEDITOR.dialog.add('UploadPluginDialog', function(editor) {
     return {
         title: editor.lang.common.upload,
         minWidth: 250,
