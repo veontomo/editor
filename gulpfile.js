@@ -49,6 +49,9 @@ var sourceFiles = [
 	'js/classes/CKHelper.js',
 	'js/classes/HtmlElements/Mapper.js',
 	'js/classes/HtmlElements/Factory.js',
+
+	// Dialogs
+	'js/dialogs/AbstractDialog.js',
 	// Controllers
 	'js/controllers/Controller.js',
 	'js/controllers/CTable.js',

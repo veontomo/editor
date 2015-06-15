@@ -2,11 +2,11 @@
 /*global CKEDITOR, Document, NEWSLETTER, CLink */
 
 /**
-* Unified dialog for link and e-mail insertion.
-*
-* @module  Dialogs
-* @class   LinkDialog
-*/
+ * Dialog for link insertion.
+ *
+ * @module  Dialogs
+ * @class   LinkDialog
+ */
 function LinkDialog(editor) {
     /**
      * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}

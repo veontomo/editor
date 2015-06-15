@@ -30,7 +30,6 @@ CKEDITOR.plugins.add('UploadPlugin', {
 			exec: function(e){
 				e.openDialog(_pluginName + 'Dialog', function(dialog){
 					dialog.once('show', function(){
-						alert("ready");
 					});
 				});
 			}
@@ -55,10 +54,12 @@ CKEDITOR.plugins.add('UploadPlugin', {
 	onLoad: function(){
 		var translations = {
 			it: {
-				label:    'Caricare file nell\'editor',
+				label:  'Caricare file nell\'editor',
+				title:  'Scegliere il file '
 			},
 			en: {
-				label:    'Load a file into the editor',
+				label:  'Load a file into the editor',
+				title:  'Choose the file'
 			}
 		};
 

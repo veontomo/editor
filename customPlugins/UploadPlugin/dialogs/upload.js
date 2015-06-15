@@ -1,47 +1,61 @@
-CKEDITOR.dialog.add('UploadPluginDialog', function(editor) {
+/*jslint plusplus: true, white: true */
+/*global CKEDITOR */
+
+/**
+ * Dialog for chosing a file for file upload.
+ *
+ * @module  Dialogs
+ * @class   UploadDialog
+ */
+function UploadPluginDialog(editor) {
+    "use strict";
+    if (!(this instanceof UploadPluginDialog)) {
+        return new UploadPluginDialog(editor);
+    }
+    AbstractDialog.call(this, editor);
+
+    this.setController(new CFile());
+
+    this.setAdapter(NEWSLETTER.editorAdapter);
+
+    this.setPluginName('UploadPlugin');
+
     return {
-        title: editor.lang.common.upload,
+        title: editor.lang[this.getPluginName()].title,
         minWidth: 250,
         minHeight: 100,
-        buttons: [CKEDITOR.dialog.cancelButton],
         contents: [{
             id: 'tab1',
             elements: [{
                 type: 'vbox',
                 children: [{
                     type: 'file',
-                    label: 'Percorso',
+                    label: editor.lang[this.getPluginName()].title,
                     id: 'fileUpload',
-                    size: 10,
-                    action: '#'
-                }, {
-                    type: 'fileButton',
-                    label: 'Caricare',
-                    'for': ['tab1', 'fileUpload'],
-                    onClick: function() {
-                        // adds a fictious button to submit the form and clicks it. Does not work!
-                        var elem = this.getDialog().getContentElement('tab1', 'fileUpload').getElement();
-                        var submitBtn = new CKEDITOR.dom.element('input');
-                        submitBtn.setAttribute('type', 'submit');
-                        submitBtn.setAttribute('value', 'submit');
-                        submitBtn.setAttribute('id', 'pulsanteFittizio');
-                        submitBtn.setAttribute('hidden', 'hidden');
-                        elem.append(submitBtn);
-                        $('#pulsanteFittizio').click();
-                        console.log(elem);
-                        this.getDialog().hide();
-                        return false;
-                    },
-                    filebrowser: {
-                        onSelect: function(fileUrl, data) {
-                            alert('Successfully uploaded: ' + fileUrl);
-                        }
+                    action: function(fileUrl, data) {
+                        alert('Successfully uploaded: ' + fileUrl);
                     }
+                }, {
+                    type: 'file',
+                    id: 'upload',
+                    label: editor.lang[this.getPluginName()].title,
+                    size: "20em",
+                    filebrowser: 'tab1:upload',
+                    'for': ['tab1', 'upload'],
                 }]
             }]
         }],
-        onOk: function() {},
-        onShow: function() {}
+        onOk: function() {
+            console.log("click ok");
+        },
+
+        onShow: function() {
+            console.log("show");
+        }
 
     };
-});
+}
+
+UploadPluginDialog.prototype = Object.create(AbstractDialog.prototype);
+
+CKEDITOR.dialog.add('UploadPluginDialog', UploadPluginDialog);

@@ -17,7 +17,7 @@ function Controller(){
 
 	/**
 	 * The whole content of the editor window.
-	 * @property {Eleemnt|Null} _content
+	 * @property {Element|Null} _content
 	 * @since     0.1.0
 	 * @private
 	 */
