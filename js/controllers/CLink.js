@@ -18,9 +18,6 @@ function CLink() {
 
     this.setModel(Link);
 
-    var worker = new Document();
-    worker.setFactory(NEWSLETTER.factory);
-    this.setWorker(worker);
 
     /**
      * Modifies the content of the `editor` based on information provided in the `dialog` window

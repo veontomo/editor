@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CImage, Document, NEWSLETTER */
+/*global CKEDITOR, CImage, AbstractDialog */
 
 /**
  * A dialog for image insertion.
@@ -11,35 +11,40 @@
  * @uses        CImage
  * @uses        Document
  */
-var ImageDialog = function(editor) {
+function ImageDialog(editor) {
+    "use strict";
+    if (!(this instanceof ImageDialog)) {
+        return new ImageDialog(editor);
+    }
+    AbstractDialog.call(this, editor);
+
+    this.setController(new CImage());
+
+    this.setPluginName('ImagePlugin');
+
     /**
-     * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
+     * Instance of {{#crossLink "CImage"}}CImage{{/crossLink}}
      * @property  {CImage}     _controller
      * @type      {CImage}
      * @private
      */
-    var _controller = new CImage();
-    _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
-
-
-
-
-
-
-    var _pluginName = 'ImagePlugin';
+    var _controller = this.getController();
 
     /**
-     * {{#crossLink "ImageDialog/_controller:property"}}_controller{{/crossLink}} configurator.
-     * @method  anonymous
-     * @return  {void}
-     * @since   0.1.0
+     * A string to store plugin name.
+     * @property  {String}     _pluginName
      * @private
      */
-    (function() {
-        var worker = new Document();
-        worker.setFactory(NEWSLETTER.factory);
-        _controller.setWorker(worker);
-    }());
+    var _pluginName = this.getPluginName();
+
+    /**
+     * A reference to a dialog.
+     *
+     * To be initialized in {{#crossLink "ImageDialog/onLoad:property"}}onLoad{{/crossLink}} method.
+     * @property  {Object}     _pluginName
+     * @private
+     */
+    var _dialog;
 
     return {
         // Basic properties of the dialog window: title, minimum size.
@@ -84,23 +89,42 @@ var ImageDialog = function(editor) {
                 default: ''
             }]
         }, ],
+
+        /**
+         * The function to execute when the dialog is displayed for the first time.
+         *
+         * @method     onLoad
+         * @return     {void}
+         */
+        onLoad: function() {
+            _dialog = this;
+        },
+
+        /**
+         * The function to execute every time the dialog is displayed.
+         *
+         * @method     onLoad
+         * @return     {void}
+         */
         onShow: function() {
-            _controller.setDialogHtmlField(this, {
+            _controller.setDialogHtmlField(_dialog, {
                 tabId: 'mainTab',
                 elemId: 'warning',
                 value: '&nbsp;'
             });
-            _controller.onShow(this, editor);
+            _controller.onShow(_dialog, editor);
         },
 
         // This method is invoked once a user clicks the OK button, confirming the dialog.
         onOk: function() {
             var params = {
-                'target': _controller.getExtra(this),
+                'target': _controller.getExtra(_dialog),
             };
-            _controller.onOk(this, editor, params);
+            _controller.onOk(_dialog, editor, params);
         }
     };
-};
+}
+
+ImageDialog.prototype = Object.create(AbstractDialog.prototype);
 
 CKEDITOR.dialog.add('ImagePluginDialog', ImageDialog);

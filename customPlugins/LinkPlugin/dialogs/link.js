@@ -69,7 +69,20 @@ function LinkDialog(editor) {
         });
     }());
 
+    /**
+     * A string to store plugin name.
+     * @property  {String}     _pluginName
+     * @private
+     */
     var _pluginName = this.getPluginName();
+
+    /**
+     * A reference to a dialog.
+     *
+     * To be initialized in {{#crossLink "ImageDialog/onLoad:property"}}onLoad{{/crossLink}} method.
+     * @property  {Object}     _pluginName
+     * @private
+     */
     var _dialog;
 
 
@@ -204,7 +217,7 @@ function LinkDialog(editor) {
 
         onOk: function() {
             var params = {
-                'target': _controller.getExtra(this),
+                'target': _controller.getExtra(_dialog),
                 'selection': _controller.getEditorSelection(editor)
             };
             _controller.onOk(_dialog, editor, params);

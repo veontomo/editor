@@ -32,7 +32,8 @@ function Controller(){
 	 * @private
 	 * @since          0.1.0
 	 */
-	var _worker;
+	var _worker = new Document();
+	_worker.setFactory(NEWSLETTER.factory);
 
 	/**
 	 * Editor-specific adapter that transforms objects from editor representation into native javascript one.
