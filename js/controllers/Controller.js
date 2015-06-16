@@ -26,16 +26,6 @@ function Controller(){
 	 */
 	var _model;
 
-
-	/**
-	 * The whole content of the editor window.
-	 * @property {Element|Null} _content
-	 * @since     0.1.0
-	 * @private
-	 * @deprecated
-	 */
-	var _content;
-
 	/**
 	 * A worker that performs operations on the editor content.
 	 * @property       {Object}        _worker
@@ -51,32 +41,6 @@ function Controller(){
 	 * @private
 	 */
 	var _editorAdapter = NEWSLETTER.editorAdapter;
-
-	/**
-	 * {{#crossLink "Controller/_content:property"}}_content{{/crossLink}} setter.
-	 *
-	 * If the argument is not a [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance,
-	 * the setter resets {{#crossLink "Controller/_content:property"}}_content{{/crossLink}}.
-	 * @method         setContent
-	 * @param          {Node}          c      [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) instance
-	 * @return         {void}
-	 * @since          0.1.0
-	 */
-	this.setContent = function(c){
-		_content = (c instanceof Node) ? c : undefined;
-	};
-
-	/**
-	 * {{#crossLink "Controller/_content:property"}}_content{{/crossLink}} getter.
-	 *
-	 * @method         getContent
-	 * @return         {Node|Null}
-	 * @since          0.1.0
-	 */
-	this.getContent = function(){
-		return _content;
-	};
-
 
 	/**
 	 * {{#crossLink "Controller/_worker:property"}}_worker{{/crossLink}} setter.
