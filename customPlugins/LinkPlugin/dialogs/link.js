@@ -15,7 +15,7 @@ function LinkDialog(editor) {
     AbstractDialog.call(this, editor);
 
     this.setController(new CLink());
-    this.setAdapter(NEWSLETTER.editorAdapter);
+
     this.setPluginName('LinkPlugin');
 
     /**
@@ -25,7 +25,6 @@ function LinkDialog(editor) {
      * @private
      */
     var _controller = this.getController();
-    _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
 
     /**
      * {{#crossLink "LinkMailDialog/_controller:property"}}_controller{{/crossLink}} configurator.
