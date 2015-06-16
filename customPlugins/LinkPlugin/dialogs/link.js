@@ -1,5 +1,5 @@
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, Document, NEWSLETTER, CLink */
+/*global CKEDITOR, AbstractDialog, CLink, dhtmlXColorPicker */
 
 /**
  * Dialog for link insertion.
@@ -27,47 +27,12 @@ function LinkDialog(editor) {
     var _controller = this.getController();
 
     /**
-     * {{#crossLink "LinkMailDialog/_controller:property"}}_controller{{/crossLink}} configurator.
-     * @method  anonymous
-     * @return  {void}
-     * @since   0.1.0
-     * @private
-     */
-    // (function() {
-    //     var worker = new Document();
-    //     worker.setFactory(NEWSLETTER.factory);
-    //     _controller.setWorker(worker);
-    // }());
-
-    // this.setWorker(new Document());
-    // this.getWorker().setFactory(NEWSLETTER.factory);
-
-
-
-    /**
      * Style for text input fields for choosing colors.
      * @property {String} _inputColorStyle
      * @type     {String}
      * @private
      */
     var _inputColorStyle = 'min-width: 6em; width: 6em; max-width: 6em; text-align: center;';
-
-
-    /**
-     * Style for label fields (text in front of input fields).
-     * @property {String} _labelStyle
-     * @type     {String}
-     * @private
-     */
-    // var getTextInputStyle() = 'padding-left: 0px; margin: 0; float: left; width: 100%;';
-
-    /**
-     * Style for warning fields.
-     * @property {String} _warningStyle
-     * @type     {String}
-     * @private
-     */
-    // var _warningStyle = 'color: #EE0000; font-size: 1.1em; font-weight: bold;';
 
 
     /**
@@ -99,7 +64,6 @@ function LinkDialog(editor) {
      */
     (function() {
         _colorPicker.attachEvent('onShow', function() {
-            // console.log(this);
             var elem = this.base;
             elem.childNodes[0].style.zIndex = '10011';
         });
@@ -226,7 +190,6 @@ function LinkDialog(editor) {
             var colorInputFields = {
                 'linkInfoTab': ['color']
             };
-            console.log("on load:", this);
             _dialog = this;
             _appendColorPickerToBunch(this, colorInputFields);
         },
