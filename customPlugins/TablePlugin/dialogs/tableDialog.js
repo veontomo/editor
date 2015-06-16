@@ -11,6 +11,15 @@
  * @since         0.0.6
  */
 function TableDialog(editor) {
+    "use strict";
+    if (!(this instanceof TableDialog)) {
+        return new TableDialog(editor);
+    }
+    AbstractDialog.call(this, editor);
+
+    this.setController(new CTable());
+
+    this.setPluginName('TablePlugin');
 
     /**
      * Instance of {{#crossLink "Controller"}}Controller{{/crossLink}}.
@@ -18,29 +27,23 @@ function TableDialog(editor) {
      * @type           {CTable}
      * @private
      */
-    var _controller = new CTable();
-    _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+    var _controller = this.getController();
 
     /**
-     * Configures {{#crossLink "TableDialog/_controller:property"}}_controller{{/crossLink}}.
-     * @method  constructor
-     * @since   0.2.0
-     */
-    (function() {
-        var worker = new Document();
-        worker.setFactory(NEWSLETTER.factory);
-        _controller.setWorker(worker);
-    }());
-
-
-    /**
-     * Name of the plugin the current dialog belongs to.
-     * @property       {String} _pluginName
-     * @type           {String}
+     * A string to store plugin name.
+     * @property  {String}     _pluginName
      * @private
-     * @since          0.2.0
      */
-    var _pluginName = 'TablePlugin';
+    var _pluginName = this.getPluginName();
+
+    /**
+     * A reference to a dialog.
+     *
+     * To be initialized in {{#crossLink "ImageDialog/onLoad:property"}}onLoad{{/crossLink}} method.
+     * @property  {Object}     _pluginName
+     * @private
+     */
+    var _dialog;
 
     /**
      * Location of the directory containing plugin icons.
@@ -182,7 +185,7 @@ function TableDialog(editor) {
             _counter = _counter + 1;
 
             var colWeigthTab = {
-            	// create tab with new id
+                // create tab with new id
                 id: COLUMN_WEIGHT_PAGE_ID + _counter.toString(),
                 label: editor.lang[_pluginName].colWeightLabel,
                 elements: [{
@@ -564,6 +567,7 @@ function TableDialog(editor) {
                 'rows': ['frame-color', 'border-color'],
                 'cells': ['border-color'],
             };
+             _dialog = this;
             _appendColorPickerToBunch(this, colorInputFields);
         },
 
@@ -585,14 +589,14 @@ function TableDialog(editor) {
          */
         onOk: function() {
             var params = {
-                'target': _controller.getExtra(this),
+                'target': _controller.getExtra(_dialog),
                 'selection': _controller.getEditorSelection(editor)
             };
-            _controller.onOk(this, editor, params);
+            _controller.onOk(_dialog, editor, params);
         }
     };
     return dialogWindow;
 }
-
+TableDialog.prototype = Object.create(AbstractDialog.prototype);
 
 CKEDITOR.dialog.add('TablePluginDialog', TableDialog);
