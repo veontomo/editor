@@ -10,10 +10,17 @@
  * @author    A.Shcherbakov
  */
 function AbstractDialog(e){
+	console.log("abstract dialog");
 	"use strict";
 	if (!(this instanceof AbstractDialog)) {
 	    return new AbstractDialog(e);
 	}
+
+	/**
+	 * Reference to current dialog
+	 * @property {Object} _dialog
+	 */
+	var _dialog;
 
 	/**
 	 * Controller related to this dialog.
@@ -55,6 +62,26 @@ function AbstractDialog(e){
 	 * @private
 	 */
 	var _warningStyle = 'color: #EE0000; font-size: 1.1em; font-weight: bold;';
+
+	/**
+	 * {{#crossLink "AbstractDialog/_dialog:property"}}_dialog{{/crossLink}} setter
+	 * @method         setDialog
+	 * @param          {Object}        dialog
+	 * @since          0.2.8
+	 */
+	this.setDialog = function(dialog){
+		_dialog = dialog;
+	};
+
+	/**
+	 * {{#crossLink "AbstractDialog/_dialog:property"}}_dialog{{/crossLink}} getter
+	 * @method         getDialog
+	 * @return         {Object}
+	 * @since          0.2.8
+	 */
+	this.getDialog = function(dialog){
+		return _dialog;
+	};
 
 
 	/**

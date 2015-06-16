@@ -16,12 +16,41 @@ function Controller(){
 	}
 
 	/**
+	 * Name of the class that the controller represents.
+	 *
+	 * It is supposed to be a {{#crossLink "Tag"}}Tag{{/crossLink}} or one of its subclasses.
+	 * @property {Tag} _model
+	 * @private
+	 * @type
+	 * @since  0.2.0
+	 */
+	var _model;
+
+
+	/**
 	 * The whole content of the editor window.
 	 * @property {Element|Null} _content
 	 * @since     0.1.0
 	 * @private
+	 * @deprecated
 	 */
 	var _content;
+
+	/**
+	 * A worker that performs operations on the editor content.
+	 * @property       {Object}        _worker
+	 * @private
+	 * @since          0.1.0
+	 */
+	var _worker;
+
+	/**
+	 * Editor-specific adapter that transforms objects from editor representation into native javascript one.
+	 * @property       {EditorAdapter}      _editorAdapter
+	 * @since          0.0.8
+	 * @private
+	 */
+	var _editorAdapter = NEWSLETTER.editorAdapter;
 
 	/**
 	 * {{#crossLink "Controller/_content:property"}}_content{{/crossLink}} setter.
@@ -50,14 +79,6 @@ function Controller(){
 
 
 	/**
-	 * A worker that performs operations on the editor content.
-	 * @property       {Object}        _worker
-	 * @private
-	 * @since          0.1.0
-	 */
-	var _worker;
-
-	/**
 	 * {{#crossLink "Controller/_worker:property"}}_worker{{/crossLink}} setter.
 	 *
 	 * Note that no check concerning the validity of `w` is performed.
@@ -80,16 +101,6 @@ function Controller(){
 	this.getWorker = function(){
 		return _worker;
 	};
-
-
-
-	/**
-	 * Editor-specific adapter that transforms objects from editor representation into native javascript one.
-	 * @property       {EditorAdapter}      _editorAdapter
-	 * @since          0.0.8
-	 * @private
-	 */
-	var _editorAdapter;
 
 	/**
 	 * {{#crossLink "Controller/_editorAdapter:property"}}_editorAdapter{{/crossLink}} getter.
@@ -123,16 +134,6 @@ function Controller(){
 	};
 
 
-	/**
-	 * Name of the class that the controller represents.
-	 *
-	 * It is supposed to be a {{#crossLink "Tag"}}Tag{{/crossLink}} or one of its subclasses.
-	 * @property {Tag} _model
-	 * @private
-	 * @type
-	 * @since  0.2.0
-	 */
-	var _model;
 
 	/**
 	 * {{#crossLink "Controller/_model:property"}}_model{{/crossLink}} setter.

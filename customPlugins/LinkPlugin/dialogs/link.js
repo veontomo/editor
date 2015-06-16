@@ -8,13 +8,23 @@
  * @class   LinkDialog
  */
 function LinkDialog(editor) {
+    "use strict";
+    if (!(this instanceof LinkDialog)) {
+        return new LinkDialog(editor);
+    }
+    AbstractDialog.call(this, editor);
+
+    this.setController(new CLink());
+    this.setAdapter(NEWSLETTER.editorAdapter);
+    this.setPluginName('LinkPlugin');
+
     /**
      * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
      * @property  {CLink}     _controller
      * @type      {CLink}
      * @private
      */
-    var _controller = new CLink();
+    var _controller = this.getController();
     _controller.setEditorAdapter(NEWSLETTER.editorAdapter);
 
     /**
@@ -24,11 +34,15 @@ function LinkDialog(editor) {
      * @since   0.1.0
      * @private
      */
-    (function(){
-        var worker = new Document();
-        worker.setFactory(NEWSLETTER.factory);
-        _controller.setWorker(worker);
-    }());
+    // (function() {
+    //     var worker = new Document();
+    //     worker.setFactory(NEWSLETTER.factory);
+    //     _controller.setWorker(worker);
+    // }());
+
+    // this.setWorker(new Document());
+    // this.getWorker().setFactory(NEWSLETTER.factory);
+
 
 
     /**
@@ -46,7 +60,7 @@ function LinkDialog(editor) {
      * @type     {String}
      * @private
      */
-    var _textInputStyle = 'padding-left: 0px; margin: 0; float: left; width: 100%;';
+    // var getTextInputStyle() = 'padding-left: 0px; margin: 0; float: left; width: 100%;';
 
     /**
      * Style for warning fields.
@@ -54,7 +68,7 @@ function LinkDialog(editor) {
      * @type     {String}
      * @private
      */
-     var _warningStyle = 'color: #EE0000; font-size: 1.1em; font-weight: bold;';
+    // var _warningStyle = 'color: #EE0000; font-size: 1.1em; font-weight: bold;';
 
 
     /**
@@ -84,15 +98,17 @@ function LinkDialog(editor) {
      * @return {void}
      * @since  0.0.6
      */
-    (function(){
-        _colorPicker.attachEvent('onShow', function(){
+    (function() {
+        _colorPicker.attachEvent('onShow', function() {
             // console.log(this);
             var elem = this.base;
             elem.childNodes[0].style.zIndex = '10011';
         });
     }());
 
-    var _pluginName = 'LinkPlugin';
+    var _pluginName = this.getPluginName();
+    var _dialog;
+
 
 
     /**
@@ -107,18 +123,18 @@ function LinkDialog(editor) {
      * @return         {void}
      * @since          0.2.1
      */
-    var _appendColorPickerToBunch = function(dialog, elements){
+    var _appendColorPickerToBunch = function(dialog, elements) {
         var tab, ids, len, i, id;
-        for (tab in elements){
-            if (elements.hasOwnProperty(tab)){
+        for (tab in elements) {
+            if (elements.hasOwnProperty(tab)) {
                 ids = elements[tab];
                 len = ids.length;
-                for (i = 0; i < len; i++){
+                for (i = 0; i < len; i++) {
                     try {
                         id = dialog.getContentElement(tab, ids[i]).getInputElement().$.getAttribute('id');
                         _colorPicker.linkTo(id);
-                    } catch (e){
-                        console.log(e.name + ' occurred when linking color picking dialog to input element (' + i + ' of tab '  + tab + '): ' + e.message);
+                    } catch (e) {
+                        console.log(e.name + ' occurred when linking color picking dialog to input element (' + i + ' of tab ' + tab + '): ' + e.message);
                     }
 
 
@@ -139,14 +155,14 @@ function LinkDialog(editor) {
             elements: [{
                 type: 'vbox',
                 children: [{
-                    type:  'text',
-                    id:    'href',
+                    type: 'text',
+                    id: 'href',
                     label: editor.lang[_pluginName].url,
                     title: editor.lang[_pluginName].urlDescr,
-                    style: _textInputStyle,
-                    validate: function(){
+                    style: this.getTextInputStyle(),
+                    validate: function() {
                         var isOk = Boolean(this.getValue().trim());
-                        if (!isOk){
+                        if (!isOk) {
                             _controller.setDialogHtmlField(this.getDialog(), {
                                 tabId: 'linkInfoTab',
                                 elemId: 'warning',
@@ -159,19 +175,19 @@ function LinkDialog(editor) {
                     type: 'html',
                     id: 'warning',
                     html: '&nbsp;',
-                    style: _warningStyle
+                    style: this.getWarningStyle()
                 }, {
                     type: 'text',
-                    id : 'content',
+                    id: 'content',
                     label: editor.lang[_pluginName].content,
                     title: editor.lang[_pluginName].contentDescr,
-                    style: _textInputStyle,
+                    style: this.getTextInputStyle(),
                 }, {
                     type: 'text',
                     id: 'title',
                     label: editor.lang[_pluginName].title,
                     title: editor.lang[_pluginName].titleDescr,
-                    style: _textInputStyle,
+                    style: this.getTextInputStyle(),
                 }, {
                     type: 'checkbox',
                     id: 'isUnderlined',
@@ -205,28 +221,35 @@ function LinkDialog(editor) {
          * @method     onLoad
          * @return     {void}
          */
-        onLoad: function(){
+        onLoad: function() {
             // ui text input elements to which append color picker
             // format: tabId: [pageId1, pageId2, ...]
             var colorInputFields = {
-                'linkInfoTab':  ['color']
+                'linkInfoTab': ['color']
             };
+            console.log("on load:", this);
+            _dialog = this;
             _appendColorPickerToBunch(this, colorInputFields);
         },
 
-        onCancel: function(){
-            _controller.setDialogHtmlField(this, {tabId: 'linkInfoTab', elemId: 'warning', value: '&nbsp;'});
+        onCancel: function() {
+            _controller.setDialogHtmlField(_dialog, {
+                tabId: 'linkInfoTab',
+                elemId: 'warning',
+                value: '&nbsp;'
+            });
         },
 
-        onOk: function(){
+        onOk: function() {
             var params = {
-                'target':    _controller.getExtra(this),
+                'target': _controller.getExtra(this),
                 'selection': _controller.getEditorSelection(editor)
             };
-            _controller.onOk(this, editor, params);
+            _controller.onOk(_dialog, editor, params);
         }
     };
 }
+LinkDialog.prototype = Object.create(AbstractDialog.prototype);
 
 
 CKEDITOR.dialog.add('LinkPluginDialog', LinkDialog);
