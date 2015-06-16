@@ -56,104 +56,89 @@
 
 
 /**
-* Dialog for saving and reading files.
-*
-* @module  Dialogs
-* @class   SaveDialog
-* @since   0.2.8
-*/
+ * Dialog for saving and reading files.
+ *
+ * @module  Dialogs
+ * @class   SaveDialog
+ * @since   0.2.8
+ */
 function SaveDialog(editor) {
-	/**
-	 * Instance of {{#crossLink "CFile"}}CFile{{/crossLink}}
-	 * @property  {CFile}     _controller
-	 * @type      {CFile}
-	 * @private
-	 */
-	var _controller = new CFile();
-	_controller.setEditorAdapter(NEWSLETTER.editorAdapter);
+    "use strict";
+    if (!(this instanceof SaveDialog)) {
+        return new SaveDialog(editor);
+    }
+    AbstractDialog.call(this, editor);
 
-	/**
-	 * {{#crossLink "LinkMailDialog/_controller:property"}}_controller{{/crossLink}} configurator.
-	 * @method  anonymous
-	 * @return  {void}
-	 * @since   0.1.0
-	 * @private
-	 */
-	(function(){
-	    var worker = new Document();
-	    worker.setFactory(NEWSLETTER.factory);
-	    _controller.setWorker(worker);
-	}());
+    this.setController(new CFile());
+
+    this.setPluginName('LinkPlugin');
 
 
-	/**
-	 * Style for text input fields for choosing colors.
-	 * @property {String} _inputColorStyle
-	 * @type     {String}
-	 * @private
-	 */
-	var _inputColorStyle = 'min-width: 6em; width: 6em; max-width: 6em; text-align: center;';
+    /**
+     * A string to store plugin name.
+     * @property  {String}     _pluginName
+     * @private
+     */
+    var _pluginName = this.getPluginName();
+
+    /**
+     * Instance of {{#crossLink "CLink"}}CLink{{/crossLink}}
+     * @property  {CLink}     _controller
+     * @type      {CLink}
+     * @private
+     */
+    var _controller = this.getController();
+
+    /**
+     * A reference to a dialog.
+     *
+     * To be initialized in {{#crossLink "ImageDialog/onLoad:property"}}onLoad{{/crossLink}} method.
+     * @property  {Object}     _pluginName
+     * @private
+     */
+    var _dialog;
 
 
-	/**
-	 * Style for label fields (text in front of input fields).
-	 * @property {String} _labelStyle
-	 * @type     {String}
-	 * @private
-	 */
-	var _textInputStyle = 'padding-left: 0px; margin: 0; float: left; width: 100%;';
-
-	/**
-	 * Style for warning fields.
-	 * @property {String} _warningStyle
-	 * @type     {String}
-	 * @private
-	 */
-	 var _warningStyle = 'color: #EE0000; font-size: 1.1em; font-weight: bold;';
-
-
-	var _pluginName = 'SavePlugin';
-
-
-	return {
-	    title: editor.lang[_pluginName].title,
-	    minWidth: 400,
-	    minHeight: 300,
-	    height: '20em',
-	    contents: [{
-	        id: 'saveInfoTab',
-	        elements: [{
-	            type: 'vbox',
-	            children: [{
-	                type:  'text',
-	                id:    'fileName',
-	                label:  editor.lang[_pluginName].fileName,
-	                title:  editor.lang[_pluginName].fileNameDescr,
-	                style:  _textInputStyle,
-	                "default": _controller.suggestFileName()
-	            }],
-	        }]
-	    }],
+    return {
+        title: editor.lang[_pluginName].title,
+        minWidth: 400,
+        minHeight: 300,
+        height: '20em',
+        contents: [{
+            id: 'saveInfoTab',
+            elements: [{
+                type: 'vbox',
+                children: [{
+                    type: 'text',
+                    id: 'fileName',
+                    label: editor.lang[_pluginName].fileName,
+                    title: editor.lang[_pluginName].fileNameDescr,
+                    style: this.getTextInputStyle(),
+                    "default": _controller.suggestFileName()
+                }],
+            }]
+        }],
 
 
-	    /**
-	     * The function to execute when the dialog is displayed for the first time.
-	     *
-	     * @method     onLoad
-	     * @return     {void}
-	     */
-	    onLoad: function(){
+        /**
+         * The function to execute when the dialog is displayed for the first time.
+         *
+         * @method     onLoad
+         * @return     {void}
+         */
+        onLoad: function() {
+        	_dialog = this;
+        },
 
-	    },
+        onCancel: function() {},
 
-	    onCancel: function(){
-	    },
-
-	    onOk: function(){
-	        _controller.onOk(this, editor);
-	    }
-	};
+        onOk: function() {
+            _controller.onOk(this, editor);
+        }
+    };
 
 }
+
+SaveDialog.prototype = Object.create(AbstractDialog.prototype);
 
 CKEDITOR.dialog.add('SavePluginDialog', SaveDialog);
