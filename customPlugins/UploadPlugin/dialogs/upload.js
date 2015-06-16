@@ -16,8 +16,6 @@ function UploadPluginDialog(editor) {
 
     this.setController(new CFile());
 
-    this.setAdapter(NEWSLETTER.editorAdapter);
-
     this.setPluginName('UploadPlugin');
 
     return {
