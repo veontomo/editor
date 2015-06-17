@@ -51,13 +51,13 @@ function CFile() {
 
     /**
      * Saves the content of the `editor` into a file.
-     * @method         onOk
+     * @method         saveOnServer
      * @param          {Object}        dialog
      * @param          {Object}        editor
      * @return         {void}
      * @since          0.1.0
      */
-    this.onOk = function(dialog, editor) {
+    this.saveOnServer = function(dialog, editor) {
         var adapter, doc, content, data, dialogData, fileName, model;
         try {
             adapter = this.getEditorAdapter();
