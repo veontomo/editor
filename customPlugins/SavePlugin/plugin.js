@@ -96,7 +96,7 @@ CKEDITOR.plugins.add('SavePlugin', {
 			// The command to execute on click.
 			command: _pluginName + 'Dialog',
 			// The button placement in the toolbar (toolbar group name).
-			toolbar: 'document'
+			toolbar: 'save'
 		});
 	},
 

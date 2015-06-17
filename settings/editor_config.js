@@ -86,6 +86,7 @@ CKEDITOR.editorConfig = function(config){
 	config.toolbarGroups = [
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] }, // mode -> it is responsible for "source"
 		// { name: 'document',	   groups: [ 'document', 'doctools' ] },
+		{ name: 'save'},
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		// { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection' ] },

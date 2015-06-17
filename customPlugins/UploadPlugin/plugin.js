@@ -42,7 +42,7 @@ CKEDITOR.plugins.add('UploadPlugin', {
 			// The command to execute on click.
 			command: _pluginName + 'Dialog',
 			// The button placement in the toolbar (toolbar group name).
-			toolbar: 'document'
+			toolbar: 'save'
 		});
 
 		// Register dialog corresponding to table creation and table modification.
