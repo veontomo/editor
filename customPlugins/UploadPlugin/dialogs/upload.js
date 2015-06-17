@@ -37,7 +37,7 @@ function UploadPluginDialog(editor) {
                     type: 'file',
                     id: 'upload',
                     label: editor.lang[this.getPluginName()].title,
-                    size: "20em",
+                    size: '20em',
                     filebrowser: 'tab1:upload',
                     'for': ['tab1', 'upload'],
                 }]
