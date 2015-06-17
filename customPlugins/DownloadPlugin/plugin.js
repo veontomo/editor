@@ -34,7 +34,6 @@ CKEDITOR.plugins.add('DownloadPlugin', {
 					});
 				});
 			}
-
 		});
 
 
@@ -60,12 +59,19 @@ CKEDITOR.plugins.add('DownloadPlugin', {
 	onLoad: function(){
 		var translations = {
 			it: {
-				title:  'Scaricare la newsletter',
-				format:  'Formato'
+				elastic:  'Elastico',
+				filename: 'Nome di file',
+				fixed:    'Fisso',
+				format:   'Formato',
+				title:    'Scaricare la newsletter',
 			},
 			en: {
-				title:  'Download the newsletter',
-				format:  'Format'
+				elastic:  'Elastico',
+				filename: 'File name',
+				fixed:    'Fixed',
+				format:   'Format',
+				title:    'Download the newsletter',
+
 			}
 		};
 

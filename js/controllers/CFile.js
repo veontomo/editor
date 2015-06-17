@@ -16,7 +16,7 @@ function CFile() {
     }
     Controller.call(this);
 
-    var _fileWorker = new File();
+    this.setModel(File);
 
     /**
      * Returns time stamp string.
@@ -58,7 +58,7 @@ function CFile() {
      * @since          0.1.0
      */
     this.onOk = function(dialog, editor) {
-        var adapter, doc, content, data, dialogData, fileName;
+        var adapter, doc, content, data, dialogData, fileName, model;
         try {
             adapter = this.getEditorAdapter();
             doc = this.getWorker();
@@ -69,9 +69,37 @@ function CFile() {
             dialogData = adapter.getDialogData(dialog);
             fileName = dialogData.saveInfoTab.fileName;
             data = doc.sanitize(content.outerHTML);
-        	_fileWorker.saveDraft(data, fileName, doc);
+            model = this.createModel();
+        	model.saveDraft(data, fileName, doc);
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
+        }
+    };
+
+
+    /**
+     * Prepares the content of the editor for downloading in html format and launches the window
+     * for downloading.
+     *
+     * It sends ajax post request to the script `php/saveDraft.php` using JQuery library.
+     * @method         downloadAsHtml
+     * @param          {Object}            dialog
+     * @param          {Object}            editor
+     * @return         {void}
+     */
+    this.downloadAsHtml = function(dialog, editor){
+        var adapter, content, dialogData, fileName, model, mode;
+        try {
+            adapter = this.getEditorAdapter();
+            content = adapter.getEditorContent(editor);
+            dialogData = adapter.getDialogData(dialog);
+            fileName = dialogData['tab-general'].filename;
+            mode = dialogData['tab-general'].mode;
+
+            model = this.createModel();
+            model.saveAs(content, fileName, mode);
+        } catch (e){
+            console.log(e.name + ' occurred when downloading editor content as html: ' + e.message);
         }
     };
 }

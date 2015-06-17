@@ -35,13 +35,11 @@ function DownloadPluginDialog(editor){
 			{
 				// Definition of the Basic Settings dialog tab (page).
 				id: 'tab-general',
-				label: 'Info generale',
-
 				// The tab contents.
 				elements: [{
 					type: 'text',
 					id: 'filename',
-					label: editor.lang.common.name,
+					label: editor.lang[this.getPluginName()].filename,
 				}, {
 					// type: 'checkbox',
 					// id: 'mode',
@@ -50,7 +48,10 @@ function DownloadPluginDialog(editor){
 					   id: 'mode',
 					   label: editor.lang[this.getPluginName()].format,
 					   style: 'line-height: 2em;',
-					   items: [['Fisso', 'fixed'], ['Elastico', 'elastic']],
+					   items: [
+					   			[ editor.lang[this.getPluginName()].fixed, 'fixed'],
+					   			[ editor.lang[this.getPluginName()].elastic, 'elastic']
+					   		],
 					   'default': 'fixed',
 				}]
 			}
@@ -73,7 +74,7 @@ function DownloadPluginDialog(editor){
 		},
 
 		onOk: function() {
-			_controller.downloadAsHtml(this, editor);
+			_controller.downloadAsHtml(_dialog, editor);
 		}
 	};
 }

@@ -88,4 +88,41 @@ function File() {
         );
     };
 
+
+    /**
+     * Launches a window that allows a user to save a file on its computer.
+     *
+     * Mode is one of "elastic" (units of measurents are mostly scalable, i.e. "em")
+     * or "fixed" (units of measurements are "px").
+     * @method         saveAs
+     * @param          {Node}          data     data to save
+     * @param          {String}        filename
+     * @param          {String}        mode     elastic or fixed
+     * @return         {void}
+     * @since          0.2.9
+     */
+    this.saveAs = function(data, filename, mode){
+        /// !!! stub
+        console.log('saving...');
+        console.log('content: ', content);
+        console.log('filename: ', filename);
+        console.log('mode: ', mode);
+        /// old code that was in CDownload class
+        // var fileName = context.getValueOf('tab-general', 'filename'),
+        //     mode = context.getValueOf('tab-general', 'mode'),
+        //     editorContent = editor.document.getBody().$,
+        //     fileContent, doc, bodyCss;
+
+        // bodyCss = Helper.cssOfSelector('body', NEWSLETTER.cssBase);
+        // // sanitized = Helper.specialChar(editorContent);
+        // doc = new Document(editorContent);
+        // doc.setWrapCss(bodyCss);
+        // doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
+        // doc.convertTo(mode);
+        // fileContent = doc.docHtml();
+        // // console.log(fileContent);
+        // this.downloadFile(fileContent, fileName);
+
+    }
+
 }
