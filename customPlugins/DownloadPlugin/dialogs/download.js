@@ -2,7 +2,7 @@
 /*jslint plusplus: true, white: true */
 /*global CKEDITOR, CDownload*/
 
-CKEDITOR.dialog.add( 'downloadDialog', function(editor) {
+CKEDITOR.dialog.add( 'DownloadPluginDialog', function(editor) {
 
 	/**
 	 * Instance of {{#crossLink "Controller"}}Controller{{/crossLink}}
