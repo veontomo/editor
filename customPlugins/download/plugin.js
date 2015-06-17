@@ -31,7 +31,7 @@ CKEDITOR.plugins.add('download', {
 			command: 'download',
 
 			// The button placement in the toolbar (toolbar group name).
-			toolbar: 'document'
+			toolbar: 'save'
 		});
 
 		// Register our dialog file. this.path is the plugin folder path.
