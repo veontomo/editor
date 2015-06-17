@@ -79,7 +79,7 @@ function SaveDialog(editor) {
         },
 
         onOk: function() {
-            _controller.onOk(_dialog, editor);
+            _controller.saveOnServer(_dialog, editor);
         }
     };
 
