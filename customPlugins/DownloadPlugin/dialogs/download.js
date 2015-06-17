@@ -1,20 +1,32 @@
 /*jslint white: false */
 /*jslint plusplus: true, white: true */
-/*global CKEDITOR, CDownload*/
+/*global CKEDITOR, CFile, AbstractDialog */
 
-CKEDITOR.dialog.add( 'DownloadPluginDialog', function(editor) {
+/**
+ * Dialog for downloading the editor content as a file.
+ *
+ * @module  Dialogs
+ * @class   DownloadDialog
+ */
+function DownloadPluginDialog(editor){
+	"use strict";
+	if (!(this instanceof DownloadPluginDialog)) {
+	    return new DownloadPluginDialog(editor);
+	}
+	AbstractDialog.call(this, editor);
 
-	/**
-	 * Instance of {{#crossLink "Controller"}}Controller{{/crossLink}}
-	 * @property       _controller
-	 * @type           CDownload
-	 * @private
-	 */
-	var _controller = new CDownload();
+	this.setController(new CFile());
+	// previously: _controller = new CDownload();
+
+	this.setPluginName('DownloadPlugin');
+
+	var _controller = this.getController();
+
+	var _dialog;
 
 	return {
 		// Basic properties of the dialog window: title, minimum size.
-		title: 'Scaricare il file',
+		title:     editor.lang[this.getPluginName()].title,
 		minWidth:  400,
 		minHeight: 200,
 
@@ -30,14 +42,13 @@ CKEDITOR.dialog.add( 'DownloadPluginDialog', function(editor) {
 					type: 'text',
 					id: 'filename',
 					label: editor.lang.common.name,
-					"default": _controller.appendTimeStamp()
 				}, {
 					// type: 'checkbox',
 					// id: 'mode',
 					// label: 'fluid'
 					type: 'radio',
 					   id: 'mode',
-					   label: 'Formato',
+					   label: editor.lang[this.getPluginName()].format,
 					   style: 'line-height: 2em;',
 					   items: [['Fisso', 'fixed'], ['Elastico', 'elastic']],
 					   'default': 'fixed',
@@ -45,12 +56,28 @@ CKEDITOR.dialog.add( 'DownloadPluginDialog', function(editor) {
 			}
 		],
 
+		/**
+		 * The function to execute when the dialog is displayed for the first time.
+		 *
+		 * Binds {{#crossLink "table2Dialog/_colorPicker:property"}}_colorPicker{{/crossLink}}
+		 * to color-related input text fields.
+		 * @method     onLoad
+		 * @return     {void}
+		 */
+		onLoad: function() {
+		    _dialog = this;
+		},
+
 		onShow: function(){
-			this.setValueOf('tab-general', 'filename', _controller.appendTimeStamp('template'));
+			_dialog.setValueOf('tab-general', 'filename', _controller.suggestFileName());
 		},
 
 		onOk: function() {
 			_controller.downloadAsHtml(this, editor);
 		}
 	};
-});
+}
+
+DownloadPluginDialog.prototype = Object.create(AbstractDialog.prototype);
+
+CKEDITOR.dialog.add('DownloadPluginDialog', DownloadPluginDialog);

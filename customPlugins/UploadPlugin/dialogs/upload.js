@@ -2,7 +2,7 @@
 /*global CKEDITOR */
 
 /**
- * Dialog for chosing a file for file upload.
+ * Dialog for choosing a file for file upload.
  *
  * @module  Dialogs
  * @class   UploadDialog

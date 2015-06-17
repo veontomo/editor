@@ -27,14 +27,24 @@ CKEDITOR.plugins.add('DownloadPlugin', {
 		var _pluginName = this.name;
 
 		// Define an editor command that opens our dialog.
-		editor.addCommand(_pluginName + 'Dialog', new CKEDITOR.dialogCommand('DownloadPluginDialog'));
+		editor.addCommand(_pluginName + 'Dialog', {
+			exec: function(e){
+				e.openDialog(_pluginName + 'Dialog', function(dialog){
+					dialog.once('show', function(){
+					});
+				});
+			}
+
+		});
+
+
 
 
 		// Create a toolbar button that executes the above command.
 		editor.ui.addButton(_pluginName, {
 
 			// The text part of the button (if available) and tooptip.
-			label: editor.lang[_pluginName].label,
+			label: editor.lang[_pluginName].title,
 
 			// The command to execute on click.
 			command: _pluginName + 'Dialog',
@@ -50,10 +60,12 @@ CKEDITOR.plugins.add('DownloadPlugin', {
 	onLoad: function(){
 		var translations = {
 			it: {
-				label:  'Scaricare la newsletter',
+				title:  'Scaricare la newsletter',
+				format:  'Formato'
 			},
 			en: {
-				label:  'Download the newsletter',
+				title:  'Download the newsletter',
+				format:  'Format'
 			}
 		};
 
