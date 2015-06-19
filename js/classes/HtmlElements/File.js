@@ -39,6 +39,44 @@ function File() {
     var _downloadScriptPath = 'php/downloadFile.php';
 
 
+    /**
+     * A worker that performs operations on the editor content.
+     * @property       {Object}        _worker
+     * @private
+     * @since          0.1.0
+     */
+    var _worker = new Document();
+    _worker.setFactory(NEWSLETTER.factory);
+
+
+    /**
+     * {{#crossLink "File/_worker:property"}}_worker{{/crossLink}} setter.
+     *
+     * Note that no check concerning the validity of `w` is performed.
+     * @method         setWorker
+     * @param          {Object}        w       an object able to perform different operations on the editor content
+     * @since          0.1.0
+     * @return         {void}
+     */
+    this.setWorker = function(w){
+        _worker = w;
+    };
+
+
+    /**
+     * {{#crossLink "File/_worker:property"}}_worker{{/crossLink}} setter.
+     * @method         getWorker
+     * @return         {Object}
+     * @since          0.1.0
+     */
+    this.getWorker = function(){
+        return _worker;
+    };
+
+
+
+
+
 
     /**
      * Launches a window for downloading file with content `data` and suggested name `filename`.
@@ -100,17 +138,19 @@ function File() {
      * @param  {String} filename
      * @return {void}
      */
-    this.downloadFile = function(data, filename){
-        if (typeof data !== 'string'){
+    this.downloadFile = function(data, filename) {
+        if (typeof data !== 'string') {
             this.showMessage('Can not download non-string content!');
             return;
         }
         // by means of jQuery. It is better to pass to native javascript functions
-        $.post(_saveScriptPath,
-            {'data': data, 'filename': filename},
-                function(fn){
-                    // console.log('downloading is blocked: filename' + fn);
-                    $(location).attr('href',  _downloadScriptPath + '?filename=' + fn);
+        $.post(_saveScriptPath, {
+                'data': data,
+                'filename': filename
+            },
+            function(fn) {
+                // console.log('downloading is blocked: filename' + fn);
+                $(location).attr('href', _downloadScriptPath + '?filename=' + fn);
             }
         );
     };
@@ -129,7 +169,7 @@ function File() {
      * @return         {void}
      * @since          0.2.9
      */
-    this.saveAs = function(data, filename, mode){
+    this.saveAs = function(data, filename, mode) {
         /// !!! stub
         console.log('saving...');
         console.log('content: ', data);
@@ -144,11 +184,13 @@ function File() {
 
         //bodyCss = Helper.cssOfSelector('body', NEWSLETTER.cssBase);
         // // sanitized = Helper.specialChar(editorContent);
-        // doc = new Document(editorContent);
+        var fileContent = data.outerHTML;
+        var doc = this.getWorker();
+        fileContent = doc.sanitize(fileContent);
         // doc.setWrapCss(bodyCss);
         // doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
         // doc.convertTo(mode);
-        var fileContent = data.outerHTML;
+
         this.downloadFile(fileContent, filename);
 
     };
