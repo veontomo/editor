@@ -88,6 +88,34 @@ function File() {
         );
     };
 
+    /**
+     * Launches a window for downloading file with content `data` and suggested name `filename`.
+     * If `filename` is not given or is not valid, the file name will be generated.
+     *
+     * For the moment, the method use jQuery library. It is desirable to rewrite
+     * the method such that native javascript methods are used.
+     * (The commented code at the end contains some hints.)
+     * @method  downloadFile
+     * @param  {String} data
+     * @param  {String} filename
+     * @return {void}
+     */
+    this.downloadFile = function(data, filename){
+        if (typeof data !== 'string'){
+            this.showMessage('Can not download non-string content!');
+            return;
+        }
+        // by means of jQuery. It is better to pass to native javascript functions
+        $.post(_saveScriptPath,
+            {'data': data, 'filename': filename},
+                function(fn){
+                    // console.log('downloading is blocked: filename' + fn);
+                    $(location).attr('href',  _downloadScriptPath + '?filename=' + fn);
+            }
+        );
+    };
+
+
 
     /**
      * Launches a window that allows a user to save a file on its computer.
@@ -104,25 +132,25 @@ function File() {
     this.saveAs = function(data, filename, mode){
         /// !!! stub
         console.log('saving...');
-        console.log('content: ', content);
+        console.log('content: ', data);
         console.log('filename: ', filename);
         console.log('mode: ', mode);
+
         /// old code that was in CDownload class
         // var fileName = context.getValueOf('tab-general', 'filename'),
         //     mode = context.getValueOf('tab-general', 'mode'),
         //     editorContent = editor.document.getBody().$,
         //     fileContent, doc, bodyCss;
 
-        // bodyCss = Helper.cssOfSelector('body', NEWSLETTER.cssBase);
+        //bodyCss = Helper.cssOfSelector('body', NEWSLETTER.cssBase);
         // // sanitized = Helper.specialChar(editorContent);
         // doc = new Document(editorContent);
         // doc.setWrapCss(bodyCss);
         // doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
         // doc.convertTo(mode);
-        // fileContent = doc.docHtml();
-        // // console.log(fileContent);
-        // this.downloadFile(fileContent, fileName);
+        var fileContent = data.outerHTML;
+        this.downloadFile(fileContent, filename);
 
-    }
+    };
 
 }
