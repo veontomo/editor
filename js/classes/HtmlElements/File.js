@@ -170,12 +170,6 @@ function File() {
      * @since          0.2.9
      */
     this.saveAs = function(data, filename, mode) {
-        /// !!! stub
-        console.log('saving...');
-        console.log('content: ', data);
-        console.log('filename: ', filename);
-        console.log('mode: ', mode);
-
         /// old code that was in CDownload class
         // var fileName = context.getValueOf('tab-general', 'filename'),
         //     mode = context.getValueOf('tab-general', 'mode'),
@@ -184,10 +178,12 @@ function File() {
 
         //bodyCss = Helper.cssOfSelector('body', NEWSLETTER.cssBase);
         // // sanitized = Helper.specialChar(editorContent);
-        var fileContent = data.outerHTML;
+        var fileContent = data.innerHTML;
         var doc = this.getWorker();
+        var bodyCss = doc.cssOfSelector('body', NEWSLETTER.cssBase);
         fileContent = doc.sanitize(fileContent);
-        // doc.setWrapCss(bodyCss);
+        doc.setWrapCss(bodyCss);
+        fileContent = doc.docHtml(fileContent);
         // doc.clean([/\bclass/, /\bid/, NEWSLETTER['marker-name'], /\bdata-.*/]);
         // doc.convertTo(mode);
 

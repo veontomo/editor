@@ -106,20 +106,46 @@ function Document(){
 	};
 
 	/**
-	 * Creates a valid html document whose body is given by `content`.
+	 * Picks up styles of `sel` from css string `str`. Value corresponding to each occurence
+	 * of `sel` is passed to {{#crossLink "Styles"}}Styles{{/crossLink}} constructor and transformed
+	 * into a string representation. After all, these strings are concatenated using semicolon as separator.
+	 * @method         cssOfSelector
+	 * @param          {String}             sel         name of selector
+	 * @param          {String}             str         css string (i.e: "div {width: 100px; color: red} img {float: left;}")
+	 * @return         {String}                         all styles of the selector
+	 */
+	this.cssOfSelector = function(sel, str){
+	    var pattern = sel + '\\s*\\{([^{}]+?)\\}',
+	        regexp = new RegExp(pattern, 'gi'),
+	        found = str.match(regexp);
+	    if(!found){
+	        return '';
+	    }
+	    var result = new Properties();
+	    result.setMode(1);
+	    regexp = new RegExp(pattern, 'i');
+	    found.forEach(function(item){
+	        var content = item.match(regexp);
+	        if (content && content[1]){
+	            result.appendProperty(content[1]);
+	        }
+	    });
+	    return result.toString();
+	};
+
+	/**
+	 * Wraps given string in order to form a valid html document.
 	 *
-	 * **NB**: it uses css of the editor content body.
 	 * @method         docHtml
-	 * @param          {Node}              node
+	 * @param          {String}            bodyContent
 	 * @return         {String}            content of html document
 	 */
-	this.docHtml = function(node){
+	this.docHtml = function(bodyContent){
 		var wrapCss = this.getWrapCss(),
 			bodyCssStr = wrapCss ? wrapCss.toString() : '';
 		if (bodyCssStr){
 			bodyCssStr = ' style="' + bodyCssStr + '"';
 		}
-		var bodyContent = (node instanceof Node) ? node.innerHTML : '';
 		var header = "<!DOCTYPE html>\n<html>\n<head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n</head>\n<body>\n";
 		var body = "<center>\n<div" + bodyCssStr + ">\n" + bodyContent +  "\n</div>\n</center>\n";
 		var footer = "</body>\n</html>";
@@ -1892,7 +1918,7 @@ function Document(){
 	 * @since          0.2.8
 	 */
 	this.sanitize = function(str){
-		var len, code, i, symb,	output,
+		var len, code, i, symb,	output ='',
 			MAX_CHAR_CODE = 126, // exclusive max value of ascii code
 			MIN_CHAR_CODE = 31,  // exclusive min value of ascii code
 			dictionary = {
@@ -1911,7 +1937,6 @@ function Document(){
 			};
 
 		len = str.length;
-		var output = '';
 
 
 		for (i = 0; i < len; i++){
