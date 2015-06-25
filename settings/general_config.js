@@ -250,6 +250,24 @@ var NEWSLETTER = (function(){
 			writable: false
 		});
 
+		/**
+		 * Key-value pair object that defines template of html file that is to be created from
+		 * the editor window content.
+		 * @property {Object}  htmlTemplateKeys
+		 * @final
+		 * @since  0.2.8
+		 */
+		Object.defineProperty(_output, 'htmlTemplateKeys', {
+			value: {doctype: '<!DOCTYPE html>',
+					htmlOpen: '<html>',
+					head:      '<head><meta http-equiv="content-type" content="text/html; charset=utf-8"></head>',
+					bodyOpen:  '<body>',
+					bodyClose: '</body>',
+					htmlClose: '</html>'
+				},
+			writable: false
+		});
+
 		return _output;
 	};
 

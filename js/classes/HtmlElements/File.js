@@ -58,7 +58,7 @@ function File() {
      * @since          0.1.0
      * @return         {void}
      */
-    this.setWorker = function(w){
+    this.setWorker = function(w) {
         _worker = w;
     };
 
@@ -69,7 +69,7 @@ function File() {
      * @return         {Object}
      * @since          0.1.0
      */
-    this.getWorker = function(){
+    this.getWorker = function() {
         return _worker;
     };
 
@@ -169,11 +169,29 @@ function File() {
     this.saveAs = function(node, filename) {
         var fileContent = node.innerHTML;
         var doc = this.getWorker();
-        var bodyCss = doc.cssOfSelector('body', NEWSLETTER.cssBase);
+        var css = doc.cssOfSelector('body', NEWSLETTER.cssBase);
         fileContent = doc.sanitize(fileContent);
-        doc.setWrapCss(bodyCss);
-        fileContent = doc.docHtml(fileContent);
+        fileContent = this.toHtml(fileContent, css);
         this.downloadFile(fileContent, filename);
+    };
+
+    /**
+     * Transforms string `data` into a valid html file adding styles `css`.
+     * @method  toHtml
+     * @param  {String} data
+     * @param  {String} css
+     * @return {String}
+     */
+    this.toHtml = function(data, css) {
+        var keys = NEWSLETTER.htmlTemplateKeys;
+        return keys.doctype +  keys.htmlOpen + keys.head +
+            keys.bodyOpen +
+            '<center><div style="' + css + '">' +
+            data +
+            '</div></center>' +
+            keys.bodyClose +
+            keys.htmlClose;
+
     };
 
 }
