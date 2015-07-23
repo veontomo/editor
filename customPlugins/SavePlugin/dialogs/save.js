@@ -62,7 +62,6 @@ function SaveDialog(editor) {
                     label: editor.lang[_pluginName].fileName,
                     title: editor.lang[_pluginName].fileNameDescr,
                     style: this.getTextInputStyle(),
-                    "default": _controller.suggestFileName()
                 }],
             }]
         }],

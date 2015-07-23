@@ -18,7 +18,7 @@ function UploadPluginDialog(editor) {
 
     this.setPluginName('UploadPlugin');
 
-    return {
+    var result = {
         title: editor.lang[this.getPluginName()].title,
         minWidth: 250,
         minHeight: 100,
@@ -27,19 +27,42 @@ function UploadPluginDialog(editor) {
             elements: [{
                 type: 'vbox',
                 children: [{
-                    type: 'file',
-                    label: editor.lang[this.getPluginName()].title,
+                    type: 'html',
+                    html: ' <form action="php/test.php"><input type="file" name="data"><input type="submit"></form>',
                     id: 'fileUpload',
-                    action: function(fileUrl, data) {
-                        alert('Successfully uploaded: ' + fileUrl);
-                    }
                 }, {
                     type: 'file',
                     id: 'upload',
                     label: editor.lang[this.getPluginName()].title,
-                    size: '20em',
-                    filebrowser: 'tab1:upload',
+                    //size: '20em',
+                    // filebrowser: {
+                    //     onShow: function() {
+                    //         console.log('file browser on shouw');
+                    //     },
+                    //     onSelect: function(fileUrl, data) {
+                    //         console.log('Successfully uploaded: ' + fileUrl);
+                    //     }
+                    // },
+                    // 'for': ['tab1', 'upload'],
+                }, {
+                    type: 'fileButton',
+                    id: 'fileId',
+                    label: 'Upload file',
                     'for': ['tab1', 'upload'],
+                    onShow: function() {
+                        console.log("XXXXXXXXX");
+                    },
+                    onLoad: function() {
+                        console.log("YYYYY");
+                    },
+                    filebrowser: {
+                        onShow: function() {
+                            console.log('file browser on shouw');
+                        },
+                        onSelect: function(fileUrl, data) {
+                            alert('Successfully uploaded: ' + fileUrl);
+                        }
+                    }
                 }]
             }]
         }],
@@ -52,6 +75,8 @@ function UploadPluginDialog(editor) {
         }
 
     };
+    console.log(result);
+    return result;
 }
 
 UploadPluginDialog.prototype = Object.create(AbstractDialog.prototype);

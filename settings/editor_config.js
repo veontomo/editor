@@ -87,6 +87,7 @@ CKEDITOR.editorConfig = function(config){
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] }, // mode -> it is responsible for "source"
 		// { name: 'document',	   groups: [ 'document', 'doctools' ] },
 		{ name: 'save'},
+		{ name: 'saveInstantState'},
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		// { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection' ] },

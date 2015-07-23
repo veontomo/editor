@@ -79,24 +79,20 @@ function File() {
 
 
     /**
-     * Launches a window for downloading file with content `data` and suggested name `filename`.
-     * If `filename` is not given or is not valid, the file name will be generated.
+     * Saves content in a temporary file on server.
      *
      * For the moment, the method use jQuery library. It is desirable to rewrite
      * the method such that native javascript methods are used.
      * (The commented code at the end contains some hints.)
      * @method         saveToLocal
      * @param          {String}        data
-     * @param          {String}        filename
      * @return         {void}
      */
-    this.saveDraft = function(data, filename) {
+    this.saveDraft = function(data) {
         $.post(_saveScriptPath, {
                 'data': data,
-                'filename': filename
             },
             function(fn) {
-                // $(location).attr('href', _downloadScriptPath + '?filename=' + fn);
                 alert("Draft is saved!");
             }
         );
@@ -184,7 +180,7 @@ function File() {
      */
     this.toHtml = function(data, css) {
         var keys = NEWSLETTER.htmlTemplateKeys;
-        return keys.doctype +  keys.htmlOpen + keys.head +
+        return keys.doctype + keys.htmlOpen + keys.head +
             keys.bodyOpen +
             '<center><div style="' + css + '">' +
             data +
