@@ -72,7 +72,7 @@ CKEDITOR.plugins.add('SavePlugin', {
         var _pluginNameGroup = _pluginName + 'Group';
 
         // Define an editor command that opens our dialog.
-        editor.addCommand(_pluginName , {
+        editor.addCommand(_pluginName, {
             exec: function() {
             	 _controller.saveOnServer(editor);
             }

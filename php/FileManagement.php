@@ -347,19 +347,29 @@ class FileManagement{
 	 */
 	public function save(){
 		try {
-			$fullPath = $this->getRepoDir() . $this->getId() . DIRECTORY_SEPARATOR . $this->getFileName();
+			$fileName = $this->generateRandomString();
+			$fullPath = $this->getRepoDir() . $this->getId() . DIRECTORY_SEPARATOR . $fileName;
 			$this->initializeWorkDir();
 			// remove old file (if any)
 			if (file_exists($fullPath)){
 				unlink($fullPath);
 			}
-			// write the content into a fresh file
-			file_put_contents($fullPath, $this->getFileContent());
-			return true;
+			if (file_put_contents($fullPath, $this->getFileContent()) == true){
+				return $fileName;
+			}
 		} catch (\Exception $e){
 			$this->addToLog($e->getMessage());
-			return false;
 		}
+		return null;
+	}
+
+	/**
+	 * Generates a random string that is to be used as file name.
+	 * @return string
+	 */
+	private function generateRandomString(){
+		/// !!! stub
+		return uniqid();
 	}
 
 
@@ -382,19 +392,5 @@ class FileManagement{
 			$this->addToLog("file $fullPath not found");
 		}
 	}
-
-	// /**
-	//  * First attempt just to see whether downloading without saving works.
-	//  * @return void
-	//  */
-	// public function sendTest(){
-	// 	header("Cache-Control: public");
-	// 	header("Content-Description: File Transfer");
-	// 	header("Content-Length: 20000;");
-	// 	header("Content-Disposition: attachment; filename=name");
-	// 	header("Content-Type: application/octet-stream;");
-	// 	header("Content-Transfer-Encoding: binary");
-	// 	echo 'content';
-	// }
 
 }

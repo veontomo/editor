@@ -89,11 +89,13 @@ function File() {
      * @return         {void}
      */
     this.saveDraft = function(data) {
+        console.log("File: saveDraft" + data);
         $.post(_saveScriptPath, {
                 'data': data,
             },
             function(fn) {
-                alert("Draft is saved!");
+                alert("Draft is saved!" + fn);
+                return fn;
             }
         );
     };

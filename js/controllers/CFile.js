@@ -19,10 +19,10 @@ function CFile() {
     this.setModel(File);
 
     /**
-     * Saves the content of the `editor` into a file.
+     * Saves the content of the `editor` into a file and returns its name.
      * @method         saveOnServer
      * @param          {Object}        editor
-     * @return         {void}
+     * @return         {String}
      * @since          0.1.0
      */
     this.saveOnServer = function(editor) {
@@ -36,7 +36,7 @@ function CFile() {
             }
             data = doc.sanitize(content.outerHTML);
             model = this.createModel();
-        	model.saveDraft(data);
+        	return model.saveDraft(data);
         } catch (e) {
             console.log(e.name + ' occurred when inserting link: ' + e.message);
         }
